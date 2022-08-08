@@ -14,13 +14,13 @@ class _MyHomePageState extends State<MyHomePage> {
     Container(
       color: Colors.blueAccent,
     ),
-     Container(
+    Container(
       color: Colors.orangeAccent,
     ),
-     Container(
+    Container(
       color: Colors.redAccent,
     ),
-     Container(
+    Container(
       color: Colors.green,
     ),
   ];
@@ -28,7 +28,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: BottomNavyBar(
-        animationDuration: Duration(milliseconds: 1000),
+        animationDuration: Duration(milliseconds: 5),
         // backgroundColor: Colors.black,
         curve: Curves.elasticIn,
         selectedIndex: currentIndex,
@@ -39,7 +39,6 @@ class _MyHomePageState extends State<MyHomePage> {
         },
         items: <BottomNavyBarItem>[
           BottomNavyBarItem(
-             
             icon: Icon(Icons.home),
             title: Text("Home"),
             activeColor: Colors.blueAccent,
@@ -48,19 +47,19 @@ class _MyHomePageState extends State<MyHomePage> {
           BottomNavyBarItem(
             icon: Icon(Icons.person),
             title: Text("profile"),
-            activeColor: Colors.blueAccent,
+            activeColor: Colors.orangeAccent,
             inactiveColor: Colors.black,
           ),
           BottomNavyBarItem(
-            icon: Icon(Icons.group),
+            icon: Icon(Icons.category),
             title: Text("categories"),
-            activeColor: Colors.blueAccent,
+            activeColor: Colors.redAccent,
             inactiveColor: Colors.black,
           ),
           BottomNavyBarItem(
             icon: Icon(Icons.notifications),
             title: Text("notification"),
-            activeColor: Colors.blueAccent,
+            activeColor: Colors.green,
             inactiveColor: Colors.black,
           ),
         ],
