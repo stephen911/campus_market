@@ -1,3 +1,6 @@
+import 'package:campus_market/screens/categories.dart';
+import 'package:campus_market/screens/notifications.dart';
+import 'package:campus_market/screens/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 
@@ -11,18 +14,16 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int currentIndex = 0;
   List Navbody = [
-    Container(
-      color: Colors.blueAccent,
-    ),
-    Container(
-      color: Colors.orangeAccent,
-    ),
-    Container(
-      color: Colors.redAccent,
-    ),
-    Container(
-      color: Colors.green,
-    ),
+    // this isthe contant of the home page
+    HomePageContent(),
+
+    /////the contant of the profile page
+    ProfilePage(),
+    //////the contant of the categories page
+    Categories(),
+    //////the contant of the notification page
+
+    Notifications(),
   ];
   @override
   Widget build(BuildContext context) {
@@ -65,6 +66,27 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
       body: Navbody[currentIndex],
+    );
+  }
+}
+
+class HomePageContent extends StatefulWidget {
+  const HomePageContent({Key? key}) : super(key: key);
+
+  @override
+  State<HomePageContent> createState() => _HomePageContentState();
+}
+
+class _HomePageContentState extends State<HomePageContent> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        color: Colors.blueAccent,
+        child: Center(
+          child: Text("content of the home page goes here"),
+        ),
+      ),
     );
   }
 }
