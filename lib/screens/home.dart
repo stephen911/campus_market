@@ -48,7 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
           BottomNavyBarItem(
             icon: Icon(Icons.person),
             title: Text("profile"),
-            activeColor: Colors.orangeAccent,
+            activeColor: Colors.deepOrangeAccent,
             inactiveColor: Colors.black,
           ),
           BottomNavyBarItem(

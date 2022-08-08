@@ -21,7 +21,7 @@ class _ProfilePageState extends State<ProfilePage> {
           Container(
             height: size.height * 0.36,
             width: double.infinity,
-            color: kprimary,
+            color: Colors.deepOrangeAccent,
             child: Column(
               children: [
                 SizedBox(height: 25,),
@@ -110,7 +110,7 @@ class _ProfilePageState extends State<ProfilePage> {
         contentPadding: const EdgeInsets.symmetric(vertical: 5),
         shape: const Border(
           bottom: BorderSide(
-            color: Colors.black26,
+            color: Colors.black,
           ),
         ),
         leading: Padding(
