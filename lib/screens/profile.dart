@@ -19,25 +19,27 @@ class _ProfilePageState extends State<ProfilePage> {
       child: Column(
         children: [
           Container(
-            height: size.height * 0.26,
+            height: size.height * 0.36,
             width: double.infinity,
             color: kprimary,
             child: Column(
               children: [
+                SizedBox(height: 25,),
                 Container(
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(50),
                       border: Border.all(color: Colors.white)),
                   child: ClipRRect(
-                      borderRadius: BorderRadius.circular(50),
-                      child: Image(
-                        image: AssetImage(
-                          "assets/profile.png",
-                        ),
-                        height: 100,
-                        width: 100,
-                        fit: BoxFit.cover,
-                      )),
+                    borderRadius: BorderRadius.circular(50),
+                    child: Image(
+                      image: AssetImage(
+                        "assets/profile.png",
+                      ),
+                      height: 100,
+                      width: 100,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                 ),
                 const SizedBox(
                   height: 10,
@@ -74,6 +76,10 @@ class _ProfilePageState extends State<ProfilePage> {
                       icon: Icons.settings,
                       title: 'Settings',
                       color: Colors.red),
+                      profileTile(
+                      icon: Icons.help_center,
+                      title: 'Help Center',
+                      color: Colors.green),
                   profileTile(
                       icon: Icons.person_add,
                       title: 'Invite a friend',
