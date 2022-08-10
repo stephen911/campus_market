@@ -1,4 +1,5 @@
 import 'package:campus_market/components/constants.dart';
+import 'package:campus_market/screens/sign_in/sign_in.dart';
 import 'package:campus_market/sign_up/components/sign_up_form.dart';
 import 'package:flutter/material.dart';
 
@@ -25,8 +26,11 @@ class Body extends StatelessWidget {
               children: [
                 SizedBox(height: 10), // 4%
                 Text("Register Account", style: headingStyle),
+                SizedBox(
+                  height: 15,
+                ),
                 Text(
-                  "Complete your details or continue \nwith social media",
+                  "Complete your details with us for best features",
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(height: 10),
@@ -34,9 +38,7 @@ class Body extends StatelessWidget {
                 SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                  AlreadyHaveAccount()
-                  ],
+                  children: [AlreadyHaveAccount()],
                 ),
                 SizedBox(height: 15),
                 Text(
@@ -55,6 +57,7 @@ class Body extends StatelessWidget {
     );
   }
 }
+
 class AlreadyHaveAccount extends StatelessWidget {
   const AlreadyHaveAccount({Key? key}) : super(key: key);
 
@@ -68,7 +71,10 @@ class AlreadyHaveAccount extends StatelessWidget {
           style: TextStyle(fontSize: 16),
         ),
         GestureDetector(
-          // onTap: () => Navigator.pushNamed(context, SignUpScreen.routeName),
+          onTap: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const LoginScreen()));
+          },
           child: Text(
             "Sign in",
             style: TextStyle(fontSize: 16, color: kPrimaryColor),
@@ -78,4 +84,3 @@ class AlreadyHaveAccount extends StatelessWidget {
     );
   }
 }
- 
