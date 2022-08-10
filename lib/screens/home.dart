@@ -15,14 +15,13 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int currentIndex = 0;
   List Navbody = [
-    // this isthe contant of the home page
-    // HomePageContent(),
-    SignUpScreen(),
-    /////the contant of the profile page
+    // this isthe content of the home page
+    HomePageContent(),
+    /////the content of the profile page
     ProfilePage(),
-    //////the contant of the categories page
+    //////the content of the categories page
     Categories(),
-    //////the contant of the notification page
+    //////the content of the notification page
 
     Notifications(),
   ];
