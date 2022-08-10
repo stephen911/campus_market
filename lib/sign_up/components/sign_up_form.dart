@@ -15,6 +15,8 @@ class _SignUpFormState extends State<SignUpForm> {
   String? email;
   String? password;
   String? conform_password;
+  String? contact;
+
   bool remember = false;
   final List<String?> errors = [];
 
@@ -41,10 +43,13 @@ class _SignUpFormState extends State<SignUpForm> {
           buildEmailFormField(),
           SizedBox(height: 20),
           buildPasswordFormField(),
-          SizedBox(height: 30),
+          SizedBox(height: 20),
           buildConformPassFormField(),
+          SizedBox(height: 20),
+          buildContactField(),
+          SizedBox(height: 30),
           FormError(errors: errors),
-          SizedBox(height: 40),
+          SizedBox(height: 20),
           DefaultButton(
             text: "Continue",
             press: () {
@@ -100,7 +105,7 @@ class _SignUpFormState extends State<SignUpForm> {
       onChanged: (value) {
         if (value.isNotEmpty) {
           removeError(error: kPassNullError);
-        } else if (value.length >= 8) {
+        } else if (value.length >= 6) {
           removeError(error: kShortPassError);
         }
         password = value;
@@ -109,7 +114,7 @@ class _SignUpFormState extends State<SignUpForm> {
         if (value!.isEmpty) {
           addError(error: kPassNullError);
           return "";
-        } else if (value.length < 8) {
+        } else if (value.length < 5) {
           addError(error: kShortPassError);
           return "";
         }
@@ -118,8 +123,6 @@ class _SignUpFormState extends State<SignUpForm> {
       decoration: InputDecoration(
         labelText: "Password",
         hintText: "Enter your password",
-        // If  you are using latest version of flutter then lable text and hint text shown like this
-        // if you r using flutter less then 1.20.* then maybe this is not working properly
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Lock.svg"),
       ),
@@ -155,6 +158,41 @@ class _SignUpFormState extends State<SignUpForm> {
         // if you r using flutter less then 1.20.* then maybe this is not working properly
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Mail.svg"),
+      ),
+    );
+  }
+
+  TextFormField buildContactField() {
+    return TextFormField(
+      obscureText: true,
+      onSaved: (newValue) => contact = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: kPhoneNumberNullError);
+        } else if (value.isNotEmpty) {
+          removeError(error: kPhoneNumberNullError);
+        }
+        contact = value;
+      },
+      validator: (value) {
+        if (value!.isEmpty) {
+          addError(error: kPhoneNumberNullError);
+          return "";
+        } else if ((contact != value)) {
+          addError(error: kPhoneNumberNullError);
+          return "";
+        }else if(value.length < 10){
+           addError(error: kShortPhone);
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        labelText: "Enter phone number",
+        hintText: "Phone number",
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+        suffixIcon: Icon(
+          Icons.phone,
+        ),
       ),
     );
   }

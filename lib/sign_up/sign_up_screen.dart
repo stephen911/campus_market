@@ -34,14 +34,19 @@ class Body extends StatelessWidget {
                 SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [],
+                  children: [
+                    //TODO: implement later
+                  ],
                 ),
-                SizedBox(height: 25),
+                SizedBox(height: 15),
                 Text(
-                  'By continuing your confirm that you agree \nwith our Term and Condition',
+                  'By continuing... you confirm that you agree \nwith our Term and Condition',
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.caption,
-                )
+                ),
+                SizedBox(height: 10),
+
+                Text("View Terms and Condition here")
               ],
             ),
           ),
