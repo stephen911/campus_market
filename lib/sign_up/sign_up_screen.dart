@@ -35,7 +35,7 @@ class Body extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    //TODO: implement later
+                  AlreadyHaveAccount()
                   ],
                 ),
                 SizedBox(height: 15),
@@ -55,3 +55,27 @@ class Body extends StatelessWidget {
     );
   }
 }
+class AlreadyHaveAccount extends StatelessWidget {
+  const AlreadyHaveAccount({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          "Already have an account? ",
+          style: TextStyle(fontSize: 16),
+        ),
+        GestureDetector(
+          // onTap: () => Navigator.pushNamed(context, SignUpScreen.routeName),
+          child: Text(
+            "Sign in",
+            style: TextStyle(fontSize: 16, color: kPrimaryColor),
+          ),
+        ),
+      ],
+    );
+  }
+}
+ 
