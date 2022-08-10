@@ -1,3 +1,4 @@
+import 'package:campus_market/forgot_password/forgot_password.dart';
 import 'package:flutter/material.dart';
 
 import '../../../components/constants.dart';
@@ -57,6 +58,13 @@ class _SignFormState extends State<SignForm> {
               GestureDetector(
                 // onTap: () => Navigator.pushNamed(
                 //     context, ForgotPasswordScreen.routeName),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ForgotPasswordScreen()),
+                  );
+                },
                 child: Text(
                   "Forgot Password",
                   style: TextStyle(decoration: TextDecoration.underline),
