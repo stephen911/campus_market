@@ -1,6 +1,5 @@
 import 'package:campus_market/screens/categories.dart';
 import 'package:campus_market/screens/notifications.dart';
-import 'package:campus_market/screens/profile.dart';
 import 'package:campus_market/sign_up/sign_up_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
@@ -18,7 +17,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // this isthe content of the home page
     HomePageContent(),
     /////the content of the profile page
-    ProfilePage(),
+    SignUpScreen(),
     //////the content of the categories page
     Categories(),
     //////the content of the notification page

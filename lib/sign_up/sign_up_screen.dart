@@ -30,7 +30,7 @@ class Body extends StatelessWidget {
                   height: 15,
                 ),
                 Text(
-                  "Complete your details with us for best features",
+                  "Complete your details with us for full services",
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(height: 10),
