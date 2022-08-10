@@ -1,6 +1,7 @@
 import 'package:campus_market/screens/categories.dart';
 import 'package:campus_market/screens/notifications.dart';
 import 'package:campus_market/screens/profile.dart';
+import 'package:campus_market/screens/sign_in/sign_in.dart';
 import 'package:flutter/material.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 
@@ -15,7 +16,8 @@ class _MyHomePageState extends State<MyHomePage> {
   int currentIndex = 0;
   List Navbody = [
     // this isthe contant of the home page
-    HomePageContent(),
+    // HomePageContent(),
+    LoginScreen(),
 
     /////the contant of the profile page
     ProfilePage(),
