@@ -11,11 +11,17 @@ class SignUpForm extends StatefulWidget {
 }
 
 class _SignUpFormState extends State<SignUpForm> {
-  final _formKey = GlobalKey<FormState>();
-  String? email;
-  String? password;
-  String? conform_password;
-  String? contact;
+  // final _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController confirmPassController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
+  // String? email;
+  // String? password;
+  // String? conform_password;
+  // String? contact;
 
   bool remember = false;
   final List<String?> errors = [];
@@ -42,11 +48,14 @@ class _SignUpFormState extends State<SignUpForm> {
         children: [
           buildEmailFormField(),
           SizedBox(height: 20),
+          buildContactField(),
+          SizedBox(height: 20),
+          buildNameField(),
+          SizedBox(height: 20),
           buildPasswordFormField(),
           SizedBox(height: 20),
           buildConformPassFormField(),
           SizedBox(height: 20),
-          buildContactField(),
           SizedBox(height: 30),
           FormError(errors: errors),
           SizedBox(height: 20),
@@ -67,21 +76,23 @@ class _SignUpFormState extends State<SignUpForm> {
 
   TextFormField buildConformPassFormField() {
     return TextFormField(
+      controller: confirmPassController,
       obscureText: true,
-      onSaved: (newValue) => conform_password = newValue,
+      onSaved: (newValue) => confirmPassController.text = newValue!,
       onChanged: (value) {
         if (value.isNotEmpty) {
           removeError(error: kPassNullError);
-        } else if (value.isNotEmpty && password == conform_password) {
+        } else if (value.isNotEmpty &&
+            passwordController.text == confirmPassController.text) {
           removeError(error: kMatchPassError);
         }
-        conform_password = value;
+        confirmPassController.text = value;
       },
       validator: (value) {
         if (value!.isEmpty) {
           addError(error: kPassNullError);
           return "";
-        } else if ((password != value)) {
+        } else if ((passwordController.text != value)) {
           addError(error: kMatchPassError);
           return "";
         }
@@ -100,15 +111,16 @@ class _SignUpFormState extends State<SignUpForm> {
 
   TextFormField buildPasswordFormField() {
     return TextFormField(
+      controller: passwordController,
       obscureText: true,
-      onSaved: (newValue) => password = newValue,
+      onSaved: (newValue) => passwordController.text = newValue!,
       onChanged: (value) {
         if (value.isNotEmpty) {
           removeError(error: kPassNullError);
         } else if (value.length >= 6) {
           removeError(error: kShortPassError);
         }
-        password = value;
+        passwordController.text = value;
       },
       validator: (value) {
         if (value!.isEmpty) {
@@ -131,8 +143,9 @@ class _SignUpFormState extends State<SignUpForm> {
 
   TextFormField buildEmailFormField() {
     return TextFormField(
+      controller: emailController,
       keyboardType: TextInputType.emailAddress,
-      onSaved: (newValue) => email = newValue,
+      onSaved: (newValue) => emailController.text = newValue!,
       onChanged: (value) {
         if (value.isNotEmpty) {
           removeError(error: kEmailNullError);
@@ -164,25 +177,29 @@ class _SignUpFormState extends State<SignUpForm> {
 
   TextFormField buildContactField() {
     return TextFormField(
+      keyboardType: TextInputType.number,
+      controller: phoneController,
       obscureText: true,
-      onSaved: (newValue) => contact = newValue,
+      onSaved: (newValue) => phoneController.text = newValue!,
       onChanged: (value) {
         if (value.isNotEmpty) {
           removeError(error: kPhoneNumberNullError);
         } else if (value.isNotEmpty) {
           removeError(error: kPhoneNumberNullError);
         }
-        contact = value;
+        phoneController.text = value;
       },
       validator: (value) {
         if (value!.isEmpty) {
           addError(error: kPhoneNumberNullError);
           return "";
-        } else if ((contact != value)) {
+        } else if ((phoneController.text != value)) {
           addError(error: kPhoneNumberNullError);
           return "";
-        }else if(value.length < 10){
-           addError(error: kShortPhone);
+        } else if (value.length < 10) {
+          addError(error: kShortPhone);
+        } else if (value.length > 10) {
+          addError(error: kLongPhone);
         }
         return null;
       },
@@ -192,6 +209,41 @@ class _SignUpFormState extends State<SignUpForm> {
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixIcon: Icon(
           Icons.phone,
+        ),
+      ),
+    );
+  }
+
+  TextFormField buildNameField() {
+    return TextFormField(
+      // keyboardType: TextInputType.number,
+      controller: nameController,
+      obscureText: true,
+      onSaved: (newValue) => nameController.text = newValue!,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: kNamelNullError);
+        } else if (value.isNotEmpty) {
+          removeError(error: kNamelNullError);
+        }
+        nameController.text = value;
+      },
+      validator: (value) {
+        if (value!.isEmpty) {
+          addError(error: kNamelNullError);
+          return "";
+        } else if ((nameController.text != value)) {
+          addError(error: kNamelNullError);
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        labelText: "Full name",
+        hintText: "Enter Full Name",
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+        suffixIcon: Icon(
+          Icons.person,
         ),
       ),
     );
