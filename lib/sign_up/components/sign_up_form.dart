@@ -55,115 +55,7 @@ class _SignUpFormState extends State<SignUpForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: _formKey,
-      child: Column(
-        children: [
-          buildEmailFormField(),
-          SizedBox(height: 20),
-          buildContactField(),
-          SizedBox(height: 20),
-          buildNameField(),
-          SizedBox(height: 20),
-          buildPasswordFormField(),
-          SizedBox(height: 20),
-          buildConformPassFormField(),
-          SizedBox(height: 20),
-          SizedBox(height: 30),
-          FormError(errors: errors),
-          SizedBox(height: 20),
-          DefaultButton(
-            text: "Continue",
-            press: () {
-              if (_formKey.currentState!.validate()) {
-                _formKey.currentState!.save();
-                // if all are valid then go to success screen
-                // Navigator.pushNamed(context, CompleteProfileScreen.routeName);
-              }
-            },
-          ),
-        ],
-      ),
-    );
-  }
-
-  postDetailsToFirestore() async {
-    // calling our firestore
-    // calling our user model
-    // sedning these values
-
-    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-    User? user = _auth.currentUser;
-
-    UserModel userModel = UserModel();
-
-    // writing all the values
-    userModel.email = user!.email;
-    userModel.uid = user.uid;
-    userModel.name = nameController.text.toLowerCase().trim();
-    userModel.phone = phoneController.text;
-    userModel.isCreated = true;
-    userModel.profile = '';
-
-    await firebaseFirestore
-        .collection("users")
-        .doc(user.uid)
-        .set(userModel.toMap());
-    Fluttertoast.showToast(msg: "Account created successfully :) ");
-    Navigator.pushAndRemoveUntil(
-        (context),
-        MaterialPageRoute(builder: (context) => LoginScreen()),
-        (route) => false);
-  }
-
-  void signUp(String email, String password) async {
-    try {
-      setState(() {
-        isLoading = true;
-      });
-      await _auth
-          .createUserWithEmailAndPassword(email: email, password: password)
-          .then((value) => {
-                addStringToSF('isLoggedin', 'true'),
-                postDetailsToFirestore(),
-              })
-          .catchError((e) {
-        Fluttertoast.showToast(msg: e!.message);
-      });
-    } on FirebaseAuthException catch (error) {
-      setState(() {
-        isLoading = false;
-      });
-      switch (error.code) {
-        case "invalid-email":
-          errorMessage = "Your email address appears to be malformed.";
-          break;
-        case "wrong-password":
-          errorMessage = "Your password is wrong.";
-          break;
-        case "user-not-found":
-          errorMessage = "User with this email doesn't exist.";
-          break;
-        case "user-disabled":
-          errorMessage = "User with this email has been disabled.";
-          break;
-        case "too-many-requests":
-          errorMessage = "Too many requests";
-          break;
-        case "operation-not-allowed":
-          errorMessage = "Signing in with Email and Password is not enabled.";
-          break;
-        case "network-request-failed":
-          errorMessage = "Network request failed";
-          break;
-        default:
-          errorMessage = "An undefined Error happened.";
-      }
-      Fluttertoast.showToast(msg: errorMessage!);
-    }
-  }
-
-  TextFormField buildConformPassFormField() {
+    TextFormField buildConformPassFormField() {
     return TextFormField(
       controller: confirmPassController,
       obscureText: true,
@@ -190,8 +82,6 @@ class _SignUpFormState extends State<SignUpForm> {
       decoration: InputDecoration(
         labelText: "Confirm Password",
         hintText: "Re-enter your password",
-        // If  you are using latest version of flutter then lable text and hint text shown like this
-        // if you r using flutter less then 1.20.* then maybe this is not working properly
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Lock.svg"),
       ),
@@ -256,8 +146,6 @@ class _SignUpFormState extends State<SignUpForm> {
       decoration: InputDecoration(
         labelText: "Email",
         hintText: "Enter your email",
-        // If  you are using latest version of flutter then lable text and hint text shown like this
-        // if you r using flutter less then 1.20.* then maybe this is not working properly
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Mail.svg"),
       ),
@@ -305,7 +193,7 @@ class _SignUpFormState extends State<SignUpForm> {
 
   TextFormField buildNameField() {
     return TextFormField(
-      // keyboardType: TextInputType.number,
+      keyboardType: TextInputType.number,
       controller: nameController,
       obscureText: true,
       onSaved: (newValue) => nameController.text = newValue!,
@@ -337,4 +225,112 @@ class _SignUpFormState extends State<SignUpForm> {
       ),
     );
   }
+    return Form(
+      key: _formKey,
+      child: Column(
+        children: [
+          buildEmailFormField(),
+          SizedBox(height: 20),
+          buildContactField(),
+          SizedBox(height: 20),
+          buildNameField(),
+          SizedBox(height: 20),
+          buildPasswordFormField(),
+          SizedBox(height: 20),
+          buildConformPassFormField(),
+          SizedBox(height: 20),
+          SizedBox(height: 30),
+          FormError(errors: errors),
+          SizedBox(height: 20),
+          DefaultButton(
+            text: "Continue",
+            press: () {
+              if (_formKey.currentState!.validate()) {
+                _formKey.currentState!.save();
+                signUp(emailController.text, passwordController.text);
+              }
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  postDetailsToFirestore() async {
+    // calling our firestore
+    // calling our user model
+    // sedning these values
+
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    User? user = _auth.currentUser;
+
+    UserModel userModel = UserModel();
+
+    // writing all the values
+    userModel.email = user!.email;
+    userModel.uid = user.uid;
+    userModel.name = nameController.text.toLowerCase().trim();
+    userModel.phone = phoneController.text;
+    userModel.isCreated = true;
+    userModel.profile = '';
+
+    await firebaseFirestore
+        .collection("users")
+        .doc(user.uid)
+        .set(userModel.toMap());
+    Fluttertoast.showToast(msg: "Account created successfully :) ");
+    Navigator.pushAndRemoveUntil(
+        (context),
+        MaterialPageRoute(builder: (context) => LoginScreen()),
+        (route) => false);
+  }
+
+  void signUp(String email, String password) async {
+    try {
+      setState(() {
+        isLoading = true;
+      });
+      await _auth
+          .createUserWithEmailAndPassword(email: email, password: password)
+          .then((value) => {
+                // addStringToSF('isLoggedin', 'true'),
+                postDetailsToFirestore(),
+              })
+          .catchError((e) {
+        Fluttertoast.showToast(msg: e!.message);
+      });
+    } on FirebaseAuthException catch (error) {
+      setState(() {
+        isLoading = false;
+      });
+      switch (error.code) {
+        case "invalid-email":
+          errorMessage = "Your email address appears to be malformed.";
+          break;
+        case "wrong-password":
+          errorMessage = "Your password is wrong.";
+          break;
+        case "user-not-found":
+          errorMessage = "User with this email doesn't exist.";
+          break;
+        case "user-disabled":
+          errorMessage = "User with this email has been disabled.";
+          break;
+        case "too-many-requests":
+          errorMessage = "Too many requests";
+          break;
+        case "operation-not-allowed":
+          errorMessage = "Signing in with Email and Password is not enabled.";
+          break;
+        case "network-request-failed":
+          errorMessage = "Network request failed";
+          break;
+        default:
+          errorMessage = "An undefined Error happened.";
+      }
+      Fluttertoast.showToast(msg: errorMessage!);
+    }
+  }
+
+  
 }

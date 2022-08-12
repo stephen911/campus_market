@@ -1,4 +1,8 @@
+import 'package:campus_market/screens/sign_in/sign_in.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+import '../components/shared_preferences.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -24,7 +28,9 @@ class _ProfilePageState extends State<ProfilePage> {
             color: Colors.deepOrangeAccent,
             child: Column(
               children: [
-                SizedBox(height: 25,),
+                SizedBox(
+                  height: 25,
+                ),
                 Container(
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(50),
@@ -76,7 +82,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       icon: Icons.settings,
                       title: 'Settings',
                       color: Colors.red),
-                      profileTile(
+                  profileTile(
                       icon: Icons.help_center,
                       title: 'Help Center',
                       color: Colors.green),
@@ -88,7 +94,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       icon: Icons.exit_to_app,
                       title: 'Log Out',
                       color: Colors.black,
-                      onTap: () {}),
+                      onTap: () {
+                        logout(context);
+                      }),
                 ],
               ),
             ),
@@ -137,5 +145,13 @@ class _ProfilePageState extends State<ProfilePage> {
         onTap: onTap ?? () {},
       ),
     );
+  }
+
+  Future<void> logout(BuildContext context) async {
+    await FirebaseAuth.instance.signOut();
+    // SharedPreferences prefs = await SharedPreferences.getInstance();
+    // addStringToSF('isLoggedin', 'false');
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => const LoginScreen()));
   }
 }

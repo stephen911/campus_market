@@ -18,6 +18,7 @@ class _MyHomePageState extends State<MyHomePage> {
     HomePageContent(),
     /////the content of the profile page
     SignUpScreen(),
+    // LoginScreen(),
     //////the content of the categories page
     Categories(),
     //////the content of the notification page

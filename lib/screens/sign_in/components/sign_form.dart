@@ -56,7 +56,7 @@ class _SignFormState extends State<SignForm> {
         onChanged: (value) {
           if (value.isNotEmpty) {
             removeError(error: kPassNullError);
-          } else if (value.length >= 8) {
+          } else if (value.length >= 6) {
             removeError(error: kShortPassError);
           }
           return null;
@@ -153,13 +153,7 @@ class _SignFormState extends State<SignForm> {
           DefaultButton(
             text: "Continue",
             press: () {
-              if (_loginFormKey.currentState!.validate()) {
-                _loginFormKey.currentState!.save();
-                signIn(emailController.text, passwordController.text);
-                // if all are valid then go to success screen
-                // KeyboardUtil.hideKeyboard(context);
-                // Navigator.pushNamed(context, LoginSuccessScreen.routeName);
-              }
+              signIn(emailController.text, passwordController.text);
             },
           ),
         ],
@@ -178,11 +172,10 @@ class _SignFormState extends State<SignForm> {
             .signInWithEmailAndPassword(email: email, password: password)
             .then((uid) => {
                   addStringToSF('email', email),
-                  //update isLoggedin value
-                  addStringToSF('isLoggedin', 'true'),
+                  // update isLoggedin value
+                  // addStringToSF('isLoggedin', 'true'),
                   addStringToSF('signInMethod', 'emailAndPassword'),
-                  if (_auth.currentUser != null &&
-                      _auth.currentUser!.emailVerified == true)
+                  if (_auth.currentUser != null)
                     {
                       Fluttertoast.showToast(msg: "Login Successful"),
                       Navigator.pushAndRemoveUntil(
