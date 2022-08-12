@@ -26,9 +26,7 @@ class _SignFormState extends State<SignForm> {
   // string for displaying the error Message
   String? errorMessage;
   bool _isLoading = false;
-  // final _formKey = GlobalKey<FormState>();
-  // String? email;
-  // String? password;
+
   bool? remember = false;
   final List<String?> errors = [];
 
@@ -150,12 +148,14 @@ class _SignFormState extends State<SignForm> {
           ),
           FormError(errors: errors),
           SizedBox(height: 20),
-          DefaultButton(
-            text: "Continue",
-            press: () {
-              signIn(emailController.text, passwordController.text);
-            },
-          ),
+          _isLoading
+              ? CircularProgressIndicator()
+              : DefaultButton(
+                  text: "Continue",
+                  press: () {
+                    signIn(emailController.text, passwordController.text);
+                  },
+                ),
         ],
       ),
     );
@@ -173,7 +173,7 @@ class _SignFormState extends State<SignForm> {
             .then((uid) => {
                   addStringToSF('email', email),
                   // update isLoggedin value
-                  // addStringToSF('isLoggedin', 'true'),
+                  addStringToSF('isLoggedin', 'true'),
                   addStringToSF('signInMethod', 'emailAndPassword'),
                   if (_auth.currentUser != null)
                     {
