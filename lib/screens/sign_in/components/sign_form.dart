@@ -1,5 +1,5 @@
 import 'package:campus_market/forgot_password/forgot_password.dart';
-import 'package:campus_market/screens/profile.dart';
+import 'package:campus_market/profile/home_after_signin.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -181,7 +181,7 @@ class _SignFormState extends State<SignForm> {
                       Navigator.pushAndRemoveUntil(
                           (context),
                           MaterialPageRoute(
-                              builder: (context) => ProfilePage()),
+                              builder: (context) => HomeAfterSignIn()),
                           (route) => false),
                     }
                 });
