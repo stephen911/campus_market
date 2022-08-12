@@ -1,3 +1,5 @@
+import 'package:campus_market/screens/sign_in/sign_in.dart';
+import 'package:campus_market/sign_up/sign_up_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -108,11 +110,10 @@ class _SignUpFormState extends State<SignUpForm> {
         .doc(user.uid)
         .set(userModel.toMap());
     Fluttertoast.showToast(msg: "Account created successfully :) ");
-    // TODO: Navigate to sign in page
-    // Navigator.pushAndRemoveUntil(
-    //     (context),
-    //     MaterialPageRoute(builder: (context) => const VerifyEmailPage()),
-    //     (route) => false);
+    Navigator.pushAndRemoveUntil(
+        (context),
+        MaterialPageRoute(builder: (context) => LoginScreen()),
+        (route) => false);
   }
 
   void signUp(String email, String password) async {
