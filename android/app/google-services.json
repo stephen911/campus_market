@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "868874827244",
+    "project_id": "campus-market-f2d88",
+    "storage_bucket": "campus-market-f2d88.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:868874827244:android:64e9ec06039ebb78f67cc9",
+        "android_client_info": {
+          "package_name": "com.fausford.campus_market"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "868874827244-0ln4dr44bqarjn7bi5ltlr3e906ng0er.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fausford.campus_market",
+            "certificate_hash": "8890c881710954b5829256666daf74a1b8597cad"
+          }
+        },
+        {
+          "client_id": "868874827244-sqefhnq6lpevh1phj7k0ojcbve16l5bi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_hUeVA3GdqhaOJvh3mnLCi7IqqUIGSpA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "868874827244-sqefhnq6lpevh1phj7k0ojcbve16l5bi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
