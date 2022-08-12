@@ -1,6 +1,9 @@
+import 'package:campus_market/model/user_model.dart';
 import 'package:campus_market/screens/sign_in/sign_in.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../components/shared_preferences.dart';
 
@@ -12,98 +15,141 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  User? user = FirebaseAuth.instance.currentUser;
+  UserModel loggedInUser = UserModel();
+
   @override
+  void initState() {
+    super.initState();
+    FirebaseFirestore.instance
+        .collection("users")
+        .doc(user!.uid)
+        .get()
+        .then((value) {
+      loggedInUser = UserModel.fromMap(value.data());
+      setState(() {});
+    });
+  }
+
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
     Color kprimary = const Color(0xFF363f93);
-
     return Scaffold(
-        body: SafeArea(
-      child: Column(
-        children: [
-          Container(
-            height: size.height * 0.36,
-            width: double.infinity,
-            color: Colors.deepOrangeAccent,
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 25,
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50),
-                      border: Border.all(color: Colors.white)),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(50),
-                    child: Image(
-                      image: AssetImage(
-                        "assets/profile.png",
-                      ),
-                      height: 100,
-                      width: 100,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  "Asante Daniel",
-                  style: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18),
-                ),
-                Text(
-                  "adanielagyei@gmail.com",
-                  maxLines: 1,
-                  style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      overflow: TextOverflow.ellipsis),
-                ),
-              ],
-            ),
-          ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(right: 20),
-              child: ListView(
-                children: [
-                  profileTile(
-                      icon: Icons.person,
-                      title: 'Edit profile',
-                      color: Colors.blue,
-                      onTap: () {}),
-                  profileTile(
-                      icon: Icons.settings,
-                      title: 'Settings',
-                      color: Colors.red),
-                  profileTile(
-                      icon: Icons.help_center,
-                      title: 'Help Center',
-                      color: Colors.green),
-                  profileTile(
-                      icon: Icons.person_add,
-                      title: 'Invite a friend',
-                      color: Colors.orange),
-                  profileTile(
-                      icon: Icons.exit_to_app,
-                      title: 'Log Out',
-                      color: Colors.black,
-                      onTap: () {
-                        logout(context);
-                      }),
-                ],
-              ),
-            ),
-          ),
-        ],
+      appBar: AppBar(
+        backgroundColor: kprimary,
+        elevation: 0,
       ),
-    ));
+      body: SafeArea(
+        child: SizedBox(
+          width: size.width,
+          height: size.height,
+          child: FutureBuilder<DocumentSnapshot>(
+              future: FirebaseFirestore.instance
+                  .collection("users")
+                  .doc(user!.uid)
+                  .get(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  final user = snapshot.data;
+                  return Column(
+                    children: [
+                      Container(
+                        height: size.height * 0.36,
+                        width: double.infinity,
+                        color: Colors.deepOrangeAccent,
+                        child: Column(
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(50),
+                                  border: Border.all(color: Colors.white)),
+                              child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(50),
+                                  child: snapshot.data!['profile'] != null
+                                      ? Image.network(
+                                          snapshot.data!['profile'],
+                                          height: 100,
+                                          width: 100,
+                                          fit: BoxFit.cover,
+                                        )
+                                      : Image.asset(
+                                          "assets/profile.png",
+                                          height: 100,
+                                          width: 100,
+                                          fit: BoxFit.cover,
+                                        )),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              snapshot.data!['name'],
+                              style: const TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18),
+                            ),
+                            Text(
+                              snapshot.data!['email'],
+                              maxLines: 1,
+                              style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  overflow: TextOverflow.ellipsis),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 20),
+                          child: ListView(
+                            children: [
+                              profileTile(
+                                  icon: Icons.person,
+                                  title: 'Edit profile',
+                                  color: Colors.blue,
+                                  onTap: () {
+                                    // Navigator.of(context).push(
+                                    //     MaterialPageRoute(
+                                    //         builder: (context) =>
+                                    //             const EditProfile()));
+                                  }),
+                              profileTile(
+                                  icon: Icons.settings,
+                                  title: 'Settings',
+                                  color: Colors.red),
+                              profileTile(
+                                  icon: Icons.help_center,
+                                  title: 'Help Center',
+                                  color: Colors.green),
+                              profileTile(
+                                  icon: Icons.person_add,
+                                  title: 'Invite a friend',
+                                  color: Colors.orange),
+                              profileTile(
+                                  icon: Icons.exit_to_app,
+                                  title: 'Log Out',
+                                  color: Colors.black,
+                                  onTap: () {
+                                    logout(context);
+                                  }),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                } else {
+                  return Center(
+                    child: CircularProgressIndicator(color: kprimary),
+                  );
+                }
+              }),
+        ),
+      ),
+    );
   }
 
   Widget profileTile(
@@ -149,8 +195,8 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Future<void> logout(BuildContext context) async {
     await FirebaseAuth.instance.signOut();
-    // SharedPreferences prefs = await SharedPreferences.getInstance();
-    // addStringToSF('isLoggedin', 'false');
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    addStringToSF('isLoggedin', 'false');
     Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => const LoginScreen()));
   }
