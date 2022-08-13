@@ -297,7 +297,7 @@ class _EditProfileState extends State<EditProfile> {
                         (value) => uploadProfileImage(
                                 profileFile!, _auth.currentUser!.uid)
                             .then((value) =>
-                                Fluttertoast.showToast(msg: 'Profile updated')),
+                                Fluttertoast.showToast(msg: 'Profile updated <--')),
                       );
                     },
                     child: Text(

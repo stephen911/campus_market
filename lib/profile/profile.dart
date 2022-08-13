@@ -37,10 +37,6 @@ class _ProfilePageState extends State<ProfilePage> {
 
     Color kprimary = const Color(0xFF363f93);
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: kprimary,
-        elevation: 0,
-      ),
       body: SafeArea(
         child: SizedBox(
           width: size.width,
@@ -62,28 +58,29 @@ class _ProfilePageState extends State<ProfilePage> {
                         child: Column(
                           children: [
                             Container(
+                              margin: EdgeInsets.only(top: 5),
                               decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(50),
-                                  border: Border.all(color: Colors.white)),
+                               
+                              ),
                               child: ClipRRect(
                                   borderRadius: BorderRadius.circular(50),
                                   child: snapshot.data!['profile'] != null
-                                      ? Image.network(
-                                          snapshot.data!['profile'],
-                                          height: 100,
-                                          width: 100,
-                                          fit: BoxFit.cover,
-                                        )
-                                      : Image.asset(
-                                          "assets/profile.png",
-                                          height: 100,
-                                          width: 100,
-                                          fit: BoxFit.cover,
-                                        )),
+                                      ? (loggedInUser.profile!.isEmpty)
+                                          ? Image.asset(
+                                              "assets/profile.png",
+                                              height: 110,
+                                              width: 110,
+                                              fit: BoxFit.cover,
+                                            )
+                                          : Image.network(
+                                              loggedInUser.profile.toString(),
+                                              height: 100,
+                                              width: 100,
+                                              fit: BoxFit.cover,
+                                            )
+                                      : Container()),
                             ),
-                            const SizedBox(
-                              height: 10,
-                            ),
+                            
                             Text(
                               snapshot.data!['name'],
                               style: const TextStyle(

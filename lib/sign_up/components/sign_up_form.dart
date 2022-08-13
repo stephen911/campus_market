@@ -114,7 +114,6 @@ class _SignUpFormState extends State<SignUpForm> {
           if (value.isEmpty) {
             addError(error: kPassNullError);
             return "";
-            // return ("Password is required");
           }
           if (!regex.hasMatch(value)) {
             // return ("Enter Valid Password(Min. 6 Character)");
