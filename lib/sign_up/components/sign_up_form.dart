@@ -26,7 +26,7 @@ class _SignUpFormState extends State<SignUpForm> {
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPassController = TextEditingController();
   TextEditingController nameController = TextEditingController();
-   
+
   bool isObscured = false;
   bool isObscured1 = false;
 
@@ -94,7 +94,6 @@ class _SignUpFormState extends State<SignUpForm> {
           ),
         ),
       );
-      
     }
 
     TextFormField buildPasswordFormField() {
@@ -144,35 +143,6 @@ class _SignUpFormState extends State<SignUpForm> {
           ),
         ),
       );
-      // TextFormField(
-      //   controller: passwordController,
-      //   obscureText: true,
-      //   onSaved: (newValue) => passwordController.text = newValue!,
-      //   onChanged: (value) {
-      //     if (value.isNotEmpty) {
-      //       removeError(error: kPassNullError);
-      //     } else if (value.length >= 6) {
-      //       removeError(error: kShortPassError);
-      //     }
-      //     passwordController.text = value;
-      //   },
-      //   validator: (value) {
-      //     if (value!.isEmpty) {
-      //       addError(error: kPassNullError);
-      //       return "";
-      //     } else if (value.length < 5) {
-      //       addError(error: kShortPassError);
-      //       return "";
-      //     }
-      //     return null;
-      //   },
-      //   decoration: InputDecoration(
-      //     labelText: "Password",
-      //     hintText: "Enter your password",
-      //     floatingLabelBehavior: FloatingLabelBehavior.always,
-      //     suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Lock.svg"),
-      //   ),
-      // );
     }
 
     TextFormField buildEmailFormField() {
@@ -288,15 +258,17 @@ class _SignUpFormState extends State<SignUpForm> {
           SizedBox(height: 20),
           FormError(errors: errors),
           SizedBox(height: 20),
-        isLoading? CircularProgressIndicator():  DefaultButton(
-            text: "Continue",
-            press: () {
-              if (_formKey.currentState!.validate()) {
-                _formKey.currentState!.save();
-                signUp(emailController.text, passwordController.text);
-              }
-            },
-          ),
+          isLoading
+              ? CircularProgressIndicator()
+              : DefaultButton(
+                  text: "Continue",
+                  press: () {
+                    if (_formKey.currentState!.validate()) {
+                      _formKey.currentState!.save();
+                      signUp(emailController.text, passwordController.text);
+                    }
+                  },
+                ),
         ],
       ),
     );
@@ -318,7 +290,7 @@ class _SignUpFormState extends State<SignUpForm> {
     userModel.name = nameController.text.toLowerCase().trim();
     userModel.phone = phoneController.text;
     userModel.isCreated = true;
-    userModel.profile = '';
+    userModel.profile = "";
 
     await firebaseFirestore
         .collection("users")

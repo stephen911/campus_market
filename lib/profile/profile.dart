@@ -1,4 +1,5 @@
 import 'package:campus_market/model/user_model.dart';
+import 'package:campus_market/profile/edit_profile.dart';
 import 'package:campus_market/screens/sign_in/sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -55,7 +56,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   return Column(
                     children: [
                       Container(
-                        height: size.height * 0.36,
+                        height: size.height * 0.26,
                         width: double.infinity,
                         color: Colors.deepOrangeAccent,
                         child: Column(
@@ -111,10 +112,10 @@ class _ProfilePageState extends State<ProfilePage> {
                                   title: 'Edit profile',
                                   color: Colors.blue,
                                   onTap: () {
-                                    // Navigator.of(context).push(
-                                    //     MaterialPageRoute(
-                                    //         builder: (context) =>
-                                    //             const EditProfile()));
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const EditProfile()));
                                   }),
                               profileTile(
                                   icon: Icons.settings,
