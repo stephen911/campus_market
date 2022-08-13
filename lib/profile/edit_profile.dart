@@ -247,7 +247,7 @@ class _EditProfileState extends State<EditProfile> {
         .doc(_auth.currentUser!.uid);
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: kprimary,
+        backgroundColor: Colors.deepOrangeAccent,
         title: const Text('Edit Profile'),
       ),
       body: Padding(
