@@ -26,10 +26,7 @@ class _SignUpFormState extends State<SignUpForm> {
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPassController = TextEditingController();
   TextEditingController nameController = TextEditingController();
-  // String? email;
-  // String? password;
-  // String? conform_password;
-  // String? contact;
+
   bool isObscured = false;
   bool isObscured1 = false;
 
@@ -97,36 +94,6 @@ class _SignUpFormState extends State<SignUpForm> {
           ),
         ),
       );
-      // TextFormField(
-      //   controller: confirmPassController,
-      //   obscureText: true,
-      //   onSaved: (newValue) => confirmPassController.text = newValue!,
-      //   onChanged: (value) {
-      //     if (value.isNotEmpty) {
-      //       removeError(error: kPassNullError);
-      //     } else if (value.isNotEmpty &&
-      //         passwordController.text == confirmPassController.text) {
-      //       removeError(error: kMatchPassError);
-      //     }
-      //     confirmPassController.text = value;
-      //   },
-      //   validator: (value) {
-      //     if (value!.isEmpty) {
-      //       addError(error: kPassNullError);
-      //       return "";
-      //     } else if ((passwordController.text != value)) {
-      //       addError(error: kMatchPassError);
-      //       return "";
-      //     }
-      //     return null;
-      //   },
-      //   decoration: InputDecoration(
-      //     labelText: "Confirm Password",
-      //     hintText: "Re-enter your password",
-      //     floatingLabelBehavior: FloatingLabelBehavior.always,
-      //     suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Lock.svg"),
-      //   ),
-      // );
     }
 
     TextFormField buildPasswordFormField() {
@@ -147,7 +114,6 @@ class _SignUpFormState extends State<SignUpForm> {
           if (value.isEmpty) {
             addError(error: kPassNullError);
             return "";
-            // return ("Password is required");
           }
           if (!regex.hasMatch(value)) {
             // return ("Enter Valid Password(Min. 6 Character)");
@@ -176,35 +142,6 @@ class _SignUpFormState extends State<SignUpForm> {
           ),
         ),
       );
-      // TextFormField(
-      //   controller: passwordController,
-      //   obscureText: true,
-      //   onSaved: (newValue) => passwordController.text = newValue!,
-      //   onChanged: (value) {
-      //     if (value.isNotEmpty) {
-      //       removeError(error: kPassNullError);
-      //     } else if (value.length >= 6) {
-      //       removeError(error: kShortPassError);
-      //     }
-      //     passwordController.text = value;
-      //   },
-      //   validator: (value) {
-      //     if (value!.isEmpty) {
-      //       addError(error: kPassNullError);
-      //       return "";
-      //     } else if (value.length < 5) {
-      //       addError(error: kShortPassError);
-      //       return "";
-      //     }
-      //     return null;
-      //   },
-      //   decoration: InputDecoration(
-      //     labelText: "Password",
-      //     hintText: "Enter your password",
-      //     floatingLabelBehavior: FloatingLabelBehavior.always,
-      //     suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Lock.svg"),
-      //   ),
-      // );
     }
 
     TextFormField buildEmailFormField() {
@@ -320,15 +257,17 @@ class _SignUpFormState extends State<SignUpForm> {
           SizedBox(height: 20),
           FormError(errors: errors),
           SizedBox(height: 20),
-          DefaultButton(
-            text: "Continue",
-            press: () {
-              if (_formKey.currentState!.validate()) {
-                _formKey.currentState!.save();
-                signUp(emailController.text, passwordController.text);
-              }
-            },
-          ),
+          isLoading
+              ? CircularProgressIndicator()
+              : DefaultButton(
+                  text: "Continue",
+                  press: () {
+                    if (_formKey.currentState!.validate()) {
+                      _formKey.currentState!.save();
+                      signUp(emailController.text, passwordController.text);
+                    }
+                  },
+                ),
         ],
       ),
     );
@@ -350,7 +289,7 @@ class _SignUpFormState extends State<SignUpForm> {
     userModel.name = nameController.text.toLowerCase().trim();
     userModel.phone = phoneController.text;
     userModel.isCreated = true;
-    userModel.profile = '';
+    userModel.profile = "";
 
     await firebaseFirestore
         .collection("users")
@@ -371,7 +310,7 @@ class _SignUpFormState extends State<SignUpForm> {
       await _auth
           .createUserWithEmailAndPassword(email: email, password: password)
           .then((value) => {
-                // addStringToSF('isLoggedin', 'true'),
+                addStringToSF('isLoggedin', 'true'),
                 postDetailsToFirestore(),
               })
           .catchError((e) {

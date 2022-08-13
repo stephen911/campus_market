@@ -42,6 +42,10 @@ dependencies:
   firebase_auth: ^3.6.3
   shared_preferences: ^2.0.15
   rename: ^2.0.1
+  firebase_storage: ^10.3.5
+  cached_network_image: ^3.2.1
+  image_picker: ^0.8.5+3
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:
@@ -70,6 +74,8 @@ flutter:
     - assets/
     - assets/icons/
     - assets/gifs/
+    - assets/gifs/loader.gif
+
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
