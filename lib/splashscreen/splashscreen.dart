@@ -91,13 +91,11 @@ class _SplashScreenState extends State<SplashScreen> {
                         ),
                       ),
                       Spacer(flex: 1),
-                      DefaultButton(
-                        text: "Get started",
-                        press: () {
-                          Navigator.of(context).push(MaterialPageRoute(
+                      GetStarted(() { 
+                        Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => const MyHomePage()));
-                        },
-                      ),
+                      }, "Get started"),
+                       
                       Spacer(),
                     ],
                   ),
@@ -117,7 +115,7 @@ class _SplashScreenState extends State<SplashScreen> {
       height: 6,
       width: currentPage == index ? 20 : 6,
       decoration: BoxDecoration(
-        color: currentPage == index ? kPrimaryColor : Color(0xFFD8D8D8),
+        color: currentPage == index ? Colors.green : Color(0xFFD8D8D8),
         borderRadius: BorderRadius.circular(3),
       ),
     );
@@ -148,10 +146,10 @@ class SplashContent extends StatelessWidget {
             ),
             // SizedBox(width: 5,),
             Text(
-              "CAMPUS APP",
+              "CAMPUS MART",
               style: TextStyle(
-                fontSize: 35,
-                color: kPrimaryColor,
+                fontSize: 30,
+                color: Colors.green,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -173,4 +171,26 @@ class SplashContent extends StatelessWidget {
       ],
     );
   }
+}
+Widget GetStarted(VoidCallback press, String text){
+  return  SizedBox(
+      width: double.infinity,
+      height: 56,
+      child: TextButton(
+        style: TextButton.styleFrom(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          primary: Colors.white,
+          backgroundColor: Colors.green,
+        ),
+        onPressed: press,
+        child: Text(
+          text,
+          style: TextStyle(
+            fontSize: 18,
+            color: Colors.white,
+          ),
+        ),
+      ),
+    );
 }
