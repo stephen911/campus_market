@@ -301,7 +301,7 @@ class _EditProfileState extends State<EditProfile> {
                       );
                     },
                     child: Text(
-                      'Change profile photo',
+                      'edit profile picture',
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: kprimary,
@@ -404,7 +404,7 @@ class _EditProfileState extends State<EditProfile> {
                           });
                         },
                         child: Text(
-                          'Change password',
+                          'Request password change',
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: kprimary,
