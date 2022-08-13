@@ -1,5 +1,9 @@
+import 'dart:async';
+
 import 'package:campus_market/components/constants.dart';
 import 'package:campus_market/screens/home.dart';
+import 'package:campus_market/screens/sign_in/sign_in.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../components/default_button.dart';
@@ -12,9 +16,28 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  final User? _user = FirebaseAuth.instance.currentUser;
+
   int currentPage = 0;
   
   @override
+
+  void initState() {
+    super.initState();
+    startTime();
+  }
+
+  startTime() async {
+    Timer(const Duration(milliseconds: 2500), navigatorPage);
+  }
+
+  Future<void> navigatorPage() async {
+    _user != null
+        ? Navigator.of(context).pushReplacement(
+            PageRouteBuilder(pageBuilder: (_, __, ___) => const LoginScreen()))
+        : Navigator.of(context).pushReplacement(
+            PageRouteBuilder(pageBuilder: (_, __, ___) => const MyHomePage()));
+  }
   Widget build(BuildContext context) {
     List splashData = [
     {

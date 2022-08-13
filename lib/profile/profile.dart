@@ -52,13 +52,13 @@ class _ProfilePageState extends State<ProfilePage> {
                   return Column(
                     children: [
                       Container(
-                        height: size.height * 0.26,
+                        height: size.height * 0.28,
                         width: double.infinity,
                         color: Colors.deepOrangeAccent,
                         child: Column(
                           children: [
                             Container(
-                              margin: EdgeInsets.only(top: 5),
+                              margin: EdgeInsets.only(top: 20),
                               decoration: BoxDecoration(
                                
                               ),
@@ -68,8 +68,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                       ? (loggedInUser.profile!.isEmpty)
                                           ? Image.asset(
                                               "assets/profile.png",
-                                              height: 110,
-                                              width: 110,
+                                              height: 100,
+                                              width: 100,
                                               fit: BoxFit.cover,
                                             )
                                           : Image.network(
