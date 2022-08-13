@@ -19,41 +19,40 @@ class _SplashScreenState extends State<SplashScreen> {
   final User? _user = FirebaseAuth.instance.currentUser;
 
   int currentPage = 0;
-  
+
   @override
 
-  void initState() {
-    super.initState();
-    startTime();
-  }
+  // void initState() {
+  //   super.initState();
+  //   startTime();
+  // }
 
-  startTime() async {
-    Timer(const Duration(milliseconds: 2500), navigatorPage);
-  }
+  // startTime() async {
+  //   Timer(const Duration(milliseconds: 2500), navigatorPage);
+  // }
 
-  Future<void> navigatorPage() async {
-    _user != null
-        ? Navigator.of(context).pushReplacement(
-            PageRouteBuilder(pageBuilder: (_, __, ___) => const LoginScreen()))
-        : Navigator.of(context).pushReplacement(
-            PageRouteBuilder(pageBuilder: (_, __, ___) => const MyHomePage()));
-  }
+  // Future<void> navigatorPage() async {
+  //   _user != null
+  //       ? Navigator.of(context).pushReplacement(
+  //           PageRouteBuilder(pageBuilder: (_, __, ___) => const LoginScreen()))
+  //       : Navigator.of(context).pushReplacement(
+  //           PageRouteBuilder(pageBuilder: (_, __, ___) => const MyHomePage()));
+  // }
   Widget build(BuildContext context) {
     List splashData = [
-    {
-      "text": "Welcome to UCC campus market, Let’s shop!",
-      "image": "assets/images/splash_1.png"
-    },
-    {
-      "text":
-          "We help people conect with store \naround Cape Coast, Ghana",
-      "image": "assets/images/splash_2.png"
-    },
-    {
-      "text": "We show the easy way to shop. \nJust stay at home with us",
-      "image": "assets/images/splash_3.png"
-    },
-  ];
+      {
+        "text": "Welcome to UCC campus market, Let’s shop!",
+        "image": "assets/images/splash1.PNG"
+      },
+      {
+        "text": "We help people conect with store \naround Cape Coast, Ghana",
+        "image": "assets/images/splash2.PNG"
+      },
+      {
+        "text": "We show the easy way to shop. \nJust stay at home with us",
+        "image": "assets/images/splash_3.png"
+      },
+    ];
     return Scaffold(
       body: SafeArea(
         child: SizedBox(
@@ -81,7 +80,9 @@ class _SplashScreenState extends State<SplashScreen> {
                   padding: EdgeInsets.symmetric(horizontal: 20),
                   child: Column(
                     children: <Widget>[
-                      Spacer(flex: 1,),
+                      Spacer(
+                        flex: 1,
+                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: List.generate(
@@ -122,6 +123,7 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 }
+
 class SplashContent extends StatelessWidget {
   const SplashContent({
     Key? key,
@@ -134,24 +136,38 @@ class SplashContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        Spacer(flex: 2,),
-        Text(
-          "CAMPUS APP",
-          style: TextStyle(
-            fontSize: 35,
-            color: kPrimaryColor,
-            fontWeight: FontWeight.bold,
-          ),
+        Spacer(
+          flex: 2,
         ),
-        SizedBox(height:10),
+        Row(
+          children: [
+            SizedBox(width: 30,),
+            Container(
+              width: 100,
+              child: Image.asset("assets/images/playstore.png", fit: BoxFit.contain),
+            ),
+            // SizedBox(width: 5,),
+            Text(
+              "CAMPUS APP",
+              style: TextStyle(
+                fontSize: 35,
+                color: kPrimaryColor,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
+        // SizedBox(height: 10),
         Text(
           text,
           textAlign: TextAlign.center,
         ),
         Spacer(flex: 2),
         Image.asset(
+          
           image,
-          height:265,
+          fit: BoxFit.contain,
+          height: 255,
           width: 235,
         ),
       ],
