@@ -68,7 +68,7 @@ class _SplashScreenState extends State<SplashScreen> {
                       ),
                       Spacer(flex: 1),
                       DefaultButton(
-                        text: "Continue",
+                        text: "Get started",
                         press: () {
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => const MyHomePage()));
