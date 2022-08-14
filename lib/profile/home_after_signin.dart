@@ -1,23 +1,25 @@
-import 'package:campus_market/screens/categories.dart';
-import 'package:campus_market/screens/notifications.dart';
-import 'package:campus_market/sign_up/sign_up_screen.dart';
-import 'package:flutter/material.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
+import 'package:campus_market/profile/profile.dart';
+import 'package:campus_market/screens/home.dart';
+import 'package:flutter/material.dart';
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key}) : super(key: key);
+import '../screens/categories.dart';
+import '../screens/notifications.dart';
+
+class HomeAfterSignIn extends StatefulWidget {
+  const HomeAfterSignIn({Key? key}) : super(key: key);
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<HomeAfterSignIn> createState() => _HomeAfterSignInState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _HomeAfterSignInState extends State<HomeAfterSignIn> {
   int currentIndex = 0;
   List Navbody = [
     // this isthe content of the home page
     HomePageContent(),
-    /////the content of the sign page page
-    SignUpScreen(),
+    /////the content of the profile page
+    ProfilePage(),
     //////the content of the categories page
     Categories(),
     //////the content of the notification page
@@ -65,27 +67,6 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
       body: Navbody[currentIndex],
-    );
-  }
-}
-
-class HomePageContent extends StatefulWidget {
-  const HomePageContent({Key? key}) : super(key: key);
-
-  @override
-  State<HomePageContent> createState() => _HomePageContentState();
-}
-
-class _HomePageContentState extends State<HomePageContent> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        color: Colors.blueAccent,
-        child: Center(
-          child: Text("content of the home page goes here"),
-        ),
-      ),
     );
   }
 }
