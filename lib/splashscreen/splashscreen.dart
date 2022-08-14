@@ -6,8 +6,6 @@ import 'package:campus_market/screens/sign_in/sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import '../components/default_button.dart';
-
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
 
@@ -21,23 +19,23 @@ class _SplashScreenState extends State<SplashScreen> {
   int currentPage = 0;
 
   @override
+  void initState() {
+    super.initState();
+    startTime();
+  }
 
-  // void initState() {
-  //   super.initState();
-  //   startTime();
-  // }
+  startTime() async {
+    Timer(const Duration(milliseconds: 2500), navigatorPage);
+  }
 
-  // startTime() async {
-  //   Timer(const Duration(milliseconds: 2500), navigatorPage);
-  // }
+  Future<void> navigatorPage() async {
+    _user != null
+        ? Navigator.of(context).pushReplacement(
+            PageRouteBuilder(pageBuilder: (_, __, ___) => const LoginScreen()))
+        : Navigator.of(context).pushReplacement(
+            PageRouteBuilder(pageBuilder: (_, __, ___) => const MyHomePage()));
+  }
 
-  // Future<void> navigatorPage() async {
-  //   _user != null
-  //       ? Navigator.of(context).pushReplacement(
-  //           PageRouteBuilder(pageBuilder: (_, __, ___) => const LoginScreen()))
-  //       : Navigator.of(context).pushReplacement(
-  //           PageRouteBuilder(pageBuilder: (_, __, ___) => const MyHomePage()));
-  // }
   Widget build(BuildContext context) {
     List splashData = [
       {
@@ -91,11 +89,10 @@ class _SplashScreenState extends State<SplashScreen> {
                         ),
                       ),
                       Spacer(flex: 1),
-                      GetStarted(() { 
+                      GetStarted(() {
                         Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => const MyHomePage()));
+                            builder: (context) => const MyHomePage()));
                       }, "Get started"),
-                       
                       Spacer(),
                     ],
                   ),
@@ -139,10 +136,13 @@ class SplashContent extends StatelessWidget {
         ),
         Row(
           children: [
-            SizedBox(width: 30,),
+            SizedBox(
+              width: 30,
+            ),
             Container(
               width: 100,
-              child: Image.asset("assets/images/playstore.png", fit: BoxFit.contain),
+              child: Image.asset("assets/images/playstore.png",
+                  fit: BoxFit.contain),
             ),
             // SizedBox(width: 5,),
             Text(
@@ -162,7 +162,6 @@ class SplashContent extends StatelessWidget {
         ),
         Spacer(flex: 2),
         Image.asset(
-          
           image,
           fit: BoxFit.contain,
           height: 255,
@@ -172,25 +171,25 @@ class SplashContent extends StatelessWidget {
     );
   }
 }
-Widget GetStarted(VoidCallback press, String text){
-  return  SizedBox(
-      width: double.infinity,
-      height: 56,
-      child: TextButton(
-        style: TextButton.styleFrom(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          primary: Colors.white,
-          backgroundColor: Colors.green,
-        ),
-        onPressed: press,
-        child: Text(
-          text,
-          style: TextStyle(
-            fontSize: 18,
-            color: Colors.white,
-          ),
+
+Widget GetStarted(VoidCallback press, String text) {
+  return SizedBox(
+    width: double.infinity,
+    height: 56,
+    child: TextButton(
+      style: TextButton.styleFrom(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        primary: Colors.white,
+        backgroundColor: Colors.green,
+      ),
+      onPressed: press,
+      child: Text(
+        text,
+        style: TextStyle(
+          fontSize: 18,
+          color: Colors.white,
         ),
       ),
-    );
+    ),
+  );
 }
