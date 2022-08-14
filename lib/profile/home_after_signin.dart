@@ -4,7 +4,7 @@ import 'package:campus_market/screens/home.dart';
 import 'package:flutter/material.dart';
 
 import '../screens/categories.dart';
-import '../screens/notifications.dart';
+import '../screens/notification/notifications.dart';
 
 class HomeAfterSignIn extends StatefulWidget {
   const HomeAfterSignIn({Key? key}) : super(key: key);

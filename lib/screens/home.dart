@@ -1,5 +1,5 @@
 import 'package:campus_market/screens/categories.dart';
-import 'package:campus_market/screens/notifications.dart';
+import 'package:campus_market/screens/notification/notifications.dart';
 import 'package:campus_market/sign_up/sign_up_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
