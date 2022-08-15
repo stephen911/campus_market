@@ -121,11 +121,11 @@ class _HomePageContentState extends State<HomePageContent> {
       "description": "Men's shorts on sale |adidas",
     },
     {
-      "discount": 20,
+      "discount": 40,
       "price": 200,
-      "img": "assets/images/icon.png",
-      "title": "Adidas Shorts",
-      "description": "Men's shorts on sale |adidas",
+      "img": "assets/images/suit.jpg",
+      "title": "official suit",
+      "description": "Men's official wear on sale |Turkey suit",
     },
   ];
   @override
