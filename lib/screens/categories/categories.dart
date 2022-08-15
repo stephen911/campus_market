@@ -56,7 +56,7 @@ class _CategoriesState extends State<Categories> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                   SideCard(
-                    title: "Grocceries",
+                    title: "Groceries",
                     ontap: () {},
                   ),
                   SizedBox(

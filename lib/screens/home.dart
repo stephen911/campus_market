@@ -119,12 +119,14 @@ class _HomePageContentState extends State<HomePageContent> {
   // var title = "Adidas Shorts";
 
   List category_list = [
-    {"title": "Sneakers", "img": "assets/cat.png", "tag": "popular"},
+    {"title": "Sneakers", "img": "assets/cat.png", "tag": "popular", "price" : "300"},
     // {"title": "Shorts", "img": "assets/adidas.jpg"},
-    {"title": "Sneakers", "img": "assets/cat.png", "tag": "new"},
-    {"title": "Shorts", "img": "assets/adidas.jpg", "tag": "upcoming"},
-    {"title": "Shorts", "img": "assets/adidas.jpg", "tag": "new"},
-    {"title": "Sneakers", "img": "assets/cat.png", "tag": "recommended"},
+    {"title": "Sneakers", "img": "assets/cat.png", "tag": "new", "price" : "300"},
+    {"title": "Shorts", "img": "assets/adidas.jpg", "tag": "upcoming", "price" : "300"},
+    {"title": "Shorts", "img": "assets/adidas.jpg", "tag": "new", "price" : "300"},
+    {"title": "Sneakers", "img": "assets/cat.png", "tag": "recommended", "price" : "300"},
+    {"title": "Sneakers", "img": "assets/cat.png", "tag": "best selling", "price" : "300"},
+    {"title": "Sneakers", "img": "assets/cat.png", "tag": "trending", "price" : "300"},
   ];
 
   List myList = [
@@ -395,6 +397,7 @@ class _HomePageContentState extends State<HomePageContent> {
                   children: <Widget>[
                     for (int i = 0; i < category_list.length; i++)
                       CategoryModel(
+                        price: category_list[i]["price"],
                         img: category_list[i]["img"],
                         tag: category_list[i]["tag"],
                         title: category_list[i]["title"],
