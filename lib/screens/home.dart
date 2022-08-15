@@ -1,5 +1,6 @@
 import 'package:campus_market/productCard.dart';
 import 'package:campus_market/screens/categories.dart';
+import 'package:campus_market/screens/categoryCard.dart';
 import 'package:campus_market/screens/notification/notifications.dart';
 import 'package:campus_market/sign_up/sign_up_screen.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -28,6 +29,7 @@ class _MyHomePageState extends State<MyHomePage> {
     //////the content of the notification page
     Notifications(),
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -115,6 +117,17 @@ class _HomePageContentState extends State<HomePageContent> {
   // var description = "Men's shorts on sale |adidas";
   // var img = "assets/adidas.jpg";
   // var title = "Adidas Shorts";
+
+  List category_list = [
+    {"title": "Sneakers", "img": "assets/cat.png", "tag" : "popular"},
+    // {"title": "Shorts", "img": "assets/adidas.jpg"},
+    {"title": "Sneakers", "img": "assets/cat.png", "tag" : "new"},
+    {"title": "Shorts", "img": "assets/adidas.jpg", "tag" : "upcoming"},
+    {"title": "Shorts", "img": "assets/adidas.jpg", "tag" : "new"},
+    {"title": "Sneakers", "img": "assets/cat.png", "tag" : "recommended"},
+
+  ];
+
   List myList = [
     {
       "discount": 20,
@@ -200,9 +213,33 @@ class _HomePageContentState extends State<HomePageContent> {
       );
     }
 
+    final controller = ScrollController();
+    double offset = 0;
+
+    void onScroll() {
+      setState(() {
+        offset = (controller.hasClients) ? controller.offset : 0;
+      });
+    }
+
+    @override
+    void initState() {
+      // TODO: implement initState
+      super.initState();
+      controller.addListener(onScroll);
+    }
+
+    @override
+    void dispose() {
+      // TODO: implement dispose
+      controller.dispose();
+      super.dispose();
+    }
+
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
+          controller: controller,
           child: Column(
             children: [
               Container(
@@ -242,18 +279,23 @@ class _HomePageContentState extends State<HomePageContent> {
                 items: bannerAdSlider.map((i) {
                   return Builder(
                     builder: (BuildContext context) {
-                      return Container(
-                        width: MediaQuery.of(context).size.width,
-                        //height: 500,
-                        margin: EdgeInsets.symmetric(horizontal: 3.0),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(16),
-                          child: Image(
-                            image: AssetImage(i),
-                            fit: BoxFit.cover,
-                            alignment: Alignment.topCenter,
+                      return GestureDetector(
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          //height: 500,
+                          margin: EdgeInsets.symmetric(horizontal: 3.0),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(16),
+                            child: Image(
+                              image: AssetImage(i),
+                              fit: BoxFit.cover,
+                              alignment: Alignment.topCenter,
+                            ),
                           ),
                         ),
+                        onTap: () {
+                          print(i);
+                        },
                       );
                     },
                   );
@@ -316,6 +358,46 @@ class _HomePageContentState extends State<HomePageContent> {
                     )
                   ],
                 ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    child: Text("Explore", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),),
+                  ),
+                
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    child: Text("All", style: TextStyle(color: Colors.grey, fontWeight: FontWeight.bold, fontSize: 20),),
+                  ),
+                
+                ],
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                clipBehavior: Clip.none,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    for (int i = 0; i < category_list.length; i++)
+                      CategoryModel(
+                        img: category_list[i]["img"],
+                        tag: category_list[i]["tag"],
+                        title: category_list[i]["title"],
+                      ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 30,
               ),
               for (int i = 0; i < myList.length; i++)
                 ProductCard(
