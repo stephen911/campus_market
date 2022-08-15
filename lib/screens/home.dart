@@ -119,13 +119,12 @@ class _HomePageContentState extends State<HomePageContent> {
   // var title = "Adidas Shorts";
 
   List category_list = [
-    {"title": "Sneakers", "img": "assets/cat.png", "tag" : "popular"},
+    {"title": "Sneakers", "img": "assets/cat.png", "tag": "popular"},
     // {"title": "Shorts", "img": "assets/adidas.jpg"},
-    {"title": "Sneakers", "img": "assets/cat.png", "tag" : "new"},
-    {"title": "Shorts", "img": "assets/adidas.jpg", "tag" : "upcoming"},
-    {"title": "Shorts", "img": "assets/adidas.jpg", "tag" : "new"},
-    {"title": "Sneakers", "img": "assets/cat.png", "tag" : "recommended"},
-
+    {"title": "Sneakers", "img": "assets/cat.png", "tag": "new"},
+    {"title": "Shorts", "img": "assets/adidas.jpg", "tag": "upcoming"},
+    {"title": "Shorts", "img": "assets/adidas.jpg", "tag": "new"},
+    {"title": "Sneakers", "img": "assets/cat.png", "tag": "recommended"},
   ];
 
   List myList = [
@@ -323,7 +322,7 @@ class _HomePageContentState extends State<HomePageContent> {
                   right: 12,
                 ),
                 decoration: BoxDecoration(
-                  color:themeChange.darkTheme? Colors.black: Colors.white,
+                  color: themeChange.darkTheme ? Colors.black : Colors.white,
                   borderRadius: BorderRadius.circular(10),
                   boxShadow: [
                     BoxShadow(
@@ -365,17 +364,24 @@ class _HomePageContentState extends State<HomePageContent> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    child: Text("Explore", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),),
+                    child: Text(
+                      "Explore",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                    ),
                   ),
-                
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    child: Text("All", style: TextStyle(color: Colors.grey, fontWeight: FontWeight.bold, fontSize: 20),),
+                    child: Text(
+                      "All",
+                      style: TextStyle(
+                          color: Colors.grey,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20),
+                    ),
                   ),
-                
                 ],
               ),
               SizedBox(
