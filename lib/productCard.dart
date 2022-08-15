@@ -147,7 +147,7 @@ class ProductCard extends StatelessWidget {
                               decoration: BoxDecoration(
                                 shape: BoxShape.rectangle,
                                 color: themeChange.darkTheme
-                                    ? Colors.grey[400]
+                                    ? Colors.red
                                     : Colors.blueAccent,
                               ),
                               alignment: Alignment.topLeft,
