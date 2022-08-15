@@ -23,7 +23,6 @@ class _MyHomePageState extends State<MyHomePage> {
     //////the content of the categories page
     Categories(),
     //////the content of the notification page
-
     Notifications(),
   ];
   @override
@@ -144,7 +143,7 @@ class _HomePageContentState extends State<HomePageContent> {
 
               CarouselSlider(
                 options: CarouselOptions(
-                  aspectRatio: 20 / 4,
+                  aspectRatio: 20 / 6,
                   autoPlay: true,
                   enlargeCenterPage: true,
                   scrollPhysics: BouncingScrollPhysics(),
@@ -181,7 +180,7 @@ class _HomePageContentState extends State<HomePageContent> {
               ProductCard(),
               ProductCard(),
               ProductCard(),
-              ProductCard(),
+              // ProductCard(),
             ],
           ),
         ),

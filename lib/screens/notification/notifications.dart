@@ -26,12 +26,11 @@ class _NotificationsState extends State<Notifications> {
     return Scaffold(
       body: Container(
         padding: EdgeInsets.all(10),
-        color: Colors.green,
         child: Column(children: [
-          for (int i = 0; i < 8; i++) 
+          for (int i = 0; i < 7; i++) 
             NotificationCard(
               parentId: 'parentId',
-              message: 'your order has been approved',
+              message: ' your order has been approved.',
               title: 'order',
               time: DateFormat('Hm').format(DateTime.now()).toString(),
               onTap: () {
