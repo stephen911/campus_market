@@ -1,4 +1,6 @@
+import 'package:campus_market/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CategoryModel extends StatelessWidget {
   // final String image;
@@ -16,6 +18,7 @@ class CategoryModel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeChange = Provider.of<DarkThemeProvider>(context);
     return Stack(clipBehavior: Clip.none, children: [
       Positioned(
           child: Container(
@@ -25,7 +28,7 @@ class CategoryModel extends StatelessWidget {
         padding: EdgeInsets.only(right: 0, left: 10),
         decoration: BoxDecoration(boxShadow: <BoxShadow>[
           BoxShadow(offset: Offset(0, 0), color: Colors.black26, blurRadius: 5),
-        ], color: Colors.white, borderRadius: BorderRadius.circular(10)),
+        ], color: themeChange.darkTheme ? Colors.black87 : Colors.white , borderRadius: BorderRadius.circular(10)),
       )),
       Positioned(
         top: 20,

@@ -10,6 +10,25 @@ class _CategoriesState extends State<Categories> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        iconTheme: IconThemeData(color: Colors.black),
+        backgroundColor: Color.fromARGB(255, 247, 247, 247),
+        actions: [
+          IconButton(
+              onPressed: () {},
+              icon: Icon(
+                Icons.notifications,
+                color: Colors.black,
+              )),
+          IconButton(
+              onPressed: () {},
+              icon: Icon(
+                Icons.perm_contact_calendar,
+                color: Colors.black,
+              ))
+        ],
+      ),
         body: SingleChildScrollView(
       physics: BouncingScrollPhysics(),
       child: Column(

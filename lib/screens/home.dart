@@ -161,7 +161,7 @@ class _HomePageContentState extends State<HomePageContent> {
             alignment: Alignment.center,
             child: Container(
               alignment: Alignment.center,
-              color: Colors.red,
+              // color: Colors.red,
               height: 180.0,
               width: size.width,
               margin: const EdgeInsets.symmetric(
