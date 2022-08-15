@@ -3,7 +3,7 @@ import 'package:campus_market/profile/profile.dart';
 import 'package:campus_market/screens/home.dart';
 import 'package:flutter/material.dart';
 
-import '../screens/categories.dart';
+import '../screens/categories/categories.dart';
 import '../screens/notification/notifications.dart';
 
 class HomeAfterSignIn extends StatefulWidget {

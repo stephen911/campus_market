@@ -1,6 +1,6 @@
 import 'package:campus_market/productCard.dart';
-import 'package:campus_market/screens/categories.dart';
-import 'package:campus_market/screens/categoryCard.dart';
+import 'package:campus_market/screens/categories/categories.dart';
+import 'package:campus_market/screens/categories/categoryCard.dart';
 import 'package:campus_market/screens/notification/notifications.dart';
 import 'package:campus_market/sign_up/sign_up_screen.dart';
 import 'package:carousel_slider/carousel_slider.dart';
