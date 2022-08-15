@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:campus_market/providers/theme_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -9,6 +10,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
 import 'package:intl/intl.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:provider/provider.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({Key? key}) : super(key: key);
@@ -242,12 +244,15 @@ class _EditProfileState extends State<EditProfile> {
 
   @override
   Widget build(BuildContext context) {
+    final themeChange = Provider.of<DarkThemeProvider>(context);
+
     DocumentReference profileRef = FirebaseFirestore.instance
         .collection('users')
         .doc(_auth.currentUser!.uid);
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.deepOrangeAccent,
+        backgroundColor:
+            themeChange.darkTheme ? Colors.black : Colors.deepOrangeAccent,
         title: const Text('Edit Profile'),
       ),
       body: Padding(
@@ -296,15 +301,16 @@ class _EditProfileState extends State<EditProfile> {
                       getLocalImage().then(
                         (value) => uploadProfileImage(
                                 profileFile!, _auth.currentUser!.uid)
-                            .then((value) =>
-                                Fluttertoast.showToast(msg: 'Profile updated <--')),
+                            .then((value) => Fluttertoast.showToast(
+                                msg: 'Profile updated <--')),
                       );
                     },
                     child: Text(
-                      'edit profile picture',
+                      'upload profile picture',
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: kprimary,
+                          color:
+                              themeChange.darkTheme ? Colors.white : kprimary,
                           fontSize: 16),
                     ),
                   ),
@@ -325,7 +331,10 @@ class _EditProfileState extends State<EditProfile> {
                           label: Text(
                             'Name',
                             style: TextStyle(
-                                fontWeight: FontWeight.bold, color: kprimary),
+                                fontWeight: FontWeight.bold,
+                                color: themeChange.darkTheme
+                                    ? Colors.white
+                                    : kprimary),
                           )),
                       keyboardType: TextInputType.name,
                       inputFormatters: [
@@ -355,7 +364,10 @@ class _EditProfileState extends State<EditProfile> {
                           label: Text(
                             'Email address',
                             style: TextStyle(
-                                fontWeight: FontWeight.bold, color: kprimary),
+                                fontWeight: FontWeight.bold,
+                                color: themeChange.darkTheme
+                                    ? Colors.white
+                                    : kprimary),
                           )),
                       keyboardType: TextInputType.emailAddress,
                       style: const TextStyle(fontSize: 16),
@@ -381,7 +393,10 @@ class _EditProfileState extends State<EditProfile> {
                           label: Text(
                             'enter phone number',
                             style: TextStyle(
-                                color: kprimary, fontWeight: FontWeight.bold),
+                                color: themeChange.darkTheme
+                                    ? Colors.white
+                                    : kprimary,
+                                fontWeight: FontWeight.bold),
                           )),
                       keyboardType: TextInputType.phone,
                       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
@@ -407,7 +422,9 @@ class _EditProfileState extends State<EditProfile> {
                           'Request password change',
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              color: kprimary,
+                              color: themeChange.darkTheme
+                                  ? Colors.white
+                                  : kprimary,
                               fontSize: 16),
                         ),
                       ),
@@ -429,7 +446,9 @@ class _EditProfileState extends State<EditProfile> {
                                     label: Text(
                                       'Enter new password',
                                       style: TextStyle(
-                                        color: kprimary,
+                                        color: themeChange.darkTheme
+                                            ? Colors.white
+                                            : kprimary,
                                       ),
                                     )),
                                 obscureText: hideNewPassword,
@@ -450,7 +469,9 @@ class _EditProfileState extends State<EditProfile> {
                                     label: Text(
                                       'Confirm new password',
                                       style: TextStyle(
-                                        color: kprimary,
+                                        color: themeChange.darkTheme
+                                            ? Colors.white
+                                            : kprimary,
                                       ),
                                     ),
                                     suffixIcon: IconButton(

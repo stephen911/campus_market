@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:campus_market/components/constants.dart';
+import 'package:campus_market/profile/home_after_signin.dart';
 import 'package:campus_market/screens/home.dart';
 import 'package:campus_market/screens/sign_in/sign_in.dart';
 import 'package:campus_market/sign_up/sign_up_screen.dart';
@@ -34,7 +35,7 @@ class _SplashScreenState extends State<SplashScreen> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (prefs.getString('isLoggedin') == "true" && _user != null) {
       Navigator.of(context).pushReplacement(
-          PageRouteBuilder(pageBuilder: (_, __, ___) => MyHomePage()));
+          PageRouteBuilder(pageBuilder: (_, __, ___) => HomeAfterSignIn()));
     } else {
       Navigator.of(context).pushReplacement(
           PageRouteBuilder(pageBuilder: (_, __, ___) => SignUpScreen()));
