@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import '../../components/settings_card.dart';
 import '../../providers/theme_provider.dart';
 
- class SettingsPage extends StatefulWidget {
+class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
 
   @override
@@ -23,7 +23,7 @@ class _SettingsPageState extends State<SettingsPage> {
     final themeChange = Provider.of<DarkThemeProvider>(context);
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.green,
+        backgroundColor:themeChange.darkTheme? Colors.black: Colors.green,
         elevation: 0,
         title: const Text(
           'Settings',
@@ -54,25 +54,17 @@ class _SettingsPageState extends State<SettingsPage> {
                       height: 10,
                     ),
                     ////////////////// Dark theme change ///////////////////////////
-                    ItemCard(
-                      title:
-                          themeChange.darkTheme ? 'Dark Theme' : 'Light Theme',
-                      color: Colors.black,
-                      rightWidget: SizedBox(
-                        width: 30,
-                        child: Checkbox(
-                            value: themeChange.darkTheme,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(3),
-                                side: const BorderSide(
-                                    color: Colors.black12, width: 0.1)),
-                            side: const BorderSide(
-                                color: Colors.black38, width: 1),
-                            onChanged: (bool? value) {
-                              themeChange.darkTheme = value!;
-                            }),
-                      ),
-                      callback: () {},
+
+                    SwitchListTile(
+                      title: Text(
+                          themeChange.darkTheme ? 'Light Theme' : 'Dark Theme'),
+                      value: themeChange.darkTheme,
+                      onChanged: (bool value) {
+                        setState(() {
+                          themeChange.darkTheme = value;
+                        });
+                      },
+                      secondary: const Icon(Icons.lightbulb_outline),
                     ),
 
                     const SizedBox(
