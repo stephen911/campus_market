@@ -281,7 +281,7 @@ class _HomePageContentState extends State<HomePageContent> {
                   right: 12,
                 ),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color:themeChange.darkTheme? Colors.black: Colors.white,
                   borderRadius: BorderRadius.circular(10),
                   boxShadow: [
                     BoxShadow(
@@ -300,7 +300,7 @@ class _HomePageContentState extends State<HomePageContent> {
                       style: TextStyle(
                         fontSize: 16,
                         color: themeChange.darkTheme
-                            ? Colors.black
+                            ? Colors.white
                             : Colors.grey[800],
                         fontWeight: FontWeight.bold,
                       ),
@@ -311,7 +311,7 @@ class _HomePageContentState extends State<HomePageContent> {
                       },
                       icon: Icon(Icons.arrow_forward,
                           color: themeChange.darkTheme
-                              ? Colors.black
+                              ? Colors.white
                               : Colors.grey[800]),
                     )
                   ],
