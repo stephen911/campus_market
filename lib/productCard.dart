@@ -1,5 +1,7 @@
 import 'package:campus_market/productdetails.dart';
+import 'package:campus_market/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ProductCard extends StatelessWidget {
   ProductCard(
@@ -19,6 +21,7 @@ class ProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size productSize = MediaQuery.of(context).size;
+    final themeChange = Provider.of<DarkThemeProvider>(context);
 
     return Container(
       child: InkWell(
@@ -44,7 +47,7 @@ class ProductCard extends StatelessWidget {
                 decoration: BoxDecoration(
                   //border: Border.all(color: Colors.black)
                   borderRadius: BorderRadius.circular(6),
-                  color: Colors.white,
+                  color: themeChange.darkTheme ? Colors.black : Colors.white,
                   boxShadow: <BoxShadow>[
                     BoxShadow(
                         offset: Offset(0, 0),
@@ -89,7 +92,9 @@ class ProductCard extends StatelessWidget {
                                 child: Text(
                                   title,
                                   style: TextStyle(
-                                      color: Colors.black,
+                                      color: themeChange.darkTheme
+                                          ? Colors.white
+                                          : Colors.black,
                                       fontSize: 14,
                                       fontWeight: FontWeight.w700),
                                 ),
@@ -113,7 +118,9 @@ class ProductCard extends StatelessWidget {
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
-                                          color: Colors.black54, fontSize: 12),
+                                        color: Colors.black54,
+                                        fontSize: 12,
+                                      ),
                                     )
                                   : Text(
                                       description,
@@ -121,7 +128,10 @@ class ProductCard extends StatelessWidget {
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
-                                          color: Colors.black54, fontSize: 12),
+                                          color: themeChange.darkTheme
+                                              ? Colors.grey[300]
+                                              : Colors.black,
+                                          fontSize: 13),
                                     ),
                             ),
                           ],
@@ -136,7 +146,9 @@ class ProductCard extends StatelessWidget {
                             Container(
                               decoration: BoxDecoration(
                                 shape: BoxShape.rectangle,
-                                color: Colors.blue,
+                                color: themeChange.darkTheme
+                                    ? Colors.grey[400]
+                                    : Colors.blueAccent,
                               ),
                               alignment: Alignment.topLeft,
                               width: (productSize.width <= 320
@@ -154,16 +166,22 @@ class ProductCard extends StatelessWidget {
                                             ? ""
                                             : discount.toString() + "%",
                                         style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.normal),
+                                          color: Colors.white,
+                                          fontSize: 15,
+                                          fontWeight: themeChange.darkTheme
+                                              ? FontWeight.bold
+                                              : FontWeight.normal,
+                                        ),
                                       ),
                                       Text(
                                         discount != null ? "OFF" : "",
                                         style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.normal),
+                                          color: Colors.white,
+                                          fontSize: 12,
+                                          fontWeight: themeChange.darkTheme
+                                              ? FontWeight.bold
+                                              : FontWeight.normal,
+                                        ),
                                       ),
                                     ]),
                               ),
@@ -182,7 +200,9 @@ class ProductCard extends StatelessWidget {
                                       Text(
                                         r"Original Price: Ghc ",
                                         style: TextStyle(
-                                            color: Colors.black,
+                                            color: themeChange.darkTheme
+                                                ? Colors.white
+                                                : Colors.black,
                                             fontSize: 14,
                                             fontWeight: FontWeight.w500),
                                       ),
@@ -206,7 +226,9 @@ class ProductCard extends StatelessWidget {
                                       Text(
                                         r"New Price: ",
                                         style: TextStyle(
-                                            color: Colors.black,
+                                            color: themeChange.darkTheme
+                                                ? Colors.white
+                                                : Colors.black,
                                             fontSize: 14,
                                             fontWeight: FontWeight.w700),
                                       ),
@@ -226,7 +248,9 @@ class ProductCard extends StatelessWidget {
                                                     .toString() +
                                                 "0",
                                         style: TextStyle(
-                                          color: Colors.black,
+                                          color: themeChange.darkTheme
+                                              ? Colors.white
+                                              : Colors.black,
                                           fontSize: 15,
                                         ),
                                       ),
@@ -243,8 +267,12 @@ class ProductCard extends StatelessWidget {
                         Align(
                             alignment: Alignment.centerRight,
                             child: IconButton(
-                                icon: Icon(Icons.add_shopping_cart,
-                                    color: Colors.blueAccent),
+                                icon: Icon(
+                                  Icons.add_shopping_cart,
+                                  color: themeChange.darkTheme
+                                      ? Colors.grey[400]
+                                      : Colors.blueAccent,
+                                ),
                                 onPressed: () {
                                   // checkItemInCart(model.shortInfo, quantity,
                                   //     size, model, context);
