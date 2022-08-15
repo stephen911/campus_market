@@ -1,5 +1,7 @@
 import 'package:campus_market/appbar.dart';
+import 'package:campus_market/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ProductPage extends StatefulWidget {
   ProductPage(
@@ -35,6 +37,8 @@ class _ProductPageState extends State<ProductPage> {
 
   @override
   Widget build(BuildContext context) {
+    final themeChange = Provider.of<DarkThemeProvider>(context);
+
     //Size screenSize = MediaQuery.of(context).size;
 
     return SafeArea(
@@ -63,7 +67,7 @@ class _ProductPageState extends State<ProductPage> {
             Container(
               padding: EdgeInsets.all(8.0),
               width: MediaQuery.of(context).size.width,
-              color: Colors.white,
+              color: themeChange.darkTheme ? Colors.black : Colors.white,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -98,20 +102,36 @@ class _ProductPageState extends State<ProductPage> {
                           children: [
                             Text(
                               widget.title,
-                              style: boldTextStyle,
+                              style: TextStyle(
+                                color: themeChange.darkTheme
+                                    ? Colors.white
+                                    : Colors.black,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                              ),
                             ),
                             SizedBox(
                               height: 10.0,
                             ),
                             Text(
                               longdescription,
+                              style: TextStyle(
+                                color: themeChange.darkTheme
+                                    ? Colors.grey
+                                    : Colors.grey,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                             SizedBox(
                               height: 10.0,
                             ),
                             Text("Select Size",
                                 style: TextStyle(
-                                    fontWeight: FontWeight.w800, fontSize: 17)),
+                                    color: themeChange.darkTheme
+                                        ? Colors.white
+                                        : Colors.black,
+                                    fontWeight: FontWeight.w800,
+                                    fontSize: 17)),
                             SizedBox(
                               height: 10.0,
                             ),
@@ -126,7 +146,12 @@ class _ProductPageState extends State<ProductPage> {
                             ),
                             Text("Quantity",
                                 style: TextStyle(
-                                    fontWeight: FontWeight.w800, fontSize: 17)),
+                                  fontWeight: FontWeight.w800,
+                                  fontSize: 17,
+                                  color: themeChange.darkTheme
+                                      ? Colors.white
+                                      : Colors.black,
+                                )),
                             SizedBox(
                               height: 10.0,
                             ),
@@ -161,6 +186,9 @@ class _ProductPageState extends State<ProductPage> {
                                           child: Text(
                                             "-",
                                             style: TextStyle(
+                                                color: themeChange.darkTheme
+                                                    ? Colors.white
+                                                    : Colors.black,
                                                 fontWeight: FontWeight.w600,
                                                 fontSize: 20),
                                           ),
@@ -169,6 +197,9 @@ class _ProductPageState extends State<ProductPage> {
                                       Text(
                                         quantityOfItems.toString(),
                                         style: TextStyle(
+                                            color: themeChange.darkTheme
+                                                ? Colors.white
+                                                : Colors.black,
                                             fontWeight: FontWeight.w600,
                                             fontSize: 20),
                                       ),
@@ -186,6 +217,9 @@ class _ProductPageState extends State<ProductPage> {
                                           child: Text(
                                             "+",
                                             style: TextStyle(
+                                                color: themeChange.darkTheme
+                                                    ? Colors.white
+                                                    : Colors.black,
                                                 fontWeight: FontWeight.w600,
                                                 fontSize: 20),
                                           ),
@@ -212,6 +246,9 @@ class _ProductPageState extends State<ProductPage> {
                                               .toString() +
                                           "0",
                                   style: TextStyle(
+                                      color: themeChange.darkTheme
+                                          ? Colors.white
+                                          : Colors.black,
                                       fontWeight: FontWeight.bold,
                                       fontSize: 20),
                                 ),
@@ -230,6 +267,9 @@ class _ProductPageState extends State<ProductPage> {
                                                     .toString() +
                                                 "0",
                                         style: TextStyle(
+                                            color: themeChange.darkTheme
+                                                ? Colors.white
+                                                : Colors.black,
                                             fontWeight: FontWeight.bold,
                                             fontSize: 20),
                                       )

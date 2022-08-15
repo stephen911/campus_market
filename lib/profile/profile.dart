@@ -1,12 +1,15 @@
 import 'package:campus_market/model/user_model.dart';
 import 'package:campus_market/profile/edit_profile.dart';
+import 'package:campus_market/profile/settings/settings.dart';
 import 'package:campus_market/screens/sign_in/sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../components/shared_preferences.dart';
+import '../providers/theme_provider.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -33,6 +36,8 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Widget build(BuildContext context) {
+    final themeChange = Provider.of<DarkThemeProvider>(context);
+
     Size size = MediaQuery.of(context).size;
 
     Color kprimary = const Color(0xFF363f93);
@@ -54,14 +59,14 @@ class _ProfilePageState extends State<ProfilePage> {
                       Container(
                         height: size.height * 0.28,
                         width: double.infinity,
-                        color: Colors.deepOrangeAccent,
+                        color: themeChange.darkTheme
+                            ? Colors.black
+                            : Colors.deepOrangeAccent,
                         child: Column(
                           children: [
                             Container(
                               margin: EdgeInsets.only(top: 20),
-                              decoration: BoxDecoration(
-                               
-                              ),
+                              decoration: BoxDecoration(),
                               child: ClipRRect(
                                   borderRadius: BorderRadius.circular(50),
                                   child: snapshot.data!['profile'] != null
@@ -80,10 +85,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                             )
                                       : Container()),
                             ),
-                            
                             Text(
                               snapshot.data!['name'],
-                              style: const TextStyle(
+                              style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 18),
@@ -91,7 +95,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             Text(
                               snapshot.data!['email'],
                               maxLines: 1,
-                              style: const TextStyle(
+                              style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 16,
                                   overflow: TextOverflow.ellipsis),
@@ -115,6 +119,12 @@ class _ProfilePageState extends State<ProfilePage> {
                                                 const EditProfile()));
                                   }),
                               profileTile(
+                                  onTap: () {
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                SettingsPage()));
+                                  },
                                   icon: Icons.settings,
                                   title: 'Settings',
                                   color: Colors.red),

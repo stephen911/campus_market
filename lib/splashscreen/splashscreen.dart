@@ -1,10 +1,13 @@
 import 'dart:async';
 
 import 'package:campus_market/components/constants.dart';
+import 'package:campus_market/profile/home_after_signin.dart';
 import 'package:campus_market/screens/home.dart';
 import 'package:campus_market/screens/sign_in/sign_in.dart';
+import 'package:campus_market/sign_up/sign_up_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -29,11 +32,14 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> navigatorPage() async {
-    _user != null
-        ? Navigator.of(context).pushReplacement(
-            PageRouteBuilder(pageBuilder: (_, __, ___) => const LoginScreen()))
-        : Navigator.of(context).pushReplacement(
-            PageRouteBuilder(pageBuilder: (_, __, ___) => const MyHomePage()));
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (prefs.getString('isLoggedin') == "true" && _user != null) {
+      Navigator.of(context).pushReplacement(
+          PageRouteBuilder(pageBuilder: (_, __, ___) => HomeAfterSignIn()));
+    } else {
+      Navigator.of(context).pushReplacement(
+          PageRouteBuilder(pageBuilder: (_, __, ___) => SignUpScreen()));
+    }
   }
 
   Widget build(BuildContext context) {

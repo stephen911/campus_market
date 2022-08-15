@@ -1,5 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../providers/theme_provider.dart';
 
 class Message extends StatefulWidget {
   const Message({
@@ -26,6 +29,8 @@ class Message extends StatefulWidget {
 class _MessageState extends State<Message> {
   @override
   Widget build(BuildContext context) {
+    final themeChange = Provider.of<DarkThemeProvider>(context);
+
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: SafeArea(
@@ -85,18 +90,22 @@ class _MessageState extends State<Message> {
                     ),
                     RichText(
                       text: TextSpan(children: [
-                        const TextSpan(
+                        TextSpan(
                             text: 'Date : ',
                             style: TextStyle(
-                              color: Colors.black,
+                              color: themeChange.darkTheme
+                                  ? Colors.white
+                                  : Colors.black,
                               fontFamily: "Sofia",
                               fontSize: 17,
                               fontWeight: FontWeight.bold,
                             )),
                         TextSpan(
                             text: '${(widget.date as Timestamp).toDate()}',
-                            style: const TextStyle(
-                              color: Colors.black,
+                            style: TextStyle(
+                              color: themeChange.darkTheme
+                                  ? Colors.white
+                                  : Colors.black,
                               fontFamily: "Sofia",
                               fontSize: 15,
                             )),
@@ -111,12 +120,15 @@ class _MessageState extends State<Message> {
               Container(
                 padding: const EdgeInsets.all(15),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color:themeChange.darkTheme? Colors.black: Colors.white,
                   borderRadius: BorderRadius.circular(5),
                 ),
                 child: Text(
                   widget.message,
-                  style: const TextStyle(fontSize: 20),
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: themeChange.darkTheme ? Colors.white : Colors.black,
+                  ),
                 ),
               )
             ]),

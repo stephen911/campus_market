@@ -35,12 +35,8 @@ const String kAddressNullError = "Please Enter your address";
 const String kShortPhone = "Phone number cannot be less than 10";
 const String kLongPhone = "Phone number cannot be more than 10 digits";
 
-
-
-
 final otpInputDecoration = InputDecoration(
-  contentPadding:
-      EdgeInsets.symmetric(vertical: 15),
+  contentPadding: EdgeInsets.symmetric(vertical: 15),
   border: outlineInputBorder(),
   focusedBorder: outlineInputBorder(),
   enabledBorder: outlineInputBorder(),
@@ -51,4 +47,10 @@ OutlineInputBorder outlineInputBorder() {
     borderRadius: BorderRadius.circular(15),
     borderSide: BorderSide(color: kTextColor),
   );
+}
+
+class Styles {
+  static ThemeData themeData(bool isDarkTheme, BuildContext context) {
+    return isDarkTheme ? ThemeData.dark() : ThemeData.light();
+  }
 }
