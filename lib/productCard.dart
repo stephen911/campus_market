@@ -2,40 +2,56 @@ import 'package:campus_market/productdetails.dart';
 import 'package:flutter/material.dart';
 
 class ProductCard extends StatelessWidget {
-  const ProductCard({Key? key}) : super(key: key);
+  ProductCard(
+      {Key? key,
+      required this.description,
+      required this.discount,
+      required this.img,
+      required this.price,
+      required this.title})
+      : super(key: key);
+  String img;
+  int discount;
+  int price;
+  String title;
+  String description;
 
   @override
   Widget build(BuildContext context) {
     Size productSize = MediaQuery.of(context).size;
-    var discount = 20;
-    var price = 200;
+
     return Container(
       child: InkWell(
           onTap: () {
             Route route = MaterialPageRoute(
-                builder: (c) => ProductPage());
-            Navigator. push(context, route);
-            
+                builder: (c) => ProductPage(
+                      discount: discount,
+                      img: img,
+                      price: price,
+                      title: title,
+                      description: description,
+                    ));
+            Navigator.push(context, route);
           },
           splashColor: Colors.blue,
-
           child: Padding(
-          
             padding: EdgeInsets.symmetric(
-                horizontal:productSize.width <= 320 ? productSize.width * 0.0168 : 12, vertical:productSize.width <= 320 ? productSize.width * 0.0168 : 5),
+                horizontal:
+                    productSize.width <= 320 ? productSize.width * 0.0168 : 12,
+                vertical:
+                    productSize.width <= 320 ? productSize.width * 0.0168 : 5),
             child: Container(
-              
-                decoration:
-                    BoxDecoration(//border: Border.all(color: Colors.black)
-                    borderRadius: BorderRadius.circular(6),
-                    color: Colors.white,
-                    boxShadow: <BoxShadow>[
-                      BoxShadow(
-                          offset: Offset(0, 0),
-                          color: Colors.black26,
-                          blurRadius: 2),
-                    ],
-                        ),
+                decoration: BoxDecoration(
+                  //border: Border.all(color: Colors.black)
+                  borderRadius: BorderRadius.circular(6),
+                  color: Colors.white,
+                  boxShadow: <BoxShadow>[
+                    BoxShadow(
+                        offset: Offset(0, 0),
+                        color: Colors.black26,
+                        blurRadius: 2),
+                  ],
+                ),
                 height: (productSize.width <= 320
                     ? productSize.height * 0.244
                     : 141),
@@ -47,8 +63,7 @@ class ProductCard extends StatelessWidget {
                       child: Container(
                           decoration: BoxDecoration(
                               image: DecorationImage(
-                                  image: Image.asset("assets/adidas.jpg")
-                                      .image,
+                                  image: Image.asset(img).image,
                                   fit: BoxFit.cover)),
                           width: 125,
                           height: 190)),
@@ -72,7 +87,7 @@ class ProductCard extends StatelessWidget {
                             children: [
                               Expanded(
                                 child: Text(
-                                  "Adidas Shorts",
+                                  title,
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: 14,
@@ -94,14 +109,14 @@ class ProductCard extends StatelessWidget {
                             Expanded(
                               child: productSize.width <= 320
                                   ? Text(
-                                      "Men's shorts on sale |adidas",
+                                      description,
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
                                           color: Colors.black54, fontSize: 12),
                                     )
                                   : Text(
-                                      "Men's shorts on sale |adidas",
+                                      description,
                                       // model.shortInfo.sentenceCase,
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
@@ -136,7 +151,7 @@ class ProductCard extends StatelessWidget {
                                     children: [
                                       Text(
                                         discount == null
-                                            ? "50%"
+                                            ? ""
                                             : discount.toString() + "%",
                                         style: TextStyle(
                                             color: Colors.white,
@@ -144,7 +159,7 @@ class ProductCard extends StatelessWidget {
                                             fontWeight: FontWeight.normal),
                                       ),
                                       Text(
-                                        "OFF",
+                                        discount != null ? "OFF" : "",
                                         style: TextStyle(
                                             color: Colors.white,
                                             fontSize: 12,
@@ -207,8 +222,7 @@ class ProductCard extends StatelessWidget {
                                             ? price.toString() + ".00"
                                             : (price -
                                                         (price *
-                                                            (discount *
-                                                                0.01)))
+                                                            (discount * 0.01)))
                                                     .toString() +
                                                 "0",
                                         style: TextStyle(
@@ -227,18 +241,14 @@ class ProductCard extends StatelessWidget {
                         //future
 
                         Align(
-                          alignment: Alignment.centerRight,
-                          child: IconButton(
-                                  icon: Icon(Icons.add_shopping_cart,
-                                      color: Colors.blueAccent),
-                                  onPressed: () {
-                                    // checkItemInCart(model.shortInfo, quantity,
-                                    //     size, model, context);
-                                  })
-                              
-                                ),
-                        
-                       
+                            alignment: Alignment.centerRight,
+                            child: IconButton(
+                                icon: Icon(Icons.add_shopping_cart,
+                                    color: Colors.blueAccent),
+                                onPressed: () {
+                                  // checkItemInCart(model.shortInfo, quantity,
+                                  //     size, model, context);
+                                })),
                       ],
                     ),
                   ),

@@ -30,79 +30,83 @@ class NotificationCard extends StatelessWidget {
         decoration: const BoxDecoration(
           border: Border(
             bottom: BorderSide(color: Colors.grey, width: 1),
+            // left: BorderSide(color: Colors.grey, width: 1),
           ),
         ),
         width: double.infinity,
+        height: MediaQuery.of(context).size.height * 0.1,
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         child: Row(
           mainAxisSize: MainAxisSize.max,
           children: [
             Container(
-              height: 40,
-              width: 40,
+              height: 30,
+              width: 30,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
                 color: color,
               ),
               child: const Center(
                 child: Icon(
-                  Icons.message,
-                  color: Colors.white,
-                  size: 25,
+                  Icons.notifications_active,
+                  color: Colors.black,
+                  size: 15,
                 ),
               ),
             ),
             const SizedBox(
               width: 10,
             ),
-        
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    sender,
-                    style: opened!
-                        ? const TextStyle(
-                            color: Colors.grey,
-                          )
-                        : const TextStyle(fontWeight: FontWeight.bold),
+                  Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        sender,
+                        style: opened!
+                            ? const TextStyle(
+                                color: Colors.grey,
+                              )
+                            : const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        time!,
+                        style: opened!
+                            ? const TextStyle(
+                                color: Colors.grey,
+                                fontSize: 12,
+                              )
+                            : const TextStyle(
+                                fontSize: 12, fontWeight: FontWeight.bold),
+                      ),
+                    ],
                   ),
-                  
-                  Text(
-                    time!,
-                    style: opened!
-                        ? const TextStyle(
-                            color: Colors.grey,
-                            fontSize: 12,
-                          )
-                        : const TextStyle(
-                            fontSize: 12, fontWeight: FontWeight.bold),
+                  SizedBox(height:8),
+                  FittedBox(
+                    fit: BoxFit.fill,
+                    child: Text(
+                      message,
+                      style: opened!
+                          ? const TextStyle(
+                              color: Colors.grey,
+                              fontSize: 14,
+                              overflow: TextOverflow.ellipsis)
+                          : const TextStyle(
+                              fontSize: 14,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                    ),
                   ),
                 ],
               ),
-              FittedBox(
-                fit: BoxFit.fill,
-                child: Text(
-                  message,
-                  style: opened!
-                      ? const TextStyle(
-                          color: Colors.grey,
-                          overflow: TextOverflow.ellipsis)
-                      : const TextStyle(
-                          overflow: TextOverflow.ellipsis,
-                       ),
-                ),
-              ),
-            ],
-          ),
-        ),
+            ),
           ],
-        ),),
+        ),
+      ),
     );
   }
 }

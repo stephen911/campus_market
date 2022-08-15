@@ -1,3 +1,5 @@
+import 'package:campus_market/screens/notification/message.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -25,22 +27,37 @@ class _NotificationsState extends State<Notifications> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
+        margin: EdgeInsets.only(
+          top: 10,
+        ),
         padding: EdgeInsets.all(10),
-        color: Colors.green,
         child: Column(children: [
-          for (int i = 0; i < 8; i++) 
+          for (int i = 0; i < 7; i++)
             NotificationCard(
               parentId: 'parentId',
-              message: 'your order has been approved',
+              message: ' your order has been approved.',
               title: 'order',
               time: DateFormat('Hm').format(DateTime.now()).toString(),
               onTap: () {
-                print("card has been tapped");
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => Message(
+                              title: "Order",
+                              message: "your order has been approved.",
+                              sender: "Campus Mart",
+                              time: DateFormat('Hm')
+                                  .format(DateTime.now())
+                                  .toString(),
+                              date: Timestamp.fromDate(DateTime.now()),
+                              color: randomColors[i % 7],
+                            )));
+                            
               },
-              opened: true,
+              opened: false,
               date: DateTime.now().toString(),
               color: randomColors[i % 7],
-              sender: ' Owner',
+              sender: ' campus Mart',
             ),
         ]),
       ),
