@@ -310,7 +310,7 @@ class _EditProfileState extends State<EditProfile> {
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color:
-                              themeChange.darkTheme ? Colors.white : kprimary,
+                              themeChange.darkTheme ? Colors.grey : kprimary,
                           fontSize: 16),
                     ),
                   ),
@@ -333,7 +333,7 @@ class _EditProfileState extends State<EditProfile> {
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: themeChange.darkTheme
-                                    ? Colors.white
+                                    ? Colors.grey
                                     : kprimary),
                           )),
                       keyboardType: TextInputType.name,
@@ -366,7 +366,7 @@ class _EditProfileState extends State<EditProfile> {
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: themeChange.darkTheme
-                                    ? Colors.white
+                                    ? Colors.grey
                                     : kprimary),
                           )),
                       keyboardType: TextInputType.emailAddress,
@@ -394,7 +394,7 @@ class _EditProfileState extends State<EditProfile> {
                             'enter phone number',
                             style: TextStyle(
                                 color: themeChange.darkTheme
-                                    ? Colors.white
+                                    ? Colors.grey
                                     : kprimary,
                                 fontWeight: FontWeight.bold),
                           )),
@@ -423,7 +423,7 @@ class _EditProfileState extends State<EditProfile> {
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: themeChange.darkTheme
-                                  ? Colors.white
+                                  ? Colors.grey
                                   : kprimary,
                               fontSize: 16),
                         ),
@@ -447,7 +447,7 @@ class _EditProfileState extends State<EditProfile> {
                                       'Enter new password',
                                       style: TextStyle(
                                         color: themeChange.darkTheme
-                                            ? Colors.white
+                                            ? Colors.grey
                                             : kprimary,
                                       ),
                                     )),
@@ -470,7 +470,7 @@ class _EditProfileState extends State<EditProfile> {
                                       'Confirm new password',
                                       style: TextStyle(
                                         color: themeChange.darkTheme
-                                            ? Colors.white
+                                            ? Colors.grey
                                             : kprimary,
                                       ),
                                     ),
