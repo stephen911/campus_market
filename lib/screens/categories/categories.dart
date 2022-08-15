@@ -7,30 +7,206 @@ class Categories extends StatefulWidget {
 }
 
 class _CategoriesState extends State<Categories> {
+  Widget SideCard({
+    required String title,
+    required VoidCallback ontap,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        InkWell(
+          onTap: ontap,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              title,
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ),
+        Divider(height: 2,),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
     return Scaffold(
-        body: SingleChildScrollView(
-      physics: BouncingScrollPhysics(),
-      child: Column(
-        children: [
-          Container(
-              width: double.infinity,
-              height: 30,
-              decoration: BoxDecoration(color: Colors.red),
-              child: Center(
-                  child: Text(
-                "Top Categories",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w900),
-              ))),
+        backgroundColor: Colors.black12,
+        body: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.start,
 
-          Items()
-        ],
-      ),
-    ));
+          children: [
+            /////////category listing left side /////////
+
+            SingleChildScrollView(
+              child: Container(
+                color: Colors.white,
+                padding: EdgeInsets.only(
+                  top: 5,
+                  left: 5,
+                ),
+                width: size.width * 0.25,
+                child: Column( 
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                  SideCard(
+                    title: "Grocceries",
+                    ontap: () {},
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  SideCard(
+                    title: "Laptops",
+                    ontap: () {},
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  SideCard(
+                    title: "Phones & Accessories",
+                    ontap: () {},
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  SideCard(
+                    title: "Hostels",
+                    ontap: () {},
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  SideCard(
+                    title: "Medical Equipments",
+                    ontap: () {},
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  SideCard(
+                    title: "Health & Beauty",
+                    ontap: () {},
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  SideCard(
+                    title: "Sports",
+                    ontap: () {},
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  SideCard(
+                    title: "Women's Fashion",
+                    ontap: () {},
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  SideCard(
+                    title: "Furniture",
+                    ontap: () {},
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  SideCard(
+                    title: "Electronics",
+                    ontap: () {},
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  SideCard(
+                    title: "Men's Fashion",
+                    ontap: () {},
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  SideCard(
+                    title: "Kid's Fashion",
+                    ontap: () {},
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  SideCard(
+                    title: "Home & Office",
+                    ontap: () {},
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  SideCard(
+                    title: "Automobile",
+                    ontap: () {},
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  SideCard(
+                    title: "Automobile",
+                    ontap: () {},
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  SideCard(
+                    title: "Automobile",
+                    ontap: () {},
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  SideCard(
+                    title: "Automobile",
+                    ontap: () {},
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                ]),
+              ),
+            ),
+            SizedBox(
+              width: 7,
+            ),
+
+            /////////category display right side /////////
+            SingleChildScrollView(
+              child: Container(
+                color: Colors.white,
+                width: size.width * 0.73,
+                child: Column(
+                  children: [
+                    Container(
+                        width: size.width * 0.75,
+                        height: 30,
+                        decoration: BoxDecoration(color: Colors.red),
+                        child: Center(
+                            child: Text(
+                          "Top Categories",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w900),
+                        ))),
+                    Items()
+                  ],
+                ),
+              ),
+            )
+          ],
+        ));
   }
 }
 
@@ -72,11 +248,11 @@ class Items extends StatelessWidget {
           image: "assets/electronics.png",
           onTapped: () {},
         ),
-        CartItem(
-          name: "Computing",
-          image: "assets/Laptop-computer.jpg",
-          onTapped: () {},
-        ),
+        // CartItem(
+        //   name: "Computing",
+        //   image: "assets/Laptop-computer.jpg",
+        //   onTapped: () {},
+        // ),
         CartItem(
           name: "Home & Office",
           image: "assets/Home-and-Office.jpg",
