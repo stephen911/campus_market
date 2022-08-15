@@ -133,7 +133,7 @@ class _HomePageContentState extends State<HomePageContent> {
     var size = MediaQuery.of(context).size;
 
     /// big Card widget on home page
-    Widget BigCard({required String img, required String title}) {
+    Widget BigCard({required String img, required String title, required Color color,}) {
       return Stack(
         children: [
           Align(
@@ -174,15 +174,15 @@ class _HomePageContentState extends State<HomePageContent> {
             ),
           ),
           Positioned(
-            top: 70,
+            top: 60,
             left: 120,
             child: Align(
               alignment: Alignment.center,
               child: Text(
                 title,
                 style: TextStyle(
-                  fontSize: 42,
-                  color: Colors.white,
+                  fontSize: 35,
+                  color:color,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -256,6 +256,7 @@ class _HomePageContentState extends State<HomePageContent> {
               ),
 
               BigCard(
+                color: Colors.white,
                 img: "assets/images/restaurant.jpg",
                 title: "Restaurant",
               ),
@@ -315,10 +316,18 @@ class _HomePageContentState extends State<HomePageContent> {
               ),
 
               BigCard(
+                color: Colors.white,
                 img: "assets/images/supermarket.jpg",
                 title: "Supermarket",
               ),
-
+              SizedBox(
+                height: 20,
+              ),
+              BigCard(
+                color: Color.fromARGB(255, 255, 255, 255),
+                img: "assets/images/phone_accessories1.jpg",
+                title: "Phones & \nAccessories",
+              ),
               // ProductCard(),
               // ProductCard(),
               // ProductCard(),
