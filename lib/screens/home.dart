@@ -107,6 +107,27 @@ class _HomePageContentState extends State<HomePageContent> {
     "assets/banner7.jpg",
     "assets/banner8.jpg"
   ];
+  // var discount = 20;
+  // var price = 200;
+  // var description = "Men's shorts on sale |adidas";
+  // var img = "assets/adidas.jpg";
+  // var title = "Adidas Shorts";
+  List myList = [
+    {
+      "discount": 20,
+      "price": 200,
+      "img": "assets/adidas.jpg",
+      "title": "Adidas Shorts",
+      "description": "Men's shorts on sale |adidas",
+    },
+    {
+      "discount": 20,
+      "price": 200,
+      "img": "assets/images/icon.png",
+      "title": "Adidas Shorts",
+      "description": "Men's shorts on sale |adidas",
+    },
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -177,9 +198,17 @@ class _HomePageContentState extends State<HomePageContent> {
               //     child: Text("content of the home page goes here"),
               //   ),
               // ),
-              ProductCard(),
-              ProductCard(),
-              ProductCard(),
+              for (int i = 0; i < myList.length; i++)
+                ProductCard(
+                  description: myList[i]["description"],
+                  discount: myList[i]["discount"],
+                  img: myList[i]["img"],
+                  price: myList[i]["price"],
+                  title: myList[i]["title"],
+                )
+              // ProductCard(),
+              // ProductCard(),
+              // ProductCard(),
               // ProductCard(),
             ],
           ),
