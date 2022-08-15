@@ -30,6 +30,7 @@ class NotificationCard extends StatelessWidget {
         decoration: const BoxDecoration(
           border: Border(
             bottom: BorderSide(color: Colors.grey, width: 1),
+            // left: BorderSide(color: Colors.grey, width: 1),
           ),
         ),
         width: double.infinity,
