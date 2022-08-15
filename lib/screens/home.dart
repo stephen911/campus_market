@@ -130,6 +130,68 @@ class _HomePageContentState extends State<HomePageContent> {
   ];
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+
+    /// big Card widget on home page
+    Widget BigCard({required String img, required String title}) {
+      return Stack(
+        children: [
+          Align(
+            alignment: Alignment.center,
+            child: Container(
+              alignment: Alignment.center,
+              color: Colors.red,
+              height: 180.0,
+              width: size.width,
+              margin: const EdgeInsets.symmetric(
+                horizontal: 16.0,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Expanded(
+                    child: Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: Container(
+                            width: size.width,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(30.0),
+                              image: DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: AssetImage(
+                                    img,
+                                  )),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+            top: 70,
+            left: 120,
+            child: Align(
+              alignment: Alignment.center,
+              child: Text(
+                title,
+                style: TextStyle(
+                  fontSize: 42,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          )
+        ],
+      );
+    }
+
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -192,12 +254,54 @@ class _HomePageContentState extends State<HomePageContent> {
               SizedBox(
                 height: 10,
               ),
-              // Container(
-              //   color: Colors.blueAccent,
-              //   child: Center(
-              //     child: Text("content of the home page goes here"),
-              //   ),
-              // ),
+
+              BigCard(
+                img: "assets/images/restaurant.jpg",
+                title: "Restaurant",
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Container(
+                padding: EdgeInsets.only(
+                  left: 10,
+                  right: 10,
+                ),
+                margin: EdgeInsets.only(
+                  left: 12,
+                  right: 12,
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 5,
+                      blurRadius: 7,
+                      offset: Offset(0, 3), // changes position of shadow
+                    ),
+                  ],
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "See more of the products below",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        //TODO: move to a page where products are displayed more
+                      },
+                      icon: Icon(Icons.arrow_forward),
+                    )
+                  ],
+                ),
+              ),
               for (int i = 0; i < myList.length; i++)
                 ProductCard(
                   description: myList[i]["description"],
@@ -205,7 +309,16 @@ class _HomePageContentState extends State<HomePageContent> {
                   img: myList[i]["img"],
                   price: myList[i]["price"],
                   title: myList[i]["title"],
-                )
+                ),
+              SizedBox(
+                height: 10,
+              ),
+
+              BigCard(
+                img: "assets/images/supermarket.jpg",
+                title: "Supermarket",
+              ),
+
               // ProductCard(),
               // ProductCard(),
               // ProductCard(),

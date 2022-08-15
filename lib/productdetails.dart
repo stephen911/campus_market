@@ -2,15 +2,15 @@ import 'package:campus_market/appbar.dart';
 import 'package:flutter/material.dart';
 
 class ProductPage extends StatefulWidget {
-    ProductPage({
-    Key? key,
-    required this.description,
+  ProductPage(
+      {Key? key,
+      required this.description,
       required this.discount,
       required this.img,
       required this.price,
-      required this.title
-  }) : super(key: key);
-String img;
+      required this.title})
+      : super(key: key);
+  String img;
   int discount;
   int price;
   String title;
@@ -75,12 +75,11 @@ class _ProductPageState extends State<ProductPage> {
                             child: Container(
                                 decoration: BoxDecoration(
                                     image: DecorationImage(
-                                        image: Image.asset(widget.img)
-                                            .image,
+                                        image: Image.asset(widget.img).image,
                                         fit: BoxFit.cover)),
                                 width: MediaQuery.of(context).size.width - 20,
                                 height:
-                                    MediaQuery.of(context).size.width *0.99)),
+                                    MediaQuery.of(context).size.width * 0.99)),
                       ),
                       Container(
                         color: Colors.grey[300],
@@ -98,7 +97,7 @@ class _ProductPageState extends State<ProductPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                             widget.title,
+                              widget.title,
                               style: boldTextStyle,
                             ),
                             SizedBox(
@@ -201,12 +200,14 @@ class _ProductPageState extends State<ProductPage> {
                                 Text(
                                   widget.discount == null
                                       ? "Ghs " +
-                                          (quantityOfItems * widget.price).toString() +
+                                          (quantityOfItems * widget.price)
+                                              .toString() +
                                           ".00"
                                       : "Ghs " +
                                           ((widget.price -
-                                                      (widget.price*
-                                                          (widget.price * 0.01))) *
+                                                      (widget.price *
+                                                          (widget.price *
+                                                              0.01))) *
                                                   quantityOfItems)
                                               .toString() +
                                           "0",
@@ -224,7 +225,8 @@ class _ProductPageState extends State<ProductPage> {
                                             : "Unit Price Ghs " +
                                                 (widget.price -
                                                         (widget.price *
-                                                            (widget.price * 0.01)))
+                                                            (widget.price *
+                                                                0.01)))
                                                     .toString() +
                                                 "0",
                                         style: TextStyle(
