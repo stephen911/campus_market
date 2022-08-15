@@ -1,6 +1,10 @@
+import 'package:campus_market/profile/edit_profile.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../components/settings_card.dart';
+import '../../model/user_model.dart';
 import '../../providers/theme_provider.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -11,6 +15,22 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
+  User? user = FirebaseAuth.instance.currentUser;
+  UserModel loggedInUser = UserModel();
+
+  @override
+  void initState() {
+    super.initState();
+    FirebaseFirestore.instance
+        .collection("users")
+        .doc(user!.uid)
+        .get()
+        .then((value) {
+      loggedInUser = UserModel.fromMap(value.data());
+      setState(() {});
+    });
+  }
+
   Widget _arrow() {
     return const Icon(
       Icons.arrow_forward_ios,
@@ -23,7 +43,7 @@ class _SettingsPageState extends State<SettingsPage> {
     final themeChange = Provider.of<DarkThemeProvider>(context);
     return Scaffold(
       appBar: AppBar(
-        backgroundColor:themeChange.darkTheme? Colors.black: Colors.green,
+        backgroundColor: themeChange.darkTheme ? Colors.black : Colors.green,
         elevation: 0,
         title: const Text(
           'Settings',
@@ -73,7 +93,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     Container(
                       padding: const EdgeInsets.only(left: 16),
                       child: const Text(
-                        'Others',
+                        'Account information',
                         style: TextStyle(
                           fontFamily: 'NotoSansJP',
                           fontSize: 12,
@@ -85,34 +105,55 @@ class _SettingsPageState extends State<SettingsPage> {
                     const SizedBox(
                       height: 10,
                     ),
-                    ////////////////// History ///////////////////////////
+                    ////////////////// Name ///////////////////////////
                     ItemCard(
-                      title: 'History',
-                      color: Colors.grey.shade900,
-                      rightWidget: _arrow(),
-                      callback: () {},
-                    ),
-                    ////////////////// Bookmarks ///////////////////////////
-                    ItemCard(
-                      title: 'Bookmarks',
+                      title: '${loggedInUser.name}',
                       color: Colors.grey.shade900,
                       rightWidget: _arrow(),
                       callback: () {
-                        // Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //         builder: (context) => const BookMarks()));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const EditProfile()));
+                      },
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    ////////////////// EmailAddress ///////////////////////////
+                    ItemCard(
+                      title: '${loggedInUser.email}',
+                      color: Colors.grey.shade900,
+                      rightWidget: _arrow(),
+                      callback: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const EditProfile()));
+                      },
+                    ),
+                    ////////////////// phone ///////////////////////////
+
+                    ItemCard(
+                      title: '${loggedInUser.phone}',
+                      color: Colors.grey.shade900,
+                      rightWidget: _arrow(),
+                      callback: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const EditProfile()));
                       },
                     ),
                     ////////////////// Private Search ///////////////////////////
                     ItemCard(
-                      title: 'Private Search',
+                      title: 'Secured System',
                       color: Colors.black,
                       rightWidget: const Icon(Icons.privacy_tip),
                       callback: () {},
                     ),
                     const SizedBox(
-                      height: 60,
+                      height: 30,
                     ),
                     ////////////////// App Version ///////////////////////////
                     ItemCard(
