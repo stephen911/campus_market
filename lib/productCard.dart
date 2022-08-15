@@ -19,11 +19,18 @@ class ProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size productSize = MediaQuery.of(context).size;
-    
+
     return Container(
       child: InkWell(
           onTap: () {
-            Route route = MaterialPageRoute(builder: (c) => ProductPage());
+            Route route = MaterialPageRoute(
+                builder: (c) => ProductPage(
+                      discount: discount,
+                      img: img,
+                      price: price,
+                      title: title,
+                      description: description,
+                    ));
             Navigator.push(context, route);
           },
           splashColor: Colors.blue,
@@ -152,9 +159,7 @@ class ProductCard extends StatelessWidget {
                                             fontWeight: FontWeight.normal),
                                       ),
                                       Text(
-                                         discount != null
-                                            ? 
-                                          "OFF": "",
+                                        discount != null ? "OFF" : "",
                                         style: TextStyle(
                                             color: Colors.white,
                                             fontSize: 12,
