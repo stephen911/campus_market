@@ -80,7 +80,7 @@ class _ProductPageState extends State<ProductPage> {
                                         fit: BoxFit.cover)),
                                 width: MediaQuery.of(context).size.width - 20,
                                 height:
-                                    MediaQuery.of(context).size.width * 0.99)),
+                                    MediaQuery.of(context).size.width *0.99)),
                       ),
                       Container(
                         color: Colors.grey[300],

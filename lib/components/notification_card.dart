@@ -85,6 +85,7 @@ class NotificationCard extends StatelessWidget {
                       ),
                     ],
                   ),
+                  SizedBox(height:8),
                   FittedBox(
                     fit: BoxFit.fill,
                     child: Text(

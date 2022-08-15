@@ -45,7 +45,7 @@ class _NotificationsState extends State<Notifications> {
                         builder: (context) => Message(
                               title: "Order",
                               message: "your order has been approved.",
-                              sender: "Owner",
+                              sender: "Campus Mart",
                               time: DateFormat('Hm')
                                   .format(DateTime.now())
                                   .toString(),
@@ -57,7 +57,7 @@ class _NotificationsState extends State<Notifications> {
               opened: false,
               date: DateTime.now().toString(),
               color: randomColors[i % 7],
-              sender: ' Owner',
+              sender: ' campus Mart',
             ),
         ]),
       ),
