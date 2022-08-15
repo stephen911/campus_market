@@ -1,4 +1,5 @@
 import 'package:campus_market/model/user_model.dart';
+import 'package:campus_market/orders/order.dart';
 import 'package:campus_market/profile/edit_profile.dart';
 import 'package:campus_market/profile/settings/settings.dart';
 import 'package:campus_market/screens/sign_in/sign_in.dart';
@@ -118,6 +119,16 @@ class _ProfilePageState extends State<ProfilePage> {
                                             builder: (context) =>
                                                 const EditProfile()));
                                   }),
+                              profileTile(
+                                  onTap: () {
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const OrdersPage()));
+                                  },
+                                  icon: Icons.feed,
+                                  title: 'Orders',
+                                  color: Colors.purple),
                               profileTile(
                                   onTap: () {
                                     Navigator.of(context).push(

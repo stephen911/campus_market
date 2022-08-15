@@ -117,9 +117,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                 builder: (context) => const EditProfile()));
                       },
                     ),
-                    const SizedBox(
-                      height: 10,
-                    ),
+                    
                     ////////////////// EmailAddress ///////////////////////////
                     ItemCard(
                       title: '${loggedInUser.email}',
