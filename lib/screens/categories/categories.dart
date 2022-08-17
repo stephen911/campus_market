@@ -183,6 +183,7 @@ class _CategoriesState extends State<Categories> {
                         height: 5,
                       ),
                     ]),
+ 
               ),
             ),
             SizedBox(
