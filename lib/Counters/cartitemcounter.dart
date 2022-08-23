@@ -1,14 +1,13 @@
 import 'package:campus_market/components/constants.dart';
 import 'package:flutter/foundation.dart';
 
-
-class CartItemCounter extends ChangeNotifier{
-
-  int _counter = EcommerceApp.sharedPreferences!.getStringList(EcommerceApp.userCartList)!.length-1;
+class CartItemCounter extends ChangeNotifier {
+  // int _counter = EcommerceApp.sharedPreferences!.getStringList(EcommerceApp.userCartList)!.length-1;
+  int _counter = 0;
   int get count => _counter;
   Future<void> displayResult() async {
     //int _counter = EcommerceApp.sharedPreferences.getStringList(EcommerceApp.userCartList).length-1;
-    await Future.delayed(const Duration(milliseconds: 100), (){
+    await Future.delayed(const Duration(milliseconds: 100), () {
       notifyListeners();
     });
   }

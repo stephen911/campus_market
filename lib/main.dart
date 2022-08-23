@@ -6,6 +6,16 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 
+
+import 'package:campus_market/Counters/ItemQuantity.dart';
+
+
+// import 'package:campus_market/Components/constants.dart';
+import 'package:campus_market/Counters/cartitemcounter.dart';
+import 'package:campus_market/Counters/changeAddresss.dart';
+import 'package:campus_market/Counters/totalMoney.dart';
+
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -35,10 +45,17 @@ class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) {
-        return themeChangeProvider;
-      },
+    return MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (c) => CartItemCounter()),
+          ChangeNotifierProvider(create: (c) => ItemQuantity()),
+          ChangeNotifierProvider(create: (c) => AddressChanger()),
+          ChangeNotifierProvider(create: (c) => TotalAmount()),
+          ChangeNotifierProvider(create: (_) => themeChangeProvider)
+        ],
+    
+    
+    
       child: Consumer<DarkThemeProvider>(
         builder: (BuildContext context, value, Widget) {
           return MaterialApp(

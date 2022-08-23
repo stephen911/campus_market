@@ -232,19 +232,17 @@ class _ProductPageState extends State<ProductPage> {
                                   height: 20.0,
                                 ),
                                 Text(
-                                  widget.discount == null
+                                  widget.discount == 0
                                       ? "Ghs " +
                                           (quantityOfItems * widget.price)
-                                              .toString() +
-                                          ".00"
+                                              .toString()
                                       : "Ghs " +
                                           ((widget.price -
                                                       (widget.price *
-                                                          (widget.price *
+                                                          (widget.discount *
                                                               0.01))) *
                                                   quantityOfItems)
-                                              .toString() +
-                                          "0",
+                                              .toString(),
                                   style: TextStyle(
                                       color: themeChange.darkTheme
                                           ? Colors.white
@@ -255,17 +253,15 @@ class _ProductPageState extends State<ProductPage> {
                                 SizedBox(height: 10),
                                 quantityOfItems >= 2
                                     ? Text(
-                                        widget.discount == null
+                                        widget.discount == 0
                                             ? "Unit Price Ghs " +
-                                                (widget.price).toString() +
-                                                ".00"
+                                                (widget.price).toString() 
                                             : "Unit Price Ghs " +
                                                 (widget.price -
                                                         (widget.price *
-                                                            (widget.price *
+                                                            (widget.discount *
                                                                 0.01)))
-                                                    .toString() +
-                                                "0",
+                                                    .toString(),
                                         style: TextStyle(
                                             color: themeChange.darkTheme
                                                 ? Colors.white
