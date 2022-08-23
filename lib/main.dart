@@ -1,6 +1,5 @@
 import 'package:campus_market/components/constants.dart';
 import 'package:campus_market/providers/theme_provider.dart';
-import 'package:campus_market/screens/home.dart';
 import 'package:campus_market/splashscreen/splashscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';

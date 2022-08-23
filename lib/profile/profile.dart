@@ -1,6 +1,7 @@
 import 'package:campus_market/model/user_model.dart';
 import 'package:campus_market/orders/order.dart';
 import 'package:campus_market/profile/edit_profile.dart';
+import 'package:campus_market/profile/help.dart';
 import 'package:campus_market/profile/settings/settings.dart';
 import 'package:campus_market/screens/sign_in/sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -140,6 +141,12 @@ class _ProfilePageState extends State<ProfilePage> {
                                   title: 'Settings',
                                   color: Colors.red),
                               profileTile(
+                                onTap: (){
+                                  Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const HelpCenter()));
+                                },
                                   icon: Icons.help_center,
                                   title: 'Help Center',
                                   color: Colors.green),
