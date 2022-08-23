@@ -10,39 +10,35 @@ class Categories extends StatefulWidget {
 }
 
 class _CategoriesState extends State<Categories> {
-  @override
-  Widget build(BuildContext context) {
-    final themeChange = Provider.of<DarkThemeProvider>(context);
-
-    Widget SideCard({
-      required String title,
-      required VoidCallback ontap,
-    }) {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          InkWell(
-            onTap: ontap,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                title,
-                style: TextStyle(
-                  color: themeChange.darkTheme ? Colors.white : Colors.black,
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                ),
+  Widget SideCard({
+    required String title,
+    required VoidCallback ontap,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        InkWell(
+          onTap: ontap,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              title,
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
               ),
             ),
           ),
-          Divider(
-            color: themeChange.darkTheme ? Colors.white : Colors.black,
-            height: 2,
-          ),
-        ],
-      );
-    }
+        ),
+        Divider(height: 2,),
+      ],
+    );
+  }
 
+    
+    @override
+  Widget build(BuildContext context) {
+    final themeChange = Provider.of<DarkThemeProvider>(context);
     var size = MediaQuery.of(context).size;
     return Scaffold(
         backgroundColor: Colors.black12,
@@ -60,130 +56,129 @@ class _CategoriesState extends State<Categories> {
                   left: 5,
                 ),
                 width: size.width * 0.25,
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SideCard(
-                        title: "Grocceries",
-                        ontap: () {},
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      SideCard(
-                        title: "Laptops",
-                        ontap: () {},
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      SideCard(
-                        title: "Phones & Accessories",
-                        ontap: () {},
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      SideCard(
-                        title: "Hostels",
-                        ontap: () {},
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      SideCard(
-                        title: "Medical Equipments",
-                        ontap: () {},
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      SideCard(
-                        title: "Health & Beauty",
-                        ontap: () {},
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      SideCard(
-                        title: "Sports",
-                        ontap: () {},
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      SideCard(
-                        title: "Women's Fashion",
-                        ontap: () {},
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      SideCard(
-                        title: "Furniture",
-                        ontap: () {},
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      SideCard(
-                        title: "Electronics",
-                        ontap: () {},
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      SideCard(
-                        title: "Men's Fashion",
-                        ontap: () {},
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      SideCard(
-                        title: "Kid's Fashion",
-                        ontap: () {},
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      SideCard(
-                        title: "Home & Office",
-                        ontap: () {},
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      SideCard(
-                        title: "Automobile",
-                        ontap: () {},
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      SideCard(
-                        title: "Automobile",
-                        ontap: () {},
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      SideCard(
-                        title: "Automobile",
-                        ontap: () {},
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      SideCard(
-                        title: "Automobile",
-                        ontap: () {},
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                    ]),
- 
+                child: Column( 
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                  SideCard(
+                    title: "Groceries",
+                    ontap: () {},
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  SideCard(
+                    title: "Laptops",
+                    ontap: () {},
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  SideCard(
+                    title: "Phones & Accessories",
+                    ontap: () {},
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  SideCard(
+                    title: "Hostels",
+                    ontap: () {},
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  SideCard(
+                    title: "Medical Equipments",
+                    ontap: () {},
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  SideCard(
+                    title: "Health & Beauty",
+                    ontap: () {},
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  SideCard(
+                    title: "Sports",
+                    ontap: () {},
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  SideCard(
+                    title: "Women's Fashion",
+                    ontap: () {},
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  SideCard(
+                    title: "Furniture",
+                    ontap: () {},
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  SideCard(
+                    title: "Electronics",
+                    ontap: () {},
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  SideCard(
+                    title: "Men's Fashion",
+                    ontap: () {},
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  SideCard(
+                    title: "Kid's Fashion",
+                    ontap: () {},
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  SideCard(
+                    title: "Home & Office",
+                    ontap: () {},
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  SideCard(
+                    title: "Automobile",
+                    ontap: () {},
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  SideCard(
+                    title: "Automobile",
+                    ontap: () {},
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  SideCard(
+                    title: "Automobile",
+                    ontap: () {},
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  SideCard(
+                    title: "Automobile",
+                    ontap: () {},
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                ]),
               ),
             ),
             SizedBox(
@@ -219,6 +214,12 @@ class _CategoriesState extends State<Categories> {
             )
           ],
         ));
+        
+          @override
+          Widget build(BuildContext context) {
+            // TODO: implement build
+            throw UnimplementedError();
+          }
   }
 }
 
