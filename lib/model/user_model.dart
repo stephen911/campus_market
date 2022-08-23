@@ -54,10 +54,10 @@ class UserModel {
 
 class ItemModel {
   String? title;
-  String? shortInfo;
+  // String? shortInfo;
   Timestamp? publishedDate;
   String? thumbnailUrl;
-  String? longDescription;
+  String? description;
   String? status;
   int? discount;
   int? price;
@@ -66,10 +66,10 @@ class ItemModel {
 
   ItemModel(
       {required this.title,
-        required this.shortInfo,
+        // required this.shortInfo,
         required this.publishedDate,
         required this.thumbnailUrl,
-        required this.longDescription,
+        required this.description,
         required this.discount,
         required this.status,
         required this.category,
@@ -78,10 +78,10 @@ class ItemModel {
 
   ItemModel.fromJson(Map<String, dynamic> json) {
     title = json['title'];
-    shortInfo = json['shortInfo'];
+    // shortInfo = json['shortInfo'];
     publishedDate = json['publishedDate'];
     thumbnailUrl = json['thumbnailUrl'];
-    longDescription = json['longDescription'];
+    description = json['description'];
     status = json['status'];
     price = json['price'];
     category = json['category'];
@@ -92,7 +92,7 @@ class ItemModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['title'] = this.title;
-    data['shortInfo'] = this.shortInfo;
+    // data['shortInfo'] = this.shortInfo;
     data['price'] = this.price;
     data['discount'] = this.discount;
     data['category'] = this.category;
@@ -101,7 +101,7 @@ class ItemModel {
       data['publishedDate'] = this.publishedDate;
     }
     data['thumbnailUrl'] = this.thumbnailUrl;
-    data['longDescription'] = this.longDescription;
+    data['description'] = this.description;
     data['status'] = this.status;
     return data;
   }
@@ -130,7 +130,7 @@ class CartItemModel {
   String? shortInfo;
   Timestamp? publishedDate;
   String? thumbnailUrl;
-  String? longDescription;
+  String? description;
   String? status;
   int? discount;
   int? price;
@@ -144,7 +144,7 @@ class CartItemModel {
         required this.shortInfo,
         required this.publishedDate,
         required this.thumbnailUrl,
-        required this.longDescription,
+        required this.description,
         required this.discount,
         required this.status,
         required this.quantity,
@@ -158,7 +158,7 @@ class CartItemModel {
     shortInfo = json['shortInfo'];
     publishedDate = json['publishedDate'];
     thumbnailUrl = json['thumbnailUrl'];
-    longDescription = json['longDescription'];
+    description = json['description'];
     status = json['status'];
     price = json['price'];
     discount = json['discount'];
@@ -182,7 +182,7 @@ class CartItemModel {
       data['publishedDate'] = this.publishedDate;
     }
     data['thumbnailUrl'] = this.thumbnailUrl;
-    data['longDescription'] = this.longDescription;
+    data['description'] = this.description;
     data['status'] = this.status;
     return data;
   }

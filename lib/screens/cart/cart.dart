@@ -75,7 +75,7 @@ class _CartPageState extends State<CartPage> {
           ),
           StreamBuilder<QuerySnapshot>(
             stream: EcommerceApp.firestore
-                ?.collection("items")
+                ?.collection("products")
                 .where("shortInfo",
                     whereIn: EcommerceApp.sharedPreferences
                         ?.getStringList(EcommerceApp.userCartList))
@@ -161,6 +161,7 @@ class _CartPageState extends State<CartPage> {
     List<String>? tempCartList =
         EcommerceApp.sharedPreferences?.getStringList(EcommerceApp.userCartList);
     tempCartList?.remove(shortInfoAsId);
+
     print(EcommerceApp.firestore
         ?.collection(EcommerceApp.collectionUser)
         .doc(
