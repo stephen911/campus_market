@@ -63,13 +63,15 @@ class ProductCard extends StatelessWidget {
                 child: Row(children: [
                   ClipRRect(
                       borderRadius: BorderRadius.circular(10),
-                      child: Container(
-                          decoration: BoxDecoration(
-                              image: DecorationImage(
-                                  image: Image.network(img).image,
-                                  fit: BoxFit.cover)),
-                          width: 125,
-                          height: 190)),
+                      child: img == null
+                          ? CircularProgressIndicator()
+                          : Container(
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      image: Image.network(img).image,
+                                      fit: BoxFit.cover)),
+                              width: 125,
+                              height: 190)),
                   SizedBox(
                     width: (productSize.width <= 320
                         ? productSize.width * 0.004
@@ -240,12 +242,11 @@ class ProductCard extends StatelessWidget {
                                             fontWeight: FontWeight.bold),
                                       ),
                                       Text(
-                                        discount == null
-                                            ? price.toString() + ".00"
+                                        discount == 0
+                                            ? price.toString()
                                             : (price -
-                                                        (price *
-                                                            (discount * 0.01))).round()
-                                                    .toStringAsFixed(2) ,
+                                                    (price * (discount * 0.01)))
+                                                .toStringAsFixed(2),
                                         style: TextStyle(
                                           color: themeChange.darkTheme
                                               ? Colors.white
