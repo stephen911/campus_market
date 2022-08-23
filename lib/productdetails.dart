@@ -26,8 +26,8 @@ class _ProductPageState extends State<ProductPage> {
   String _selectedProductSize = "S";
   int quantityOfItems = 1;
   // var title = "Adidas Shorts";
-  var longdescription =
-      "Keep it classic with the adidas 3 stripes shorts in black or blue including the iconic adidas 3 stripe logo down the side or for the athletes";
+  // var longdescription =
+  //     "Keep it classic with the adidas 3 stripes shorts in black or blue including the iconic adidas 3 stripe logo down the side or for the athletes";
   // var discount = 20;
   // var price = 200;
 
@@ -79,7 +79,7 @@ class _ProductPageState extends State<ProductPage> {
                             child: Container(
                                 decoration: BoxDecoration(
                                     image: DecorationImage(
-                                        image: Image.asset(widget.img).image,
+                                        image: Image.network(widget.img).image,
                                         fit: BoxFit.cover)),
                                 width: MediaQuery.of(context).size.width - 20,
                                 height:
@@ -114,7 +114,7 @@ class _ProductPageState extends State<ProductPage> {
                               height: 10.0,
                             ),
                             Text(
-                              longdescription,
+                              widget.description,
                               style: TextStyle(
                                 color: themeChange.darkTheme
                                     ? Colors.grey

@@ -3,8 +3,10 @@ import 'package:campus_market/screens/cart/cart.dart';
 import 'package:campus_market/screens/categories/categories.dart';
 import 'package:campus_market/screens/categories/categoryCard.dart';
 import 'package:campus_market/screens/notification/notifications.dart';
+import 'package:campus_market/screens/product_fetch.dart';
 import 'package:campus_market/sign_up/sign_up_screen.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:provider/provider.dart';
@@ -20,6 +22,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int currentIndex = 0;
+
   List Navbody = [
     // this isthe content of the home page
     HomePageContent(),
@@ -108,6 +111,7 @@ class HomePageContent extends StatefulWidget {
 }
 
 class _HomePageContentState extends State<HomePageContent> {
+  List allData = [];
   static List bannerAdSlider = [
     "assets/banner1.jpg",
     "assets/banner2.jpg",
@@ -151,6 +155,27 @@ class _HomePageContentState extends State<HomePageContent> {
       "description": "Men's official wear on sale |Turkey suit",
     },
   ];
+  CollectionReference _collectionRef =
+      FirebaseFirestore.instance.collection('products');
+  Future<void> getData() async {
+    QuerySnapshot querySnapshot = await _collectionRef.get();
+    
+    List emtdata = querySnapshot.docs.map((doc) => doc.data()).toList();
+    setState(() {
+      allData = emtdata;
+    });
+    
+    // print(allData![0]["status"]);
+  }
+
+  void initState() {
+    super.initState();
+    setState(() {
+    getData();
+      
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -414,13 +439,14 @@ class _HomePageContentState extends State<HomePageContent> {
               SizedBox(
                 height: 30,
               ),
-              for (int i = 0; i < myList.length; i++)
+              for (int i = 0; i < allData.length; i++)
+              if (allData[i]["status"] == "approved")
                 ProductCard(
-                  description: myList[i]["description"],
-                  discount: myList[i]["discount"],
-                  img: myList[i]["img"],
-                  price: myList[i]["price"],
-                  title: myList[i]["title"],
+                  description: allData[i]["description"],
+                  discount: allData[i]["discount"],
+                  img: allData[i]["productFile"],
+                  price: allData[i]["price"],
+                  title: allData[i]["title"],
                 ),
               SizedBox(
                 height: 10,

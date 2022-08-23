@@ -66,7 +66,7 @@ class ProductCard extends StatelessWidget {
                       child: Container(
                           decoration: BoxDecoration(
                               image: DecorationImage(
-                                  image: Image.asset(img).image,
+                                  image: Image.network(img).image,
                                   fit: BoxFit.cover)),
                           width: 125,
                           height: 190)),
@@ -244,9 +244,8 @@ class ProductCard extends StatelessWidget {
                                             ? price.toString() + ".00"
                                             : (price -
                                                         (price *
-                                                            (discount * 0.01)))
-                                                    .toString() +
-                                                "0",
+                                                            (discount * 0.01))).round()
+                                                    .toStringAsFixed(2) ,
                                         style: TextStyle(
                                           color: themeChange.darkTheme
                                               ? Colors.white
