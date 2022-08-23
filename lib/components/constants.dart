@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+import 'package:shared_preferences/shared_preferences.dart';
 
 const kPrimaryColor = Color(0xFFFF7643);
 const kPrimaryLightColor = Color(0xFFFFECDF);
@@ -54,3 +58,37 @@ class Styles {
     return isDarkTheme ? ThemeData.dark() : ThemeData.light();
   }
 }
+
+
+
+
+class EcommerceApp {
+  static const String appName = 'e-Shop';
+
+  static SharedPreferences? sharedPreferences;
+  static User? user;
+  static FirebaseAuth? auth;
+  static FirebaseFirestore? firestore;
+
+  static String collectionUser = "Users";
+  static String collectionOrders = "orders";
+  static String userCartList = 'userCart';
+  static String subCollectionAddress = 'userAddress';
+  static String cartInfo = 'cartInfo';
+
+  static final String userName = 'name';
+  static final String userEmail = 'email';
+  static final String userPhotoUrl = 'photoUrl';
+  static final String userUID = 'uid';
+  static final String userAvatarUrl = 'url';
+  static final String quantity = 'quantity';
+  static final String size = 'size';
+
+  static final String addressID = 'addressID';
+  static final String totalAmount = 'totalAmount';
+  static final String productID = 'productIDs';
+  static final String paymentDetails = 'paymentDetails';
+  static final String orderTime = 'orderTime';
+  static final String isSuccess = 'isSuccess';
+}
+

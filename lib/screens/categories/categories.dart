@@ -27,7 +27,9 @@ class _CategoriesState extends State<Categories> {
             ),
           ),
         ),
-        Divider(height: 2,),
+        Divider(
+          height: 2,
+        ),
       ],
     );
   }
@@ -40,7 +42,6 @@ class _CategoriesState extends State<Categories> {
         body: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.start,
-
           children: [
             /////////category listing left side /////////
 
@@ -52,129 +53,108 @@ class _CategoriesState extends State<Categories> {
                   left: 5,
                 ),
                 width: size.width * 0.25,
-                child: Column( 
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                  SideCard(
-                    title: "Groceries",
-                    ontap: () {},
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  SideCard(
-                    title: "Laptops",
-                    ontap: () {},
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  SideCard(
-                    title: "Phones & Accessories",
-                    ontap: () {},
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  SideCard(
-                    title: "Hostels",
-                    ontap: () {},
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  SideCard(
-                    title: "Medical Equipments",
-                    ontap: () {},
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  SideCard(
-                    title: "Health & Beauty",
-                    ontap: () {},
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  SideCard(
-                    title: "Sports",
-                    ontap: () {},
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  SideCard(
-                    title: "Women's Fashion",
-                    ontap: () {},
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  SideCard(
-                    title: "Furniture",
-                    ontap: () {},
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  SideCard(
-                    title: "Electronics",
-                    ontap: () {},
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  SideCard(
-                    title: "Men's Fashion",
-                    ontap: () {},
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  SideCard(
-                    title: "Kid's Fashion",
-                    ontap: () {},
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  SideCard(
-                    title: "Home & Office",
-                    ontap: () {},
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  SideCard(
-                    title: "Automobile",
-                    ontap: () {},
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  SideCard(
-                    title: "Automobile",
-                    ontap: () {},
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  SideCard(
-                    title: "Automobile",
-                    ontap: () {},
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  SideCard(
-                    title: "Automobile",
-                    ontap: () {},
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                ]),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SideCard(
+                        title: "Groceries",
+                        ontap: () {},
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      SideCard(
+                        title: "Laptops",
+                        ontap: () {},
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      SideCard(
+                        title: "Phones & Accessories",
+                        ontap: () {},
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      SideCard(
+                        title: "Hostels",
+                        ontap: () {},
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      SideCard(
+                        title: "Medical Equipments",
+                        ontap: () {},
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      SideCard(
+                        title: "Health & Beauty",
+                        ontap: () {},
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      SideCard(
+                        title: "Sports",
+                        ontap: () {},
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      SideCard(
+                        title: "Women's Fashion",
+                        ontap: () {},
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      SideCard(
+                        title: "Furniture",
+                        ontap: () {},
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      SideCard(
+                        title: "Electronics",
+                        ontap: () {},
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      SideCard(
+                        title: "Men's Fashion",
+                        ontap: () {},
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      SideCard(
+                        title: "Kid's Fashion",
+                        ontap: () {},
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      SideCard(
+                        title: "Home & Office",
+                        ontap: () {},
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      SideCard(
+                        title: "Automobile",
+                        ontap: () {},
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                    ]),
               ),
             ),
             SizedBox(
