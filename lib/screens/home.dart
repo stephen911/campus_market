@@ -269,6 +269,30 @@ class _HomePageContentState extends State<HomePageContent> {
     }
 
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        iconTheme: IconThemeData(color: Colors.black),
+        backgroundColor: Color.fromARGB(255, 247, 247, 247),
+        actions: [
+          IconButton(
+              onPressed: () {},
+              icon: Icon(
+                Icons.notifications,
+                color: Colors.black,
+              )),
+          IconButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                CartPage()));
+              },
+              icon: Icon(
+                Icons.shopping_cart,
+                color: Colors.black,
+              ))
+        ],
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           controller: controller,
