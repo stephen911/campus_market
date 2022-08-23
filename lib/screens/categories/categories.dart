@@ -35,6 +35,10 @@ class _CategoriesState extends State<Categories> {
     );
   }
 
+    
+    @override
+  Widget build(BuildContext context) {
+    final themeChange = Provider.of<DarkThemeProvider>(context);
     var size = MediaQuery.of(context).size;
     return Scaffold(
         backgroundColor: Colors.black12,
@@ -210,6 +214,12 @@ class _CategoriesState extends State<Categories> {
             )
           ],
         ));
+        
+          @override
+          Widget build(BuildContext context) {
+            // TODO: implement build
+            throw UnimplementedError();
+          }
   }
 }
 
