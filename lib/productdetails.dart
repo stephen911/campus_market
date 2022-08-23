@@ -14,7 +14,7 @@ class ProductPage extends StatefulWidget {
       : super(key: key);
   String img;
   int discount;
-  int price;
+  double price;
   String title;
   String description;
   @override
