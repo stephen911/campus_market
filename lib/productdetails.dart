@@ -391,12 +391,7 @@ class _ProductPageState extends State<ProductPage> {
                                         ),
                                         onTap: () {
                                           Navigator.pop(context);
-                                          // Navigator.pushAndRemoveUntil(
-                                          //     (context),
-                                          //     MaterialPageRoute(
-                                          //         builder: (context) =>
-                                          //             BottomNavBar()),
-                                          //     (route) => false);
+                                          
                                         },
                                       ),
                                     ],
