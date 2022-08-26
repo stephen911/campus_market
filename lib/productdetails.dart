@@ -340,6 +340,71 @@ class _ProductPageState extends State<ProductPage> {
                       child: InkWell(
                         onTap: () {
                           postDetailsToFirestore();
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return Center(
+                                child: Container(
+                                  padding: const EdgeInsets.all(8),
+                                  height: 370,
+                                  child: AlertDialog(
+                                    content: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        const Text(
+                                          'Product added to cart',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.green,
+                                            fontSize: 20,
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        Image.asset(
+                                          'assets/images/correct.png',
+                                          height: 90,
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        const Text(
+                                          'You can now purchase by opening your cart. Thank you',
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                          ),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ],
+                                    ),
+                                    actions: [
+                                      GestureDetector(
+                                        child: const Text(
+                                          'OK',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.green,
+                                            fontSize: 20,
+                                          ),
+                                        ),
+                                        onTap: () {
+                                          Navigator.pop(context);
+                                          // Navigator.pushAndRemoveUntil(
+                                          //     (context),
+                                          //     MaterialPageRoute(
+                                          //         builder: (context) =>
+                                          //             BottomNavBar()),
+                                          //     (route) => false);
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          );
                         },
                         child: Container(
                           decoration: BoxDecoration(
