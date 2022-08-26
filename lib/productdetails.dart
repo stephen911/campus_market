@@ -75,6 +75,7 @@ class _ProductPageState extends State<ProductPage> {
     await ref.set({
       'uid': user!.uid,
       'productFile': widget.img,
+      'sellerUid': widget.sellerUid,
       'title': widget.title,
       'description': widget.description,
       'brand': widget.brand,
@@ -391,7 +392,6 @@ class _ProductPageState extends State<ProductPage> {
                                         ),
                                         onTap: () {
                                           Navigator.pop(context);
-                                          
                                         },
                                       ),
                                     ],
