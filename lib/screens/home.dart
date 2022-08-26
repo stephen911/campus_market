@@ -45,15 +45,13 @@ class _MyHomePageState extends State<MyHomePage> {
           IconButton(
               onPressed: () {},
               icon: Icon(
-                Icons.notifications,
+                Icons.feed,
                 color: Colors.black,
               )),
           IconButton(
               onPressed: () {
-                Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                CartPage()));
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => CartPage()));
               },
               icon: Icon(
                 Icons.shopping_cart,
@@ -129,14 +127,49 @@ class _HomePageContentState extends State<HomePageContent> {
   // var title = "Adidas Shorts";
 
   List category_list = [
-    {"title": "Sneakers", "img": "assets/cat.png", "tag": "popular", "price" : "300"},
+    {
+      "title": "Sneakers",
+      "img": "assets/cat.png",
+      "tag": "popular",
+      "price": "300"
+    },
     // {"title": "Shorts", "img": "assets/adidas.jpg"},
-    {"title": "Sneakers", "img": "assets/cat.png", "tag": "new", "price" : "300"},
-    {"title": "Shorts", "img": "assets/adidas.jpg", "tag": "upcoming", "price" : "300"},
-    {"title": "Shorts", "img": "assets/adidas.jpg", "tag": "new", "price" : "300"},
-    {"title": "Sneakers", "img": "assets/cat.png", "tag": "recommended", "price" : "300"},
-    {"title": "Sneakers", "img": "assets/cat.png", "tag": "best selling", "price" : "300"},
-    {"title": "Sneakers", "img": "assets/cat.png", "tag": "trending", "price" : "300"},
+    {
+      "title": "Sneakers",
+      "img": "assets/cat.png",
+      "tag": "new",
+      "price": "300"
+    },
+    {
+      "title": "Shorts",
+      "img": "assets/adidas.jpg",
+      "tag": "upcoming",
+      "price": "300"
+    },
+    {
+      "title": "Shorts",
+      "img": "assets/adidas.jpg",
+      "tag": "new",
+      "price": "300"
+    },
+    {
+      "title": "Sneakers",
+      "img": "assets/cat.png",
+      "tag": "recommended",
+      "price": "300"
+    },
+    {
+      "title": "Sneakers",
+      "img": "assets/cat.png",
+      "tag": "best selling",
+      "price": "300"
+    },
+    {
+      "title": "Sneakers",
+      "img": "assets/cat.png",
+      "tag": "trending",
+      "price": "300"
+    },
   ];
 
   List myList = [
@@ -159,20 +192,19 @@ class _HomePageContentState extends State<HomePageContent> {
       FirebaseFirestore.instance.collection('products');
   Future<void> getData() async {
     QuerySnapshot querySnapshot = await _collectionRef.get();
-    
+
     List emtdata = querySnapshot.docs.map((doc) => doc.data()).toList();
     setState(() {
       allData = emtdata;
     });
-    
+
     // print(allData![0]["status"]);
   }
 
   void initState() {
     super.initState();
     setState(() {
-    getData();
-      
+      getData();
     });
   }
 
@@ -282,10 +314,8 @@ class _HomePageContentState extends State<HomePageContent> {
               )),
           IconButton(
               onPressed: () {
-                Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                CartPage()));
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => CartPage()));
               },
               icon: Icon(
                 Icons.shopping_cart,
@@ -464,14 +494,17 @@ class _HomePageContentState extends State<HomePageContent> {
                 height: 30,
               ),
               for (int i = 0; i < allData.length; i++)
-              if (allData[i]["status"] == "approved")
-                ProductCard(
-                  description: allData[i]["description"],
-                  discount: allData[i]["discount"],
-                  img: allData[i]["productFile"],
-                  price: allData[i]["price"],
-                  title: allData[i]["title"],
-                ),
+                if (allData[i]["status"] == "approved")
+                  ProductCard(
+                    brand: allData[i]["brand"],
+                    category: allData[i]["category"],
+                    sellerUid: allData[i]["uid"],
+                    description: allData[i]["description"],
+                    discount: allData[i]["discount"],
+                    img: allData[i]["productFile"],
+                    price: allData[i]["price"],
+                    title: allData[i]["title"],
+                  ),
               SizedBox(
                 height: 10,
               ),

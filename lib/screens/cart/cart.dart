@@ -9,9 +9,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-
 import 'package:provider/provider.dart';
-
 
 class CartPage extends StatefulWidget {
   @override
@@ -20,6 +18,7 @@ class CartPage extends StatefulWidget {
 
 class _CartPageState extends State<CartPage> {
   late double totalAmount;
+  List allData = [];
 
   @override
   void initState() {
@@ -27,6 +26,22 @@ class _CartPageState extends State<CartPage> {
 
     totalAmount = 0;
     Provider.of<TotalAmount>(context, listen: false).display(0);
+    setState(() {
+      getData();
+    });
+  }
+
+  CollectionReference _collectionRef =
+      FirebaseFirestore.instance.collection('carts');
+  Future<void> getData() async {
+    QuerySnapshot querySnapshot = await _collectionRef.get();
+
+    List emtdata = querySnapshot.docs.map((doc) => doc.data()).toList();
+    setState(() {
+      allData = emtdata;
+    });
+
+    // print(allData[0]["price"]);
   }
 
   @override
@@ -92,23 +107,24 @@ class _CartPageState extends State<CartPage> {
                       : SliverList(
                           delegate: SliverChildBuilderDelegate(
                             (context, index) {
-                              ItemModel model = ItemModel.fromJson(snapshot.data as Map<String, dynamic>);
+                              ItemModel model = ItemModel.fromJson(
+                                  snapshot.data as Map<String, dynamic>);
 
                               if (index == 0) {
                                 totalAmount = 0;
                                 //totalAmount = model.price + totalAmount;
                                 model.discount == null
-                                    ?  totalAmount = model.price! + totalAmount
-                                    :  totalAmount = (model.price! -
+                                    ? totalAmount = model.price! + totalAmount
+                                    : totalAmount = (model.price! -
                                             (model.price! *
                                                 (model.discount! * 0.01))) +
                                         totalAmount;
                               } else {
                                 model.discount == null
-                                    ?  totalAmount = model.price! -
-                                            (model.price! *
-                                                (model.discount! * 0.01)) : 
-                                        totalAmount;
+                                    ? totalAmount = model.price! -
+                                        (model.price! *
+                                            (model.discount! * 0.01))
+                                    : totalAmount;
                                 //totalAmount = model.price + totalAmount;
                               }
 
@@ -158,18 +174,16 @@ class _CartPageState extends State<CartPage> {
   }
 
   removeItemFromUserCart(String shortInfoAsId) {
-    List<String>? tempCartList =
-        EcommerceApp.sharedPreferences?.getStringList(EcommerceApp.userCartList);
+    List<String>? tempCartList = EcommerceApp.sharedPreferences
+        ?.getStringList(EcommerceApp.userCartList);
     tempCartList?.remove(shortInfoAsId);
 
     print(EcommerceApp.firestore
         ?.collection(EcommerceApp.collectionUser)
-        .doc(
-            EcommerceApp.sharedPreferences?.getString(EcommerceApp.userUID)));
+        .doc(EcommerceApp.sharedPreferences?.getString(EcommerceApp.userUID)));
     EcommerceApp.firestore
         ?.collection(EcommerceApp.collectionUser)
-        .doc(
-            EcommerceApp.sharedPreferences?.getString(EcommerceApp.userUID))
+        .doc(EcommerceApp.sharedPreferences?.getString(EcommerceApp.userUID))
         .update({
       EcommerceApp.userCartList: tempCartList,
     }).then((v) {
@@ -182,9 +196,9 @@ class _CartPageState extends State<CartPage> {
     });
     Fluttertoast.showToast(msg: "Item deleted from Cart Successfully.");
 
-      EcommerceApp.sharedPreferences
-          ?.setStringList(EcommerceApp.userCartList, tempCartList!);
-      Provider.of<CartItemCounter>(context, listen: false).displayResult();
-      totalAmount = 0;
+    EcommerceApp.sharedPreferences
+        ?.setStringList(EcommerceApp.userCartList, tempCartList!);
+    Provider.of<CartItemCounter>(context, listen: false).displayResult();
+    totalAmount = 0;
   }
 }
