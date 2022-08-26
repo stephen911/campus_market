@@ -4,19 +4,25 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ProductCard extends StatelessWidget {
-  ProductCard(
-      {Key? key,
-      required this.description,
-      required this.discount,
-      required this.img,
-      required this.price,
-      required this.title})
-      : super(key: key);
+  ProductCard({
+    Key? key,
+    required this.description,
+    required this.discount,
+    required this.img,
+    required this.price,
+    required this.title,
+    required this.sellerUid,
+    required this.brand,
+    required this.category,
+  }) : super(key: key);
   String img;
   int discount;
   double price;
   String title;
   String description;
+  String sellerUid;
+  String brand;
+  String category;
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +34,9 @@ class ProductCard extends StatelessWidget {
           onTap: () {
             Route route = MaterialPageRoute(
                 builder: (c) => ProductPage(
+                      brand: brand,
+                      category: category,
+                      sellerUid: sellerUid,
                       discount: discount,
                       img: img,
                       price: price,

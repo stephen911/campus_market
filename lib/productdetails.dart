@@ -1,27 +1,43 @@
 import 'package:campus_market/appbar.dart';
+import 'package:campus_market/model/user_model.dart';
 import 'package:campus_market/providers/theme_provider.dart';
+import 'package:campus_market/screens/cart/cart.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 class ProductPage extends StatefulWidget {
-  ProductPage(
-      {Key? key,
-      required this.description,
-      required this.discount,
-      required this.img,
-      required this.price,
-      required this.title})
-      : super(key: key);
+  ProductPage({
+    Key? key,
+    required this.description,
+    required this.discount,
+    required this.img,
+    required this.price,
+    required this.title,
+    required this.sellerUid,
+    required this.brand,
+    required this.category,
+  }) : super(key: key);
   String img;
   int discount;
   double price;
   String title;
   String description;
+  String sellerUid;
+  String brand;
+  String category;
+
   @override
   State<ProductPage> createState() => _ProductPageState();
 }
 
 class _ProductPageState extends State<ProductPage> {
+  User? user = FirebaseAuth.instance.currentUser;
+  UserModel loggedInUser = UserModel();
+  final _auth = FirebaseAuth.instance;
+
   List productSizes = ["S", "M", "L", "XL", "XXL"];
   String _selectedProductSize = "S";
   int quantityOfItems = 1;
@@ -33,6 +49,46 @@ class _ProductPageState extends State<ProductPage> {
 
   void show() {
     setState(() {});
+  }
+
+  void initState() {
+    FirebaseFirestore.instance
+        .collection("users")
+        .doc(user!.uid)
+        .get()
+        .then((value) {
+      loggedInUser = UserModel.fromMap(value.data());
+      setState(() {});
+    });
+    super.initState();
+  }
+
+  postDetailsToFirestore() async {
+    //   // calling our firestore
+    //   // calling our loan model
+    //   // sedning these values
+
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    User? user = _auth.currentUser;
+    final ref = FirebaseFirestore.instance.collection("carts").doc();
+
+    await ref.set({
+      'uid': user!.uid,
+      'productFile': widget.img,
+      'title': widget.title,
+      'description': widget.description,
+      'brand': widget.brand,
+      'parentId': ref.id,
+      'category': widget.category,
+      'price': widget.price,
+      'name': loggedInUser.name.toString(),
+      'phone': loggedInUser.phone.toString(),
+      'email': loggedInUser.phone.toString(),
+      'quantityOfItems': quantityOfItems,
+      'date': DateTime.now(),
+    });
+
+    Fluttertoast.showToast(msg: " product added to cart:) ");
   }
 
   @override
@@ -51,13 +107,16 @@ class _ProductPageState extends State<ProductPage> {
               IconButton(
                   onPressed: () {},
                   icon: Icon(
-                    Icons.notifications,
+                    Icons.feed,
                     color: Colors.black,
                   )),
               IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => CartPage()));
+                  },
                   icon: Icon(
-                    Icons.perm_contact_calendar,
+                    Icons.shopping_cart,
                     color: Colors.black,
                   ))
             ],
@@ -255,7 +314,7 @@ class _ProductPageState extends State<ProductPage> {
                                     ? Text(
                                         widget.discount == 0
                                             ? "Unit Price Ghs " +
-                                                (widget.price).toString() 
+                                                (widget.price).toString()
                                             : "Unit Price Ghs " +
                                                 (widget.price -
                                                         (widget.price *
@@ -279,7 +338,9 @@ class _ProductPageState extends State<ProductPage> {
                     padding: EdgeInsets.only(top: 5.0),
                     child: Center(
                       child: InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          postDetailsToFirestore();
+                        },
                         child: Container(
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5),
