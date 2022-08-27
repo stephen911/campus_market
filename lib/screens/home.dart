@@ -496,6 +496,7 @@ class _HomePageContentState extends State<HomePageContent> {
               for (int i = 0; i < allData.length; i++)
                 if (allData[i]["status"] == "approved")
                   ProductCard(
+                    productId: allData[i]["productId"],
                     brand: allData[i]["brand"],
                     category: allData[i]["category"],
                     sellerUid: allData[i]["uid"],

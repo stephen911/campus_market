@@ -12,6 +12,7 @@ class ProductPage extends StatefulWidget {
   ProductPage({
     Key? key,
     required this.description,
+    required this.productId,
     required this.discount,
     required this.img,
     required this.price,
@@ -22,6 +23,8 @@ class ProductPage extends StatefulWidget {
   }) : super(key: key);
   String img;
   int discount;
+  String productId;
+
   double price;
   String title;
   String description;
@@ -86,6 +89,8 @@ class _ProductPageState extends State<ProductPage> {
       'phone': loggedInUser.phone.toString(),
       'email': loggedInUser.phone.toString(),
       'quantityOfItems': quantityOfItems,
+      'size': _selectedProductSize,
+      'productId': widget.productId,
       'date': DateTime.now(),
     });
 
