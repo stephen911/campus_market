@@ -11,6 +11,7 @@ class ProductCard extends StatelessWidget {
   ProductCard({
     Key? key,
     required this.description,
+    required this.productId,
     required this.discount,
     required this.img,
     required this.price,
@@ -27,6 +28,7 @@ class ProductCard extends StatelessWidget {
   String sellerUid;
   String brand;
   String category;
+  String productId;
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +41,7 @@ class ProductCard extends StatelessWidget {
           onTap: () {
             Route route = MaterialPageRoute(
                 builder: (c) => ProductPage(
+                      productId: productId,
                       brand: brand,
                       category: category,
                       sellerUid: sellerUid,

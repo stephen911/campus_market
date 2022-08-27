@@ -1,16 +1,21 @@
 import 'package:campus_market/Counters/cartitemcounter.dart';
 import 'package:campus_market/components/constants.dart';
+import 'package:campus_market/components/shared_preferences.dart';
 import 'package:campus_market/model/user_model.dart';
 import 'package:campus_market/productdetails.dart';
 import 'package:campus_market/providers/theme_provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class ProductCard extends StatelessWidget {
+class ProductCard extends StatefulWidget {
   ProductCard({
     Key? key,
     required this.description,
+    required this.productId,
     required this.discount,
     required this.img,
     required this.price,
@@ -20,6 +25,8 @@ class ProductCard extends StatelessWidget {
     required this.category,
   }) : super(key: key);
   String img;
+  String productId;
+
   int discount;
   double price;
   String title;
@@ -27,6 +34,75 @@ class ProductCard extends StatelessWidget {
   String sellerUid;
   String brand;
   String category;
+
+  @override
+  State<ProductCard> createState() => _ProductCardState();
+}
+
+User? user = FirebaseAuth.instance.currentUser;
+UserModel loggedInUser = UserModel();
+final _auth = FirebaseAuth.instance;
+List allData = [];
+
+
+class _ProductCardState extends State<ProductCard> {
+  void initState() {
+    FirebaseFirestore.instance
+        .collection("users")
+        .doc(user!.uid)
+        .get()
+        .then((value) {
+      loggedInUser = UserModel.fromMap(value.data());
+      setState(() {
+        getData();
+      });
+    });
+    super.initState();
+  }
+
+  CollectionReference _collectionRef =
+      FirebaseFirestore.instance.collection('carts');
+  Future<void> getData() async {
+    QuerySnapshot querySnapshot = await _collectionRef.get();
+
+    List emtdata = querySnapshot.docs.map((doc) => doc.data()).toList();
+    setState(() {
+      allData = emtdata;
+    });
+
+    // print(allData[0]["price"]);
+  }
+
+  postDetailsToFirestore() async {
+    //   // calling our firestore
+    //   // calling our loan model
+    //   // sedning these values
+
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    User? user = _auth.currentUser;
+    final ref = FirebaseFirestore.instance.collection("carts").doc();
+
+    await ref.set({
+      'uid': user!.uid,
+      'productFile': widget.img,
+      'sellerUid': widget.sellerUid,
+      'title': widget.title,
+      'description': widget.description,
+      'brand': widget.brand,
+      'parentId': ref.id,
+      'category': widget.category,
+      'price': widget.price,
+      'name': loggedInUser.name.toString(),
+      'phone': loggedInUser.phone.toString(),
+      'email': loggedInUser.phone.toString(),
+      'quantityOfItems': 1,
+      'size': "M",
+      'productId': widget.productId,
+      'date': DateTime.now(),
+    });
+
+    Fluttertoast.showToast(msg: " product added to cart:) ");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,14 +115,15 @@ class ProductCard extends StatelessWidget {
           onTap: () {
             Route route = MaterialPageRoute(
                 builder: (c) => ProductPage(
-                      brand: brand,
-                      category: category,
-                      sellerUid: sellerUid,
-                      discount: discount,
-                      img: img,
-                      price: price,
-                      title: title,
-                      description: description,
+                      productId: widget.productId,
+                      brand: widget.brand,
+                      category: widget.category,
+                      sellerUid: widget.sellerUid,
+                      discount: widget.discount,
+                      img: widget.img,
+                      price: widget.price,
+                      title: widget.title,
+                      description: widget.description,
                     ));
             Navigator.push(context, route);
           },
@@ -77,12 +154,12 @@ class ProductCard extends StatelessWidget {
                 child: Row(children: [
                   ClipRRect(
                       borderRadius: BorderRadius.circular(10),
-                      child: img == null
+                      child: widget.img == null
                           ? CircularProgressIndicator()
                           : Container(
                               decoration: BoxDecoration(
                                   image: DecorationImage(
-                                      image: Image.network(img).image,
+                                      image: Image.network(widget.img).image,
                                       fit: BoxFit.cover)),
                               width: 125,
                               height: 190)),
@@ -106,7 +183,7 @@ class ProductCard extends StatelessWidget {
                             children: [
                               Expanded(
                                 child: Text(
-                                  title,
+                                  widget.title,
                                   style: TextStyle(
                                       color: themeChange.darkTheme
                                           ? Colors.white
@@ -130,7 +207,7 @@ class ProductCard extends StatelessWidget {
                             Expanded(
                               child: productSize.width <= 320
                                   ? Text(
-                                      description,
+                                      widget.description,
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
@@ -139,7 +216,7 @@ class ProductCard extends StatelessWidget {
                                       ),
                                     )
                                   : Text(
-                                      description,
+                                      widget.description,
                                       // model.shortInfo.sentenceCase,
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
@@ -178,9 +255,9 @@ class ProductCard extends StatelessWidget {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
-                                        discount == null
+                                        widget.discount == null
                                             ? ""
-                                            : discount.toString() + "%",
+                                            : widget.discount.toString() + "%",
                                         style: TextStyle(
                                           color: Colors.white,
                                           fontSize: 15,
@@ -190,7 +267,7 @@ class ProductCard extends StatelessWidget {
                                         ),
                                       ),
                                       Text(
-                                        discount != null ? "OFF" : "",
+                                        widget.discount != null ? "OFF" : "",
                                         style: TextStyle(
                                           color: Colors.white,
                                           fontSize: 12,
@@ -223,9 +300,9 @@ class ProductCard extends StatelessWidget {
                                             fontWeight: FontWeight.w500),
                                       ),
                                       Text(
-                                        discount == null
-                                            ? (price * 2).toString()
-                                            : (price).toString(),
+                                        widget.discount == null
+                                            ? (widget.price * 2).toString()
+                                            : (widget.price).toString(),
                                         style: TextStyle(
                                             color: Colors.grey,
                                             fontSize: 15,
@@ -256,10 +333,12 @@ class ProductCard extends StatelessWidget {
                                             fontWeight: FontWeight.bold),
                                       ),
                                       Text(
-                                        discount == 0
-                                            ? price.toString()
-                                            : (price -
-                                                    (price * (discount * 0.01)))
+                                        widget.discount == 0
+                                            ? widget.price.toString()
+                                            : (widget.price -
+                                                    (widget.price *
+                                                        (widget.discount *
+                                                            0.01)))
                                                 .toStringAsFixed(2),
                                         style: TextStyle(
                                           color: themeChange.darkTheme
@@ -288,8 +367,8 @@ class ProductCard extends StatelessWidget {
                                       : Colors.blueAccent,
                                 ),
                                 onPressed: () {
-                                  // checkItemInCart(title, quantity,
-                                  //     size, model, context);
+                                  checkItemInCart();
+                                  // addtoCart();
                                 })),
                       ],
                     ),
@@ -297,5 +376,34 @@ class ProductCard extends StatelessWidget {
                 ])),
           )),
     );
+  }
+
+  void checkItemInCart() {
+    getData();
+
+    for (int i = 0; i < allData.length; i++) {
+      print(allData[i]['productId']);
+      print(widget.productId);
+
+      if (allData[i]['productId'] == widget.productId) {
+        Fluttertoast.showToast(msg: "Product already in cart");
+      } else {
+        addtoCart();
+      }
+    }
+  }
+
+  
+
+  
+
+
+  void addtoCart() {
+    
+     getListCart(EcommerceApp.userCartList,allData);
+    postDetailsToFirestore();
+
+    
+
   }
 }

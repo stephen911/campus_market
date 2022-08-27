@@ -12,6 +12,7 @@ class ProductPage extends StatefulWidget {
   ProductPage({
     Key? key,
     required this.description,
+    required this.productId,
     required this.discount,
     required this.img,
     required this.price,
@@ -22,6 +23,8 @@ class ProductPage extends StatefulWidget {
   }) : super(key: key);
   String img;
   int discount;
+  String productId;
+
   double price;
   String title;
   String description;
@@ -41,6 +44,8 @@ class _ProductPageState extends State<ProductPage> {
   List productSizes = ["S", "M", "L", "XL", "XXL"];
   String _selectedProductSize = "S";
   int quantityOfItems = 1;
+  List allData = [];
+
   // var title = "Adidas Shorts";
   // var longdescription =
   //     "Keep it classic with the adidas 3 stripes shorts in black or blue including the iconic adidas 3 stripe logo down the side or for the athletes";
@@ -58,9 +63,24 @@ class _ProductPageState extends State<ProductPage> {
         .get()
         .then((value) {
       loggedInUser = UserModel.fromMap(value.data());
-      setState(() {});
+      setState(() {
+        getData();
+      });
     });
     super.initState();
+  }
+
+  CollectionReference _collectionRef =
+      FirebaseFirestore.instance.collection('carts');
+  Future<void> getData() async {
+    QuerySnapshot querySnapshot = await _collectionRef.get();
+
+    List emtdata = querySnapshot.docs.map((doc) => doc.data()).toList();
+    setState(() {
+      allData = emtdata;
+    });
+
+    // print(allData[0]["price"]);
   }
 
   postDetailsToFirestore() async {
@@ -86,6 +106,8 @@ class _ProductPageState extends State<ProductPage> {
       'phone': loggedInUser.phone.toString(),
       'email': loggedInUser.phone.toString(),
       'quantityOfItems': quantityOfItems,
+      'size': _selectedProductSize,
+      'productId': widget.productId,
       'date': DateTime.now(),
     });
 
@@ -113,6 +135,8 @@ class _ProductPageState extends State<ProductPage> {
                   )),
               IconButton(
                   onPressed: () {
+                    // getData();
+                    
                     Navigator.of(context).push(
                         MaterialPageRoute(builder: (context) => CartPage()));
                   },
@@ -340,7 +364,8 @@ class _ProductPageState extends State<ProductPage> {
                     child: Center(
                       child: InkWell(
                         onTap: () {
-                          postDetailsToFirestore();
+                          // postDetailsToFirestore();
+                          checkItemInCart();
                           showDialog(
                             context: context,
                             builder: (BuildContext context) {
@@ -430,6 +455,40 @@ class _ProductPageState extends State<ProductPage> {
             )
           ])),
     );
+  }
+
+  void checkItemInCart() {
+    getData();
+
+    for (int i = 0; i < allData.length; i++) {
+      print(allData[i]['productId']);
+      print(widget.productId);
+
+      if (allData[i]['productId'] == widget.productId) {
+        updateCart();
+        Fluttertoast.showToast(msg: "product updated successfully");
+      } else {
+        addtoCart();
+      }
+    }
+  }
+
+ void updateCart() {
+    for (int i = 0; i < allData.length; i++) {
+      final docUser = FirebaseFirestore.instance
+          .collection('carts')
+          .doc(allData[i]['parentId']);
+      // updating the specific fields
+
+      docUser.update({
+        'quantityOfItems': quantityOfItems,
+        'size': _selectedProductSize,
+      });
+    }
+  }
+
+  void addtoCart() {
+    postDetailsToFirestore();
   }
 }
 
