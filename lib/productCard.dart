@@ -1,5 +1,6 @@
 import 'package:campus_market/Counters/cartitemcounter.dart';
 import 'package:campus_market/components/constants.dart';
+import 'package:campus_market/components/shared_preferences.dart';
 import 'package:campus_market/model/user_model.dart';
 import 'package:campus_market/productdetails.dart';
 import 'package:campus_market/providers/theme_provider.dart';
@@ -8,6 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProductCard extends StatefulWidget {
   ProductCard({
@@ -41,6 +43,7 @@ User? user = FirebaseAuth.instance.currentUser;
 UserModel loggedInUser = UserModel();
 final _auth = FirebaseAuth.instance;
 List allData = [];
+
 
 class _ProductCardState extends State<ProductCard> {
   void initState() {
@@ -390,7 +393,17 @@ class _ProductCardState extends State<ProductCard> {
     }
   }
 
+  
+
+  
+
+
   void addtoCart() {
+    
+     getListCart(EcommerceApp.userCartList,allData);
     postDetailsToFirestore();
+
+    
+
   }
 }

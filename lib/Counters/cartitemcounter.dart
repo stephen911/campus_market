@@ -1,11 +1,23 @@
 import 'package:campus_market/components/constants.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 
 class CartItemCounter extends ChangeNotifier {
-  List allData = [];
+//   List emtdata= [];
 
 
+//  CollectionReference _collectionRef =
+//       FirebaseFirestore.instance.collection('carts');
+//   Future<void> getData() async {
+//     QuerySnapshot querySnapshot = await _collectionRef.get();
 
+//     List emtdata = querySnapshot.docs.map((doc) => doc.data()).toList();
+//     // setState(() {
+//     //   allData = emtdata;
+//     // });
+
+//     print(emtdata[0]["price"]);
+//   }
 
 
     // print(allData[0]["price"]);

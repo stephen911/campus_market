@@ -50,6 +50,17 @@ getDoubleValuesSF(String key) async {
   //Return double
   double? doubleValue = prefs.getDouble(key);
   return doubleValue;
+
 }
+
+
+getListCart(String key, List <dynamic> value) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  //Return double
+  //  prefs.setStringList(key, value);
+
+}
+
+
 
 // get data from shared preference ends here

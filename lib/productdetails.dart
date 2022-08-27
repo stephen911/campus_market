@@ -135,6 +135,8 @@ class _ProductPageState extends State<ProductPage> {
                   )),
               IconButton(
                   onPressed: () {
+                    // getData();
+                    
                     Navigator.of(context).push(
                         MaterialPageRoute(builder: (context) => CartPage()));
                   },
