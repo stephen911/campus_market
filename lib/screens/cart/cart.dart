@@ -90,7 +90,7 @@ class _CartPageState extends State<CartPage> {
           ),
           StreamBuilder<QuerySnapshot>(
             stream: EcommerceApp.firestore
-                ?.collection("products")
+                ?.collection("carts")
                 .where("shortInfo",
                     whereIn: EcommerceApp.sharedPreferences
                         ?.getStringList(EcommerceApp.userCartList))

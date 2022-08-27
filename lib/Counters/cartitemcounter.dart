@@ -2,6 +2,14 @@ import 'package:campus_market/components/constants.dart';
 import 'package:flutter/foundation.dart';
 
 class CartItemCounter extends ChangeNotifier {
+  List allData = [];
+
+
+
+
+
+    // print(allData[0]["price"]);
+  
   // int _counter = EcommerceApp.sharedPreferences!.getStringList(EcommerceApp.userCartList)!.length-1;
   int _counter = 0;
   int get count => _counter;
