@@ -40,8 +40,7 @@ class ProductCard extends StatefulWidget {
 User? user = FirebaseAuth.instance.currentUser;
 UserModel loggedInUser = UserModel();
 final _auth = FirebaseAuth.instance;
-  List allData = [];
-
+List allData = [];
 
 class _ProductCardState extends State<ProductCard> {
   void initState() {
@@ -57,6 +56,7 @@ class _ProductCardState extends State<ProductCard> {
     });
     super.initState();
   }
+
   CollectionReference _collectionRef =
       FirebaseFirestore.instance.collection('carts');
   Future<void> getData() async {
@@ -95,7 +95,6 @@ class _ProductCardState extends State<ProductCard> {
       'quantityOfItems': 1,
       'size': "M",
       'productId': widget.productId,
-
       'date': DateTime.now(),
     });
 
@@ -113,7 +112,7 @@ class _ProductCardState extends State<ProductCard> {
           onTap: () {
             Route route = MaterialPageRoute(
                 builder: (c) => ProductPage(
-                   productId: widget.productId,
+                      productId: widget.productId,
                       brand: widget.brand,
                       category: widget.category,
                       sellerUid: widget.sellerUid,
@@ -377,16 +376,18 @@ class _ProductCardState extends State<ProductCard> {
   }
 
   void checkItemInCart() {
+    getData();
+
     for (int i = 0; i < allData.length; i++) {
-      if (allData[i]['productId']== widget.productId){
+      print(allData[i]['productId']);
+      print(widget.productId);
+
+      if (allData[i]['productId'] == widget.productId) {
         Fluttertoast.showToast(msg: "Product already in cart");
-      }
-      else{
+      } else {
         addtoCart();
       }
     }
-
-
   }
 
   void addtoCart() {
