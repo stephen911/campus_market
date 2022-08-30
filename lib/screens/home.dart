@@ -1,5 +1,6 @@
 import 'package:campus_market/productCard.dart';
 import 'package:campus_market/screens/cart/cart.dart';
+import 'package:campus_market/screens/cart/cart_page.dart';
 import 'package:campus_market/screens/categories/categories.dart';
 import 'package:campus_market/screens/categories/categoryCard.dart';
 import 'package:campus_market/screens/notification/notifications.dart';
@@ -315,7 +316,7 @@ class _HomePageContentState extends State<HomePageContent> {
           IconButton(
               onPressed: () {
                 Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) => CartPage()));
+                    .push(MaterialPageRoute(builder: (context) => CartScreen()));
               },
               icon: Icon(
                 Icons.shopping_cart,

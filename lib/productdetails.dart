@@ -108,6 +108,7 @@ class _ProductPageState extends State<ProductPage> {
       'quantityOfItems': quantityOfItems,
       'size': _selectedProductSize,
       'productId': widget.productId,
+      'discount': widget.discount,
       'date': DateTime.now(),
     });
 
@@ -136,7 +137,7 @@ class _ProductPageState extends State<ProductPage> {
               IconButton(
                   onPressed: () {
                     // getData();
-                    
+
                     Navigator.of(context).push(
                         MaterialPageRoute(builder: (context) => CartPage()));
                   },
@@ -473,7 +474,7 @@ class _ProductPageState extends State<ProductPage> {
     }
   }
 
- void updateCart() {
+  void updateCart() {
     for (int i = 0; i < allData.length; i++) {
       final docUser = FirebaseFirestore.instance
           .collection('carts')

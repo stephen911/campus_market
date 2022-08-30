@@ -3,8 +3,11 @@
 import 'package:campus_market/Counters/cartitemcounter.dart';
 import 'package:campus_market/Counters/totalMoney.dart';
 import 'package:campus_market/components/constants.dart';
+import 'package:campus_market/model/cart_model.dart';
 import 'package:campus_market/model/user_model.dart';
+import 'package:campus_market/productCard.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -19,10 +22,20 @@ class CartPage extends StatefulWidget {
 class _CartPageState extends State<CartPage> {
   late double totalAmount;
   List allData = [];
+  User? user = FirebaseAuth.instance.currentUser;
+  UserModel loggedInUser = UserModel();
 
   @override
   void initState() {
     super.initState();
+    FirebaseFirestore.instance
+        .collection("users")
+        .doc(user!.uid)
+        .get()
+        .then((value) {
+      loggedInUser = UserModel.fromMap(value.data());
+      setState(() {});
+    });
 
     totalAmount = 0;
     Provider.of<TotalAmount>(context, listen: false).display(0);
@@ -89,13 +102,12 @@ class _CartPageState extends State<CartPage> {
             ),
           ),
           StreamBuilder<QuerySnapshot>(
-            stream: EcommerceApp.firestore
-                ?.collection("carts")
-                .where("shortInfo",
-                    whereIn: EcommerceApp.sharedPreferences
-                        ?.getStringList(EcommerceApp.userCartList))
+            stream: FirebaseFirestore.instance
+                .collection("carts")
+                .where("uid", isEqualTo: loggedInUser.uid)
                 .snapshots(),
             builder: (context, snapshot) {
+              // print(snapshot);
               return !snapshot.hasData
                   ? SliverToBoxAdapter(
                       child: Center(
@@ -107,8 +119,25 @@ class _CartPageState extends State<CartPage> {
                       : SliverList(
                           delegate: SliverChildBuilderDelegate(
                             (context, index) {
-                              ItemModel model = ItemModel.fromJson(
-                                  snapshot.data as Map<String, dynamic>);
+                              List<Map<String, dynamic>?>? documentData =
+                                  snapshot.data?.docs
+                                      .map((e) =>
+                                          e.data() as Map<String, dynamic>?)
+                                      .toList();
+                              print(documentData);
+                              // ItemModel model = ItemModel.fromJson(
+                              //     snapshot.data as Map<String, dynamic>);
+                              cartModel model = cartModel();
+                              model.brand = allData[index]['brand'];
+                              model.description = allData[index]['description'];
+
+                              model.thumbnailUrl =
+                                  allData[index]['productFile'];
+
+                              model.title = allData[index]['title'];
+                              model.price = allData[index]['price'];
+                              model.category = allData[index]['category'];
+                              // model. = allData[index]['category'];
 
                               if (index == 0) {
                                 totalAmount = 0;

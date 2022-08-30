@@ -44,7 +44,6 @@ UserModel loggedInUser = UserModel();
 final _auth = FirebaseAuth.instance;
 List allData = [];
 
-
 class _ProductCardState extends State<ProductCard> {
   void initState() {
     FirebaseFirestore.instance
@@ -98,6 +97,7 @@ class _ProductCardState extends State<ProductCard> {
       'quantityOfItems': 1,
       'size': "M",
       'productId': widget.productId,
+      'discount': widget.discount,
       'date': DateTime.now(),
     });
 
@@ -386,6 +386,9 @@ class _ProductCardState extends State<ProductCard> {
       print(widget.productId);
 
       if (allData[i]['productId'] == widget.productId) {
+        print(_cart);
+        print(allData);
+
         Fluttertoast.showToast(msg: "Product already in cart");
       } else {
         addtoCart();
@@ -393,17 +396,19 @@ class _ProductCardState extends State<ProductCard> {
     }
   }
 
-  
+// List<String> _cartList = [];
+  var _cart = (allData as List).map((item) => item as String).toList();
 
-  
+  getListCart(String userCartList, List value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
 
+    prefs.setStringList('cartList', _cart);
+  }
 
   void addtoCart() {
-    
-     getListCart(EcommerceApp.userCartList,allData);
+    print(_cart);
+
+    getListCart(EcommerceApp.userCartList, _cart);
     postDetailsToFirestore();
-
-    
-
   }
 }
