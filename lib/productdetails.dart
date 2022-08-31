@@ -2,6 +2,7 @@ import 'package:campus_market/appbar.dart';
 import 'package:campus_market/model/user_model.dart';
 import 'package:campus_market/providers/theme_provider.dart';
 import 'package:campus_market/screens/cart/cart.dart';
+import 'package:campus_market/screens/cart/cart_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -45,6 +46,7 @@ class _ProductPageState extends State<ProductPage> {
   String _selectedProductSize = "S";
   int quantityOfItems = 1;
   List allData = [];
+  bool flagDetails = false;
 
   // var title = "Adidas Shorts";
   // var longdescription =
@@ -140,7 +142,7 @@ class _ProductPageState extends State<ProductPage> {
                     // getData();
 
                     Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => CartPage()));
+                        MaterialPageRoute(builder: (context) => CartScreen()));
                   },
                   icon: Icon(
                     Icons.shopping_cart,
@@ -462,18 +464,49 @@ class _ProductPageState extends State<ProductPage> {
   void checkItemInCart() {
     getData();
 
-    for (int i = 0; i < allData.length; i++) {
-      print(allData[i]['productId']);
-      print(widget.productId);
+    // for (int i = 0; i < allData.length; i++) {
+    //   print(allData[i]['productId']);
+    //   print(widget.productId);
 
-      if (allData[i]['productId'] == widget.productId) {
+    //   if (allData[i]['productId'] == widget.productId) {
+    //     updateCart();
+    //     Fluttertoast.showToast(msg: "product updated successfully");
+    //   } else {
+    //     addtoCart();
+    //   }
+    // }
+    if (allData.length != 0) {
+      for (int i = 0; i < allData.length; i++) {
+        print(allData[i]['productId']);
+        print(allData.length);
+
+        print(widget.productId);
+
+        if (allData[i]['productId'] == widget.productId) {
+          // print(_cart);
+          flagDetails = false;
+          // break;
+          // Fluttertoast.showToast(msg: "Product already in cart");
+          
+        } else {
+          flagDetails = true;
+        }
+      }
+      if (flagDetails) {
+        addtoCart();
+        // print(allDataProductCard);
+        Fluttertoast.showToast(msg: "product added to cart");
+
+      }else{
         updateCart();
         Fluttertoast.showToast(msg: "product updated successfully");
-      } else {
-        addtoCart();
+
       }
+    } else {
+      addtoCart();
     }
   }
+  
 
   void updateCart() {
     for (int i = 0; i < allData.length; i++) {

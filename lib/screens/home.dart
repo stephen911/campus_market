@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:campus_market/orders/order.dart';
 import 'package:campus_market/productCard.dart';
 import 'package:campus_market/screens/cart/cart.dart';
@@ -41,30 +43,30 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  
-Widget callPage(int _selectedBar) {
+  Widget callPage(int _selectedBar) {
     switch (_selectedBar) {
       case 0:
         return HomePageContent();
       case 1:
         return SignUpScreen();
       case 2:
-        return  Categories();
+        return Categories();
       case 3:
-        return  Notifications();
-        
+        return Notifications();
+
       default:
         return HomePageContent();
     }
   }
-  
+
   @override
   Widget build(BuildContext context) {
     void changePage(int index) {
-    setState(() {
-      currentIndex = index;
-    });
-  }
+      setState(() {
+        currentIndex = index;
+      });
+    }
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -138,7 +140,7 @@ class HomePageContent extends StatefulWidget {
 }
 
 class _HomePageContentState extends State<HomePageContent> {
-  List allData = [];
+  List allDataProducts = [];
   static List bannerAdSlider = [
     "assets/banner1.jpg",
     "assets/banner2.jpg",
@@ -224,10 +226,10 @@ class _HomePageContentState extends State<HomePageContent> {
 
     List emtdata = querySnapshot.docs.map((doc) => doc.data()).toList();
     setState(() {
-      allData = emtdata;
+      allDataProducts = emtdata;
     });
 
-    // print(allData![0]["status"]);
+    // print(allDataProducts![0]["status"]);
   }
 
   void initState() {
@@ -337,8 +339,8 @@ class _HomePageContentState extends State<HomePageContent> {
         actions: [
           IconButton(
               onPressed: () {
-                 Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) => OrdersPage()));
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => OrdersPage()));
               },
               icon: Icon(
                 Icons.feed,
@@ -346,8 +348,8 @@ class _HomePageContentState extends State<HomePageContent> {
               )),
           IconButton(
               onPressed: () {
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) => CartScreen()));
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => CartScreen()));
               },
               icon: Icon(
                 Icons.shopping_cart,
@@ -525,19 +527,24 @@ class _HomePageContentState extends State<HomePageContent> {
               SizedBox(
                 height: 30,
               ),
-              for (int i = 0; i < allData.length; i++)
-                if (allData[i]["status"] == "approved")
-                  ProductCard(
-                    productId: allData[i]["productId"],
-                    brand: allData[i]["brand"],
-                    category: allData[i]["category"],
-                    sellerUid: allData[i]["uid"],
-                    description: allData[i]["description"],
-                    discount: allData[i]["discount"],
-                    img: allData[i]["productFile"],
-                    price: allData[i]["price"],
-                    title: allData[i]["title"],
-                  ),
+              allDataProducts == null
+                  ? CircularProgressIndicator()
+                  : Column(children: [
+                      for (int i = 0; i < allDataProducts.length; i++)
+                        if (allDataProducts[i]["status"] == "approved")
+                          ProductCard(
+                            productId: allDataProducts[i]["productId"],
+                            brand: allDataProducts[i]["brand"],
+                            category: allDataProducts[i]["category"],
+                            sellerUid: allDataProducts[i]["uid"],
+                            description: allDataProducts[i]["description"],
+                            discount: allDataProducts[i]["discount"],
+                            img: allDataProducts[i]["productFile"],
+                            price: allDataProducts[i]["price"],
+                            title: allDataProducts[i]["title"],
+                          ),
+                    ]),
+
               SizedBox(
                 height: 10,
               ),
