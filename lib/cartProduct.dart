@@ -19,6 +19,7 @@ class CartProduct extends StatelessWidget {
     required this.sellerUid,
     required this.brand,
     required this.category,
+    required this.quantity,
   }) : super(key: key);
   String img;
   int discount;
@@ -28,21 +29,22 @@ class CartProduct extends StatelessWidget {
   String sellerUid;
   String brand;
   String category;
+  String quantity;
   String productId;
 
   @override
   Widget build(BuildContext context) {
     Size productSize = MediaQuery.of(context).size;
-    // double width = MediaQuery.of(context).size.width;
     final themeChange = Provider.of<DarkThemeProvider>(context);
 
     return Container(
+      
         child: Padding(
           padding: EdgeInsets.symmetric(
               horizontal:
-                  productSize.width <= 320 ? productSize.width * 0.0168 : 12,
+                  productSize.width <= 320 ? productSize.width * 0.0168 : 1,
               vertical:
-                  productSize.width <= 320 ? productSize.width * 0.0168 : 5),
+                  productSize.width <= 320 ? productSize.width * 0.0168 : 1),
           child: Container(
               decoration: BoxDecoration(
                 //border: Border.all(color: Colors.black)
@@ -57,9 +59,8 @@ class CartProduct extends StatelessWidget {
               ),
               height: (productSize.width <= 320
                   ? productSize.height * 0.244
-                  : 141),
-              width: MediaQuery.of(context).size.width -
-                  (productSize.width * 0.014),
+                  : 90),
+              width:  double.infinity,
               child: Row(children: [
                 ClipRRect(
                     borderRadius: BorderRadius.circular(10),
@@ -115,8 +116,8 @@ class CartProduct extends StatelessWidget {
                         children: [
                           Expanded(
                             child: productSize.width <= 320
-                                ? Text(
-                                    description,
+                                ? Text("Quantity: " +
+                                  quantity,
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
@@ -124,8 +125,8 @@ class CartProduct extends StatelessWidget {
                                       fontSize: 12,
                                     ),
                                   )
-                                : Text(
-                                    description,
+                                : Text("Quantity: " +
+                                    quantity,
                                     // model.shortInfo.sentenceCase,
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
@@ -145,88 +146,17 @@ class CartProduct extends StatelessWidget {
                       ),
                       Row(
                         children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              shape: BoxShape.rectangle,
-                              color: themeChange.darkTheme
-                                  ? Colors.red
-                                  : Colors.blueAccent,
-                            ),
-                            alignment: Alignment.topLeft,
-                            width: (productSize.width <= 320
-                                ? productSize.width * 0.111
-                                : 40), //40
-                            height: (productSize.width <= 320
-                                ? productSize.width * 0.12
-                                : 43), //43
-                            child: Center(
-                              child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      discount == null
-                                          ? ""
-                                          : discount.toString() + "%",
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 15,
-                                        fontWeight: themeChange.darkTheme
-                                            ? FontWeight.bold
-                                            : FontWeight.normal,
-                                      ),
-                                    ),
-                                    Text(
-                                      discount != null ? "OFF" : "",
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 12,
-                                        fontWeight: themeChange.darkTheme
-                                            ? FontWeight.bold
-                                            : FontWeight.normal,
-                                      ),
-                                    ),
-                                  ]),
-                            ),
-                          ),
-                          SizedBox(
-                              width: (productSize.width <= 320
-                                  ? productSize.width * 0.004
-                                  : 10)), //10
+                           
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Padding(
-                                padding: EdgeInsets.only(top: 0),
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      r"Original Price: Ghc ",
-                                      style: TextStyle(
-                                          color: themeChange.darkTheme
-                                              ? Colors.white
-                                              : Colors.black,
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                    Text(
-                                      discount == null
-                                          ? (price * 2).toString()
-                                          : (price).toString(),
-                                      style: TextStyle(
-                                          color: Colors.grey,
-                                          fontSize: 15,
-                                          decoration:
-                                              TextDecoration.lineThrough),
-                                    ),
-                                  ],
-                                ),
-                              ),
+                              
                               Padding(
                                 padding: EdgeInsets.only(top: 5),
                                 child: Row(
                                   children: [
                                     Text(
-                                      r"New Price: ",
+                                      r"Price: ",
                                       style: TextStyle(
                                           color: themeChange.darkTheme
                                               ? Colors.white
@@ -262,24 +192,11 @@ class CartProduct extends StatelessWidget {
                         ],
                       ),
                       Flexible(child: Container()),
-                      //future
-    
-                      Align(
-                          alignment: Alignment.centerRight,
-                          child: IconButton(
-                              icon: Icon(
-                                Icons.add_shopping_cart,
-                                color: themeChange.darkTheme
-                                    ? Colors.grey[400]
-                                    : Colors.blueAccent,
-                              ),
-                              onPressed: () {
-                                // checkItemInCart(title, quantity,
-                                //     size, model, context);
-                              })),
+                     
                     ],
                   ),
                 ),
+                IconButton(onPressed: (){}, icon: Icon(Icons.delete_forever, color: Colors.red,))
               ])),
         ),
       

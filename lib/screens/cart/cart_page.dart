@@ -1,4 +1,5 @@
 import 'package:campus_market/cartProduct.dart';
+import 'package:campus_market/screens/cart/cart.dart';
 import 'package:campus_market/screens/cart/confirm_order.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -146,6 +147,28 @@ class _CartScreenState extends State<CartScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        iconTheme: IconThemeData(color: Colors.black),
+        backgroundColor: Color.fromARGB(255, 247, 247, 247),
+        actions: [
+          IconButton(
+              onPressed: () {},
+              icon: Icon(
+                Icons.feed,
+                color: Colors.black,
+              )),
+          IconButton(
+              onPressed: () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => CartPage()));
+              },
+              icon: Icon(
+                Icons.shopping_cart,
+                color: Colors.black,
+              ))
+        ],
+      ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: ListView.builder(
@@ -191,6 +214,7 @@ class _CartScreenState extends State<CartScreen> {
                       sellerUid: allData[index]["sellerUid"].toString(),
                       brand: allData[index]["brand"].toString(),
                       category: allData[index]["category"].toString(),
+                      quantity: allData[index]["quantityOfItems"].toString(),
                     ),
                 )
                 : beginBuildingCart(),

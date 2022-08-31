@@ -1,3 +1,4 @@
+import 'package:campus_market/orders/order.dart';
 import 'package:campus_market/productCard.dart';
 import 'package:campus_market/screens/cart/cart.dart';
 import 'package:campus_market/screens/cart/cart_page.dart';
@@ -335,9 +336,12 @@ class _HomePageContentState extends State<HomePageContent> {
         backgroundColor: Color.fromARGB(255, 247, 247, 247),
         actions: [
           IconButton(
-              onPressed: () {},
+              onPressed: () {
+                 Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => OrdersPage()));
+              },
               icon: Icon(
-                Icons.notifications,
+                Icons.feed,
                 color: Colors.black,
               )),
           IconButton(
