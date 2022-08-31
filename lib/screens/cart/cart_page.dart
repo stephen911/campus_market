@@ -1,4 +1,5 @@
 import 'package:campus_market/cartProduct.dart';
+import 'package:campus_market/screens/cart/cart.dart';
 import 'package:campus_market/screens/cart/confirm_order.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -17,7 +18,7 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
-  List allData = [];
+  List allDataCart = [];
   User? user = FirebaseAuth.instance.currentUser;
   UserModel loggedInUser = UserModel();
   double totalcal = 0;
@@ -74,10 +75,8 @@ class _CartScreenState extends State<CartScreen> {
     if (serviceEnabled && status.isGranted) {
       getLoc();
       ///// Navigate
-      Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const ConfirmOrder()));
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (context) => const ConfirmOrder()));
     } else {
       Fluttertoast.showToast(msg: "allow location permission to apply loan");
       Navigator.pop(context);
@@ -98,11 +97,11 @@ class _CartScreenState extends State<CartScreen> {
         '${place.name}, ${place.street}, ${place.administrativeArea}, ${place.subAdministrativeArea} ,${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}';
     User? user = FirebaseAuth.instance.currentUser;
 
-    for (int i = 0; i < allData.length; i++) {
-      if (allData[i]['uid'] == user!.uid) {
+    for (int i = 0; i < allDataCart.length; i++) {
+      if (allDataCart[i]['uid'] == user!.uid) {
         final docUser = FirebaseFirestore.instance
             .collection('carts')
-            .doc(allData[i]['parentId']);
+            .doc(allDataCart[i]['parentId']);
         // updating the specific fields
 
         docUser.update({
@@ -127,14 +126,14 @@ class _CartScreenState extends State<CartScreen> {
 
     List emtdata = querySnapshot.docs.map((doc) => doc.data()).toList();
     setState(() {
-      allData = emtdata;
+      allDataCart = emtdata;
     });
 
-    print(allData[0]["price"]);
-    for (int i = 0; i < allData.length; i++) {
-      if (allData[i]['uid'] == user!.uid) {
-        totalcal += allData[i]["price"] -
-            (allData[i]["price"] * allData[i]["discount"] * 0.01);
+    print(allDataCart[0]["price"]);
+    for (int i = 0; i < allDataCart.length; i++) {
+      if (allDataCart[i]['uid'] == user!.uid) {
+        totalcal += allDataCart[i]["price"] -
+            (allDataCart[i]["price"] * allDataCart[i]["discount"] * 0.01);
       }
     }
     setState(() {
@@ -146,57 +145,104 @@ class _CartScreenState extends State<CartScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20),
-        child: ListView.builder(
-          itemCount: allData.length,
-          itemBuilder: (context, index) => Padding(
-            padding: EdgeInsets.symmetric(vertical: 10),
-            child: allData[index]["uid"] == user!.uid
-                ? Dismissible(
-      key: Key(allData[index]["productId"].toString()),
-            direction: DismissDirection.endToStart,
-            onDismissed: (direction) {
-              setState(() {
-                allData.removeAt(index);
-                SnackBar(content: Text(allData[index]["title"].toString() + " has been deleted"));
-              });
-            },
-            secondaryBackground: Container(
-              alignment: Alignment.centerRight,
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: Icon(Icons.delete_sweep_rounded, color: Colors.white,),
-              decoration: BoxDecoration(
-                color: Colors.red,
-                borderRadius: BorderRadius.circular(15),
-
+      appBar: AppBar(
+        elevation: 0,
+        iconTheme: IconThemeData(color: Colors.black),
+        backgroundColor: Color.fromARGB(255, 247, 247, 247),
+        actions: [
+          IconButton(
+              onPressed: () {},
+              icon: Icon(
+                Icons.feed,
+                color: Colors.black,
               )),
-            background: Container(
-              alignment: Alignment.centerLeft,
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: Icon(Icons.delete_sweep_rounded, color: Colors.white,),
-              decoration: BoxDecoration(
-                color: Colors.red,
-                borderRadius: BorderRadius.circular(15),
-
-              )),
-      
-                  child: CartProduct(
-                      description: allData[index]["description"].toString(),
-                      productId: allData[index]["productId"].toString(),
-                      discount: allData[index]["discount"],
-                      img: allData[index]["productFile"].toString(),
-                      price: allData[index]["price"],
-                      title: allData[index]["title"].toString(),
-                      sellerUid: allData[index]["sellerUid"].toString(),
-                      brand: allData[index]["brand"].toString(),
-                      category: allData[index]["category"].toString(),
-                    ),
-                )
-                : beginBuildingCart(),
-          ),
-        ),
+          IconButton(
+              onPressed: () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => CartPage()));
+              },
+              icon: Icon(
+                Icons.shopping_cart,
+                color: Colors.black,
+              ))
+        ],
       ),
+      body: allDataCart.length != 0
+          ? Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              child: ListView.builder(
+                itemCount: allDataCart.length,
+                itemBuilder: (context, index) => Padding(
+                  padding: EdgeInsets.symmetric(vertical: 10),
+                  child: allDataCart[index]["uid"] == user!.uid
+                      ? Dismissible(
+                          key: Key(allDataCart[index]["productId"].toString()),
+                          direction: DismissDirection.endToStart,
+                          onDismissed: (direction) {
+                            setState(() {
+                              allDataCart.removeAt(index);
+                              SnackBar(
+                                  content: Text(
+                                      allDataCart[index]["title"].toString() +
+                                          " has been deleted"));
+                            });
+                          },
+                          secondaryBackground: Container(
+                              alignment: Alignment.centerRight,
+                              padding: EdgeInsets.symmetric(horizontal: 20),
+                              child: Icon(
+                                Icons.delete_sweep_rounded,
+                                color: Colors.white,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.red,
+                                borderRadius: BorderRadius.circular(15),
+                              )),
+                          background: Container(
+                              alignment: Alignment.centerLeft,
+                              padding: EdgeInsets.symmetric(horizontal: 20),
+                              child: Icon(
+                                Icons.delete_sweep_rounded,
+                                color: Colors.white,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.red,
+                                borderRadius: BorderRadius.circular(15),
+                              )),
+                          child: CartProduct(
+                            description:
+                                allDataCart[index]["description"].toString(),
+                            productId:
+                                allDataCart[index]["productId"].toString(),
+                            discount: allDataCart[index]["discount"],
+                            img: allDataCart[index]["productFile"].toString(),
+                            price: allDataCart[index]["price"],
+                            title: allDataCart[index]["title"].toString(),
+                            sellerUid:
+                                allDataCart[index]["sellerUid"].toString(),
+                            brand: allDataCart[index]["brand"].toString(),
+                            category: allDataCart[index]["category"].toString(),
+                            quantity: allDataCart[index]["quantityOfItems"]
+                                .toString(),
+                          ),
+                        )
+                      : Container(),
+                ),
+              ),
+            )
+          : Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.insert_emoticon,
+                    color: Colors.orange,
+                  ),
+                  Text("Cart is empty"),
+                  Text("Start adding items to your cart"),
+                ],
+              ),
+            ),
       bottomNavigationBar: CheckoutCard(
         total: total.toStringAsFixed(2),
         tap: check_permission,
@@ -209,7 +255,7 @@ class _CartScreenState extends State<CartScreen> {
         child: Card(
             color: Theme.of(context).primaryColor.withOpacity(0.5),
             child: Container(
-              height: 100,
+              height: 40,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

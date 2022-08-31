@@ -42,7 +42,8 @@ class ProductCard extends StatefulWidget {
 User? user = FirebaseAuth.instance.currentUser;
 UserModel loggedInUser = UserModel();
 final _auth = FirebaseAuth.instance;
-List allData = [];
+List allDataProductCard = [];
+bool flag = false;
 
 class _ProductCardState extends State<ProductCard> {
   void initState() {
@@ -66,10 +67,10 @@ class _ProductCardState extends State<ProductCard> {
 
     List emtdata = querySnapshot.docs.map((doc) => doc.data()).toList();
     setState(() {
-      allData = emtdata;
+      allDataProductCard = emtdata;
     });
 
-    // print(allData[0]["price"]);
+    // print(allDataProductCard[0]["price"]);
   }
 
   postDetailsToFirestore() async {
@@ -99,7 +100,6 @@ class _ProductCardState extends State<ProductCard> {
       'productId': widget.productId,
       'discount': widget.discount,
       'location': "",
-
       'date': DateTime.now(),
     });
 
@@ -383,34 +383,41 @@ class _ProductCardState extends State<ProductCard> {
   void checkItemInCart() {
     getData();
 
-    for (int i = 0; i < allData.length; i++) {
-      print(allData[i]['productId']);
-      print(widget.productId);
+    if (allDataProductCard.length != 0) {
+      for (int i = 0; i < allDataProductCard.length; i++) {
+        print(allDataProductCard[i]['productId']);
+        print(allDataProductCard.length);
 
-      if (allData[i]['productId'] == widget.productId) {
-        print(_cart);
-        print(allData);
+        print(widget.productId);
 
-        Fluttertoast.showToast(msg: "Product already in cart");
-      } else {
-        addtoCart();
+        if (allDataProductCard[i]['productId'] == widget.productId) {
+          // print(_cart);
+          flag = false;
+          // break;
+          Fluttertoast.showToast(msg: "Product already in cart");
+        } else {
+          flag = true;
+        }
       }
+      if (flag) {
+        addtoCart();
+        // print(allDataProductCard);
+      }
+    } else {
+      addtoCart();
     }
   }
-
-// List<String> _cartList = [];
-  var _cart = (allData as List).map((item) => item as String).toList();
 
   getListCart(String userCartList, List value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    prefs.setStringList('cartList', _cart);
+    // prefs.setStringList('cartList', _cart);
   }
 
   void addtoCart() {
-    print(_cart);
+    // print(_cart);
 
-    getListCart(EcommerceApp.userCartList, _cart);
+    // getListCart(EcommerceApp.userCartList, _cart);
     postDetailsToFirestore();
   }
 }
