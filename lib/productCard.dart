@@ -98,6 +98,8 @@ class _ProductCardState extends State<ProductCard> {
       'size': "M",
       'productId': widget.productId,
       'discount': widget.discount,
+      'location': "",
+
       'date': DateTime.now(),
     });
 

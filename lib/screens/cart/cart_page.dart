@@ -18,7 +18,6 @@ class _CartScreenState extends State<CartScreen> {
   double totalcal = 0;
   double total = 0;
 
-
   @override
   void initState() {
     super.initState();
@@ -48,8 +47,10 @@ class _CartScreenState extends State<CartScreen> {
 
     print(allData[0]["price"]);
     for (int i = 0; i < allData.length; i++) {
-      if(allData[i]['productId']== user!.uid)
-      totalcal += allData[i]["price"];
+      if (allData[i]['uid'] == user!.uid) {
+        totalcal += allData[i]["price"] -
+            (allData[i]["price"] * allData[i]["discount"] * 0.01);
+      }
     }
     setState(() {
       total = totalcal;
@@ -82,7 +83,8 @@ class _CartScreenState extends State<CartScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: CheckoutCard(total: total),
+      bottomNavigationBar:
+          CheckoutCard(total: total.toStringAsFixed(2), tap: () {}),
     );
   }
 

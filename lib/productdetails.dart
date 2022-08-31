@@ -109,6 +109,7 @@ class _ProductPageState extends State<ProductPage> {
       'size': _selectedProductSize,
       'productId': widget.productId,
       'discount': widget.discount,
+      'location': "",
       'date': DateTime.now(),
     });
 

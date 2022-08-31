@@ -5,10 +5,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class CheckoutCard extends StatelessWidget {
   CheckoutCard({
+    required this.tap,
     required this.total,
     Key? key,
   }) : super(key: key);
-  double total;
+  String total;
+  VoidCallback tap;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -49,7 +51,7 @@ class CheckoutCard extends StatelessWidget {
                   child: SvgPicture.asset("assets/icons/receipt.svg"),
                 ),
                 Spacer(),
-                Text("Add voucher code"),
+                // Text("Add voucher code"),
                 const SizedBox(width: 10),
                 Icon(
                   Icons.arrow_forward_ios,
@@ -77,7 +79,7 @@ class CheckoutCard extends StatelessWidget {
                   width: 190,
                   child: DefaultButton(
                     text: "Check Out",
-                    press: () {},
+                    press: tap,
                   ),
                 ),
               ],
