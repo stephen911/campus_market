@@ -1,5 +1,6 @@
 import 'package:campus_market/productCard.dart';
 import 'package:campus_market/screens/cart/cart.dart';
+import 'package:campus_market/screens/cart/cart_page.dart';
 import 'package:campus_market/screens/categories/categories.dart';
 import 'package:campus_market/screens/categories/categoryCard.dart';
 import 'package:campus_market/screens/notification/notifications.dart';
@@ -33,9 +34,36 @@ class _MyHomePageState extends State<MyHomePage> {
     //////the content of the notification page
     Notifications(),
   ];
+  void changePage(int index) {
+    setState(() {
+      currentIndex = index;
+    });
+  }
 
+  
+Widget callPage(int _selectedBar) {
+    switch (_selectedBar) {
+      case 0:
+        return HomePageContent();
+      case 1:
+        return SignUpScreen();
+      case 2:
+        return  Categories();
+      case 3:
+        return  Notifications();
+        
+      default:
+        return HomePageContent();
+    }
+  }
+  
   @override
   Widget build(BuildContext context) {
+    void changePage(int index) {
+    setState(() {
+      currentIndex = index;
+    });
+  }
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -96,7 +124,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ],
       ),
-      body: Navbody[currentIndex],
+      body: this.callPage(this.currentIndex),
     );
   }
 }
@@ -315,7 +343,7 @@ class _HomePageContentState extends State<HomePageContent> {
           IconButton(
               onPressed: () {
                 Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) => CartPage()));
+                    .push(MaterialPageRoute(builder: (context) => CartScreen()));
               },
               icon: Icon(
                 Icons.shopping_cart,
