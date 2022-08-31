@@ -3,13 +3,12 @@ import 'package:campus_market/components/default_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-
-
 class CheckoutCard extends StatelessWidget {
-  const CheckoutCard({
+  CheckoutCard({
+    required this.total,
     Key? key,
   }) : super(key: key);
-
+  double total;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -41,7 +40,7 @@ class CheckoutCard extends StatelessWidget {
               children: [
                 Container(
                   padding: EdgeInsets.all(10),
-                  height:40,
+                  height: 40,
                   width: 40,
                   decoration: BoxDecoration(
                     color: Color(0xFFF5F6F9),
@@ -68,14 +67,14 @@ class CheckoutCard extends StatelessWidget {
                     text: "Total:\n",
                     children: [
                       TextSpan(
-                        text: "\$337.15",
+                        text: '\₵ ${total}',
                         style: TextStyle(fontSize: 16, color: Colors.black),
                       ),
                     ],
                   ),
                 ),
                 SizedBox(
-                  width:190,
+                  width: 190,
                   child: DefaultButton(
                     text: "Check Out",
                     press: () {},
