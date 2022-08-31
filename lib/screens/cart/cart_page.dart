@@ -178,7 +178,7 @@ class _CartScreenState extends State<CartScreen> {
   beginBuildingCart() {
     return SliverToBoxAdapter(
         child: Card(
-            color: Theme.of(context).primaryColor.withOpacity(0.5),
+            color: Theme.of(context).primaryColor.withOpacity(0.6),
             child: Container(
               height: 100,
               child: Column(
