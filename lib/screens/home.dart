@@ -34,9 +34,36 @@ class _MyHomePageState extends State<MyHomePage> {
     //////the content of the notification page
     Notifications(),
   ];
+  void changePage(int index) {
+    setState(() {
+      currentIndex = index;
+    });
+  }
 
+  
+Widget callPage(int _selectedBar) {
+    switch (_selectedBar) {
+      case 0:
+        return HomePageContent();
+      case 1:
+        return SignUpScreen();
+      case 2:
+        return  Categories();
+      case 3:
+        return  Notifications();
+        
+      default:
+        return HomePageContent();
+    }
+  }
+  
   @override
   Widget build(BuildContext context) {
+    void changePage(int index) {
+    setState(() {
+      currentIndex = index;
+    });
+  }
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -97,7 +124,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ],
       ),
-      body: Navbody[currentIndex],
+      body: this.callPage(this.currentIndex),
     );
   }
 }
