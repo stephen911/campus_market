@@ -1,7 +1,12 @@
 import 'package:campus_market/cartProduct.dart';
+import 'package:campus_market/screens/cart/confirm_order.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../../components/check_out_card.dart';
 import '../../model/user_model.dart';
@@ -17,6 +22,12 @@ class _CartScreenState extends State<CartScreen> {
   UserModel loggedInUser = UserModel();
   double totalcal = 0;
   double total = 0;
+  String location = 'Null, Press Button';
+  final _auth = FirebaseAuth.instance;
+
+  String? Address = 'search';
+  Position? position;
+  bool checkLoc = false;
 
   @override
   void initState() {
@@ -33,6 +44,80 @@ class _CartScreenState extends State<CartScreen> {
     setState(() {
       getData();
     });
+  }
+
+  check_permission() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+    var status = await Permission.location.status;
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+
+    var statusContact = await Permission.contacts.status;
+
+    if (!serviceEnabled) {
+      print("status is not enabled");
+      // await Permission.location.request();
+      await Geolocator.openLocationSettings();
+    }
+
+    getLoc();
+
+    if (status.isDenied) {
+      print("status is denied");
+      await Permission.location.request();
+    }
+
+    if (status.isPermanentlyDenied) {
+      print("status is denied permenantly");
+      await Permission.location.request();
+    }
+    if (serviceEnabled && status.isGranted) {
+      getLoc();
+      ///// Navigate
+      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const ConfirmOrder()));
+    } else {
+      Fluttertoast.showToast(msg: "allow location permission to apply loan");
+      Navigator.pop(context);
+    }
+  }
+
+  Future<Position> _getGeoLocationPosition() async {
+    return await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+  }
+
+  Future<void> GetAddressFromLatLong(Position position) async {
+    List<Placemark> placemarks =
+        await placemarkFromCoordinates(position.latitude, position.longitude);
+    print(placemarks);
+    Placemark place = placemarks[0];
+    Address =
+        '${place.name}, ${place.street}, ${place.administrativeArea}, ${place.subAdministrativeArea} ,${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}';
+    User? user = FirebaseAuth.instance.currentUser;
+
+    for (int i = 0; i < allData.length; i++) {
+      if (allData[i]['uid'] == user!.uid) {
+        final docUser = FirebaseFirestore.instance
+            .collection('carts')
+            .doc(allData[i]['parentId']);
+        // updating the specific fields
+
+        docUser.update({
+          "location": Address,
+        });
+      }
+    }
+
+    Fluttertoast.showToast(msg: "location updated successfully");
+  }
+
+  Future<void> getLoc() async {
+    position = await _getGeoLocationPosition();
+    location = 'Lat: ${position!.latitude} , Long: ${position!.longitude}';
+    GetAddressFromLatLong(position!);
   }
 
   CollectionReference _collectionRef =
@@ -83,8 +168,10 @@ class _CartScreenState extends State<CartScreen> {
           ),
         ),
       ),
-      bottomNavigationBar:
-          CheckoutCard(total: total.toStringAsFixed(2), tap: () {}),
+      bottomNavigationBar: CheckoutCard(
+        total: total.toStringAsFixed(2),
+        tap: check_permission,
+      ),
     );
   }
 
