@@ -477,15 +477,17 @@ class _ProductPageState extends State<ProductPage> {
 
   void updateCart() {
     for (int i = 0; i < allData.length; i++) {
-      final docUser = FirebaseFirestore.instance
-          .collection('carts')
-          .doc(allData[i]['parentId']);
-      // updating the specific fields
+      if (allData[i]['uid'] == user!.uid) {
+        final docUser = FirebaseFirestore.instance
+            .collection('carts')
+            .doc(allData[i]['parentId']);
+        // updating the specific fields
 
-      docUser.update({
-        'quantityOfItems': quantityOfItems,
-        'size': _selectedProductSize,
-      });
+        docUser.update({
+          'quantityOfItems': quantityOfItems,
+          'size': _selectedProductSize,
+        });
+      }
     }
   }
 
