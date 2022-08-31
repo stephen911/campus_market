@@ -68,17 +68,45 @@ class _CartScreenState extends State<CartScreen> {
           itemBuilder: (context, index) => Padding(
             padding: EdgeInsets.symmetric(vertical: 10),
             child: allData[index]["uid"] == user!.uid
-                ? CartProduct(
-                    description: allData[index]["description"].toString(),
-                    productId: allData[index]["productId"].toString(),
-                    discount: allData[index]["discount"],
-                    img: allData[index]["productFile"].toString(),
-                    price: allData[index]["price"],
-                    title: allData[index]["title"].toString(),
-                    sellerUid: allData[index]["sellerUid"].toString(),
-                    brand: allData[index]["brand"].toString(),
-                    category: allData[index]["category"].toString(),
-                  )
+                ? Dismissible(
+      key: Key(allData[index]["productId"].toString()),
+            direction: DismissDirection.endToStart,
+            onDismissed: (direction) {
+              setState(() {
+                allData.removeAt(index);
+              });
+            },
+            secondaryBackground: Container(
+              alignment: Alignment.centerRight,
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              child: Icon(Icons.delete_sweep_rounded, color: Colors.white,),
+              decoration: BoxDecoration(
+                color: Colors.red,
+                borderRadius: BorderRadius.circular(15),
+
+              )),
+            background: Container(
+              alignment: Alignment.centerLeft,
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              child: Icon(Icons.delete_sweep_rounded, color: Colors.white,),
+              decoration: BoxDecoration(
+                color: Colors.red,
+                borderRadius: BorderRadius.circular(15),
+
+              )),
+      
+                  child: CartProduct(
+                      description: allData[index]["description"].toString(),
+                      productId: allData[index]["productId"].toString(),
+                      discount: allData[index]["discount"],
+                      img: allData[index]["productFile"].toString(),
+                      price: allData[index]["price"],
+                      title: allData[index]["title"].toString(),
+                      sellerUid: allData[index]["sellerUid"].toString(),
+                      brand: allData[index]["brand"].toString(),
+                      category: allData[index]["category"].toString(),
+                    ),
+                )
                 : beginBuildingCart(),
           ),
         ),
@@ -91,7 +119,7 @@ class _CartScreenState extends State<CartScreen> {
   beginBuildingCart() {
     return SliverToBoxAdapter(
         child: Card(
-            color: Theme.of(context).primaryColor.withOpacity(0.6),
+            color: Theme.of(context).primaryColor.withOpacity(0.5),
             child: Container(
               height: 100,
               child: Column(
