@@ -74,6 +74,7 @@ class _CartScreenState extends State<CartScreen> {
             onDismissed: (direction) {
               setState(() {
                 allData.removeAt(index);
+                SnackBar(content: Text(allData[index]["title"].toString() + " has been deleted"));
               });
             },
             secondaryBackground: Container(
