@@ -20,6 +20,7 @@ import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+import '../providers/cart_provider.dart';
 import '../providers/theme_provider.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -153,6 +154,9 @@ class _HomePageContentState extends State<HomePageContent> {
 
   bool isLoading = false;
   int counter = 0;
+  Box counterTheme = Hive.box("CartCounter");
+  
+  // counterTheme.put("counter", light);
   static List bannerAdSlider = [
     "assets/banner1.jpg",
     "assets/banner2.jpg",
@@ -264,7 +268,7 @@ class _HomePageContentState extends State<HomePageContent> {
     List emtdatacart = querySnapshot.docs.map((doc) => doc.data()).toList();
     setState(() {
       allDataCarts = emtdatacart;
-      counter = allDataCarts.length;
+      // counter = allDataCarts.length;
 
       // isLoading = true;
     });
@@ -372,6 +376,9 @@ class _HomePageContentState extends State<HomePageContent> {
       super.dispose();
     }
 
+  // counterTheme.put('counter', 0);
+  counter = counterTheme.get("counter");
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -392,13 +399,22 @@ class _HomePageContentState extends State<HomePageContent> {
                 color: Colors.black,
                 size: 30,
               ),
-              childWidget: Text(
-                "${counter}",
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 14,
-                    color: Colors.white),
-              ),
+              childWidget:   Consumer<CartProvider>(builder: ((context, value, child) {
+                    return Text(
+                      value.counter().toString(),
+                      style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 11,
+                          fontWeight: FontWeight.bold),
+                    );
+                  })),
+              // childWidget: Text(
+              //   "${counter}",
+              //   style: TextStyle(
+              //       fontWeight: FontWeight.bold,
+              //       fontSize: 14,
+              //       color: Colors.white),
+              // ),
               onTap: () {
                 Navigator.of(context).push(
                     MaterialPageRoute(builder: (context) => CartScreen()));

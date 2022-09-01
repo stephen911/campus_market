@@ -10,6 +10,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -25,7 +26,7 @@ class ProductCard extends StatefulWidget {
     required this.sellerUid,
     required this.brand,
     required this.category,
-    this.counter,
+    // this.counter,
   }) : super(key: key);
   String img;
   String productId;
@@ -37,8 +38,6 @@ class ProductCard extends StatefulWidget {
   String sellerUid;
   String brand;
   String category;
-  int? counter;
-
 
   @override
   State<ProductCard> createState() => _ProductCardState();
@@ -49,6 +48,7 @@ UserModel loggedInUser = UserModel();
 final _auth = FirebaseAuth.instance;
 List allDataProductCard = [];
 bool flag = false;
+int counter = 0;
 
 class _ProductCardState extends State<ProductCard> {
   void initState() {
@@ -188,7 +188,6 @@ class _ProductCardState extends State<ProductCard> {
                       fit: BoxFit.cover,
                     ),
                   ),
-                   
                   SizedBox(
                     width: (productSize.width <= 320
                         ? productSize.width * 0.004
@@ -437,13 +436,15 @@ class _ProductCardState extends State<ProductCard> {
 
     // prefs.setStringList('cartList', _cart);
   }
+  Box counterTheme = Hive.box("CartCounter");
+
 
   void addtoCart() {
     // print(_cart);
 
     // getListCart(EcommerceApp.userCartList, _cart);
     postDetailsToFirestore();
-      widget.counter  = allDataProductCard.length;
-
+    counter = counter + 1;
+    counterTheme.put("counter", counter);
   }
 }
