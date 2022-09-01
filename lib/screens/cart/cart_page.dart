@@ -1,6 +1,7 @@
 import 'package:campus_market/cartProduct.dart';
 import 'package:campus_market/screens/cart/cart.dart';
 import 'package:campus_market/screens/cart/confirm_order.dart';
+import 'package:campus_market/widgets/loading.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -8,9 +9,11 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:provider/provider.dart';
 
 import '../../components/check_out_card.dart';
 import '../../model/user_model.dart';
+import '../../providers/theme_provider.dart';
 
 class CartScreen extends StatefulWidget {
   @override
@@ -25,7 +28,7 @@ class _CartScreenState extends State<CartScreen> {
   double total = 0;
   String location = 'Null, Press Button';
   final _auth = FirebaseAuth.instance;
-
+bool isloadingCart = false;
   String? Address = 'search';
   Position? position;
   bool checkLoc = false;
@@ -127,6 +130,7 @@ class _CartScreenState extends State<CartScreen> {
     List emtdata = querySnapshot.docs.map((doc) => doc.data()).toList();
     setState(() {
       allDataCart = emtdata;
+      isloadingCart = true;
     });
 
     print(allDataCart[0]["price"]);
@@ -144,6 +148,8 @@ class _CartScreenState extends State<CartScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final themeChange = Provider.of<DarkThemeProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -168,7 +174,7 @@ class _CartScreenState extends State<CartScreen> {
         ],
       ),
       body: allDataCart.length != 0
-          ? Padding(
+          ? isloadingCart? Padding(
               padding: EdgeInsets.symmetric(horizontal: 20),
               child: ListView.builder(
                 itemCount: allDataCart.length,
@@ -181,10 +187,20 @@ class _CartScreenState extends State<CartScreen> {
                           onDismissed: (direction) {
                             setState(() {
                               allDataCart.removeAt(index);
-                              SnackBar(
-                                  content: Text(
-                                      allDataCart[index]["title"].toString() +
-                                          " has been deleted"));
+                              final collection =
+                          FirebaseFirestore.instance.collection('carts');
+                      collection
+                          .doc(allDataCart[index]["parentId"]) // <-- Doc ID to be deleted.
+                          .delete() // <-- Delete
+                          .then((_) => print('Deleted'))
+                          .catchError(
+                              (error) => print('Delete failed: $error'));
+                       
+                      Fluttertoast.showToast(msg:" Delete sucessful!" );
+                              // SnackBar(
+                              //     content: Text(
+                              //         allDataCart[index]["title"].toString() +
+                              //             " has been deleted"));
                             });
                           },
                           secondaryBackground: Container(
@@ -229,7 +245,7 @@ class _CartScreenState extends State<CartScreen> {
                       : Container(),
                 ),
               ),
-            )
+            ): GlobalLoading(light: themeChange.darkTheme,)
           : Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
