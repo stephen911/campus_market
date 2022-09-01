@@ -1,5 +1,6 @@
 import 'dart:ffi';
 
+import 'package:campus_market/components/badge.dart';
 import 'package:campus_market/orders/order.dart';
 import 'package:campus_market/productCard.dart';
 import 'package:campus_market/screens/cart/cart.dart';
@@ -15,6 +16,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
+import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -96,28 +98,6 @@ class _MyHomePageState extends State<MyHomePage> {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        iconTheme: IconThemeData(color: Colors.black),
-        backgroundColor: Color.fromARGB(255, 247, 247, 247),
-        actions: [
-          IconButton(
-              onPressed: () {},
-              icon: Icon(
-                Icons.feed,
-                color: Colors.black,
-              )),
-          IconButton(
-              onPressed: () {
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) => CartPage()));
-              },
-              icon: Icon(
-                Icons.shopping_cart,
-                color: Colors.black,
-              ))
-        ],
-      ),
       bottomNavigationBar: BottomNavyBar(
         animationDuration: Duration(milliseconds: 5),
         // backgroundColor: Colors.black,
@@ -169,7 +149,10 @@ class HomePageContent extends StatefulWidget {
 
 class _HomePageContentState extends State<HomePageContent> {
   List allDataProducts = [];
+  List allDataCarts = [];
+
   bool isLoading = false;
+  int counter = 0;
   static List bannerAdSlider = [
     "assets/banner1.jpg",
     "assets/banner2.jpg",
@@ -272,10 +255,28 @@ class _HomePageContentState extends State<HomePageContent> {
     // print(allDataProducts![0]["status"]);
   }
 
+  // cart data
+  CollectionReference _collectionRef1 =
+      FirebaseFirestore.instance.collection('carts');
+  Future<void> getDataCart() async {
+    QuerySnapshot querySnapshot = await _collectionRef1.get();
+
+    List emtdatacart = querySnapshot.docs.map((doc) => doc.data()).toList();
+    setState(() {
+      allDataCarts = emtdatacart;
+      counter = allDataCarts.length;
+
+      // isLoading = true;
+    });
+
+    // print(allDataProducts![0]["status"]);
+  }
+
   void initState() {
     super.initState();
     setState(() {
       getData();
+      getDataCart();
     });
   }
 
@@ -378,23 +379,30 @@ class _HomePageContentState extends State<HomePageContent> {
         backgroundColor: Color.fromARGB(255, 247, 247, 247),
         actions: [
           IconButton(
-              onPressed: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => OrdersPage()));
-              },
+              onPressed: () {},
               icon: Icon(
                 Icons.feed,
+                size: 30,
                 color: Colors.black,
               )),
-          IconButton(
-              onPressed: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => CartScreen()));
-              },
-              icon: Icon(
+          badge(
+              height: 20,
+              parentWidget: Icon(
                 Icons.shopping_cart,
                 color: Colors.black,
-              ))
+                size: 30,
+              ),
+              childWidget: Text(
+                "${counter}",
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14,
+                    color: Colors.white),
+              ),
+              onTap: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => CartScreen()));
+              })
         ],
       ),
       body: SafeArea(
@@ -431,7 +439,6 @@ class _HomePageContentState extends State<HomePageContent> {
             controller: controller,
             child: Column(
               children: [
-                
                 Container(
                   margin: EdgeInsets.only(left: 10, right: 10, top: 5),
                   width: double.infinity,

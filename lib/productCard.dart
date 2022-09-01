@@ -25,6 +25,7 @@ class ProductCard extends StatefulWidget {
     required this.sellerUid,
     required this.brand,
     required this.category,
+    this.counter,
   }) : super(key: key);
   String img;
   String productId;
@@ -36,6 +37,8 @@ class ProductCard extends StatefulWidget {
   String sellerUid;
   String brand;
   String category;
+  int? counter;
+
 
   @override
   State<ProductCard> createState() => _ProductCardState();
@@ -185,39 +188,7 @@ class _ProductCardState extends State<ProductCard> {
                       fit: BoxFit.cover,
                     ),
                   ),
-                  // ClipRRect(
-                  //     borderRadius: BorderRadius.circular(10),
-                  //     child: widget.img == null
-                  //         ? CircularProgressIndicator()
-                  //         : Container(
-                  //             decoration: BoxDecoration(
-                  //               image: DecorationImage(
-                  //                   image: Image.network(
-                  //                     widget.img,
-                  //                     fit: BoxFit.cover,
-                  //                     loadingBuilder: (BuildContext context,
-                  //                         Widget child,
-                  //                         ImageChunkEvent? loadingProgress) {
-                  //                       if (loadingProgress == null)
-                  //                         return child;
-                  //                       return Center(
-                  //                         child: CircularProgressIndicator(
-                  //                           value: loadingProgress
-                  //                                       .expectedTotalBytes !=
-                  //                                   null
-                  //                               ? loadingProgress
-                  //                                       .cumulativeBytesLoaded /
-                  //                                   loadingProgress
-                  //                                       .expectedTotalBytes!
-                  //                               : null,
-                  //                         ),
-                  //                       );
-                  //                     },
-                  //                   ).image,
-                  //                   fit: BoxFit.cover),
-                  //             ),
-                  //             width: 125,
-                  //             height: 190)),
+                   
                   SizedBox(
                     width: (productSize.width <= 320
                         ? productSize.width * 0.004
@@ -472,5 +443,7 @@ class _ProductCardState extends State<ProductCard> {
 
     // getListCart(EcommerceApp.userCartList, _cart);
     postDetailsToFirestore();
+      widget.counter  = allDataProductCard.length;
+
   }
 }

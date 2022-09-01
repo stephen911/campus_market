@@ -252,40 +252,41 @@ class _CartProductState extends State<CartProduct> {
               ),
               IconButton(
                   onPressed: () {
-                    for (int i = 0; i < allDataCard.length; i++) {
-                      if (allDataCard[i]['uid'] == user!.uid &&
-                          allDataCard[i]['productId'] == widget.productId) {
-                        flagDelete = true;
-                        parentId = allDataCard[i]['parentId'];
-                        setState(() {
-                          parent = parentId;
-                          index = i;
-                        });
-                      }
-                    }
-                    if (flagDelete) {
-                      final collection =
-                          FirebaseFirestore.instance.collection('carts');
-                      collection
-                          .doc(parent) // <-- Doc ID to be deleted.
-                          .delete() // <-- Delete
-                          .then((_) => print('Deleted'))
-                          .catchError(
-                              (error) => print('Delete failed: $error'));
-                      setState(() {
-                        allDataCard.removeAt(index);
-                        getData();
-                      });
-                      Fluttertoast.showToast(msg:" Delete sucessful!" );
-                      // Fluttertoast.show("delete successfully");
-                      // allDataCard.removeAt(index);
-                      // SnackBar(
-                      //     content: Text(allDataCard[index]["title"].toString() +
-                      //         " has been deleted"));
-                    }
+                    // for (int i = 0; i < allDataCard.length; i++) {
+                    //   if (allDataCard[i]['uid'] == user!.uid &&
+                    //       allDataCard[i]['productId'] == widget.productId) {
+                    //     flagDelete = true;
+                    //     parentId = allDataCard[i]['parentId'];
+                    //     setState(() {
+                    //       parent = parentId;
+                    //       index = i;
+                    //     });
+                    //   }
+                    // }
+                    // if (flagDelete) {
+                    //   final collection =
+                    //       FirebaseFirestore.instance.collection('carts');
+                    //   collection
+                    //       .doc(parent) // <-- Doc ID to be deleted.
+                    //       .delete() // <-- Delete
+                    //       .then((_) => print('Deleted'))
+                    //       .catchError(
+                    //           (error) => print('Delete failed: $error'));
+                    //   setState(() {
+                    //     allDataCard.removeAt(index);
+                    //     getData();
+                    //   });
+                      Fluttertoast.showToast(msg:" slide to delete from cart" );
+                    //   // Fluttertoast.show("delete successfully");
+                    //   // allDataCard.removeAt(index);
+                    //   // SnackBar(
+                    //   //     content: Text(allDataCard[index]["title"].toString() +
+                    //   //         " has been deleted"));
+                    // }
                   },
                   icon: Icon(
-                    Icons.delete_forever,
+                    Icons.delete_sweep_rounded,
+                    size: 30,
                     color: Colors.red,
                   ))
             ])),
