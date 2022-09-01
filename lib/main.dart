@@ -19,6 +19,15 @@ import 'package:campus_market/Counters/totalMoney.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  final document = await path.getApplicationDocumentsDirectory();
+  Hive.init(document.path);
+  await Hive.openBox("theme");
+  await Hive.openBox("country");
+
+  Box currentTheme = Hive.box("theme");
+  Box currentCountry = Hive.box("country");
+  currentTheme.put("light", light);
+  light = currentTheme.get("light");
 
   runApp(MyApp());
 }
