@@ -432,43 +432,6 @@ class _HomePageContentState extends State<HomePageContent> {
             child: Column(
               children: [
                 
-ClipRRect(
-                                        borderRadius: BorderRadius.circular(15),
-                                        child: CachedNetworkImage(
-                                          fadeInCurve: Curves.bounceInOut,
-                                          imageUrl: icons[index],
-                                          imageBuilder:
-                                              (context, imageProvider) {
-                                            return new Container(
-                                              decoration: BoxDecoration(
-                                                  image: DecorationImage(
-                                                      image: imageProvider,
-                                                      fit: BoxFit.fill)),
-                                            );
-                                          },
-                                          placeholder: (_, url) {
-                                            return Center(
-                                                widthFactor: 3.5,
-                                                child:
-                                                    new CupertinoActivityIndicator());
-                                          },
-                                          errorWidget: (context, url, error) {
-                                            return Center(
-                                                widthFactor: 1.5,
-                                                child: new Icon(Icons.error,
-                                                    color: Colors.grey));
-                                          },
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.30,
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.30,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
                 Container(
                   margin: EdgeInsets.only(left: 10, right: 10, top: 5),
                   width: double.infinity,

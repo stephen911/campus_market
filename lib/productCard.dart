@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:campus_market/Counters/cartitemcounter.dart';
 import 'package:campus_market/components/constants.dart';
 import 'package:campus_market/components/shared_preferences.dart';
@@ -6,6 +7,7 @@ import 'package:campus_market/productdetails.dart';
 import 'package:campus_market/providers/theme_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
@@ -155,38 +157,67 @@ class _ProductCardState extends State<ProductCard> {
                     (productSize.width * 0.014),
                 child: Row(children: [
                   ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: widget.img == null
-                          ? CircularProgressIndicator()
-                          : Container(
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                    image: Image.network(
-                                      widget.img,
-                                      fit: BoxFit.cover,
-                                      loadingBuilder: (BuildContext context,
-                                          Widget child,
-                                          ImageChunkEvent? loadingProgress) {
-                                        if (loadingProgress == null)
-                                          return child;
-                                        return Center(
-                                          child: CircularProgressIndicator(
-                                            value: loadingProgress
-                                                        .expectedTotalBytes !=
-                                                    null
-                                                ? loadingProgress
-                                                        .cumulativeBytesLoaded /
-                                                    loadingProgress
-                                                        .expectedTotalBytes!
-                                                : null,
-                                          ),
-                                        );
-                                      },
-                                    ).image,
-                                    fit: BoxFit.cover),
-                              ),
-                              width: 125,
-                              height: 190)),
+                    borderRadius: BorderRadius.circular(15),
+                    child: CachedNetworkImage(
+                      fadeInCurve: Curves.bounceInOut,
+                      imageUrl: widget.img,
+                      imageBuilder: (context, imageProvider) {
+                        return new Container(
+                          decoration: BoxDecoration(
+                              image: DecorationImage(
+                            image: imageProvider,
+                            fit: BoxFit.cover,
+                          )),
+                        );
+                      },
+                      placeholder: (_, url) {
+                        return Center(
+                            widthFactor: 3.5,
+                            child: new CupertinoActivityIndicator());
+                      },
+                      errorWidget: (context, url, error) {
+                        return Center(
+                            widthFactor: 1.5,
+                            child: new Icon(Icons.error, color: Colors.grey));
+                      },
+                      height: MediaQuery.of(context).size.height * 0.30,
+                      width: MediaQuery.of(context).size.width * 0.30,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  // ClipRRect(
+                  //     borderRadius: BorderRadius.circular(10),
+                  //     child: widget.img == null
+                  //         ? CircularProgressIndicator()
+                  //         : Container(
+                  //             decoration: BoxDecoration(
+                  //               image: DecorationImage(
+                  //                   image: Image.network(
+                  //                     widget.img,
+                  //                     fit: BoxFit.cover,
+                  //                     loadingBuilder: (BuildContext context,
+                  //                         Widget child,
+                  //                         ImageChunkEvent? loadingProgress) {
+                  //                       if (loadingProgress == null)
+                  //                         return child;
+                  //                       return Center(
+                  //                         child: CircularProgressIndicator(
+                  //                           value: loadingProgress
+                  //                                       .expectedTotalBytes !=
+                  //                                   null
+                  //                               ? loadingProgress
+                  //                                       .cumulativeBytesLoaded /
+                  //                                   loadingProgress
+                  //                                       .expectedTotalBytes!
+                  //                               : null,
+                  //                         ),
+                  //                       );
+                  //                     },
+                  //                   ).image,
+                  //                   fit: BoxFit.cover),
+                  //             ),
+                  //             width: 125,
+                  //             height: 190)),
                   SizedBox(
                     width: (productSize.width <= 320
                         ? productSize.width * 0.004

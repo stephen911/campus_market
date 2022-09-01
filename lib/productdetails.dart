@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:campus_market/appbar.dart';
 import 'package:campus_market/model/user_model.dart';
 import 'package:campus_market/providers/theme_provider.dart';
@@ -5,6 +6,7 @@ import 'package:campus_market/screens/cart/cart.dart';
 import 'package:campus_market/screens/cart/cart_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
@@ -162,16 +164,52 @@ class _ProductPageState extends State<ProductPage> {
                   Stack(
                     children: [
                       Center(
-                        child: ClipRRect(
-                            borderRadius: BorderRadius.circular(10),
-                            child: Container(
-                                decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                        image: Image.network(widget.img).image,
-                                        fit: BoxFit.cover)),
-                                width: MediaQuery.of(context).size.width - 20,
+                        child: Container(
+                          width: MediaQuery.of(context).size.width - 20,
                                 height:
-                                    MediaQuery.of(context).size.width * 0.99)),
+                                    MediaQuery.of(context).size.width * 0.99,
+                          child: ClipRRect(
+                    borderRadius: BorderRadius.circular(15),
+                    child: CachedNetworkImage(
+                      fadeInCurve: Curves.bounceInOut,
+                      imageUrl: widget.img,
+                      imageBuilder: (context, imageProvider) {
+                          return new Container(
+                            
+                            decoration: BoxDecoration(
+                            
+                                image: DecorationImage(
+                              image: imageProvider,
+                              fit: BoxFit.cover,
+                            )),
+                          );
+                      },
+                      placeholder: (_, url) {
+                          return Center(
+                              widthFactor: 3.5,
+                              child: new CupertinoActivityIndicator());
+                      },
+                      errorWidget: (context, url, error) {
+                          return Center(
+                              widthFactor: 1.5,
+                              child: new Icon(Icons.error, color: Colors.grey));
+                      },
+                      height: MediaQuery.of(context).size.height * 0.30,
+                      width: MediaQuery.of(context).size.width * 0.30,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                        ),
+                        // child: ClipRRect(
+                        //     borderRadius: BorderRadius.circular(10),
+                        //     child: Container(
+                        //         decoration: BoxDecoration(
+                        //             image: DecorationImage(
+                        //                 image: Image.network(widget.img).image,
+                        //                 fit: BoxFit.cover)),
+                        //         width: MediaQuery.of(context).size.width - 20,
+                        //         height:
+                        //             MediaQuery.of(context).size.width * 0.99)),
                       ),
                       Container(
                         color: Colors.grey[300],
