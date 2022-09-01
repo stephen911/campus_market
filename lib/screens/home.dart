@@ -9,11 +9,14 @@ import 'package:campus_market/screens/categories/categoryCard.dart';
 import 'package:campus_market/screens/notification/notifications.dart';
 import 'package:campus_market/screens/product_fetch.dart';
 import 'package:campus_market/sign_up/sign_up_screen.dart';
+import 'package:campus_market/widgets/loading.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:provider/provider.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../providers/theme_provider.dart';
 
@@ -37,6 +40,31 @@ class _MyHomePageState extends State<MyHomePage> {
     //////the content of the notification page
     Notifications(),
   ];
+
+  RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
+
+  void _onRefresh() async {
+    // monitor network fetch
+    // await Future.delayed(Duration(milliseconds: 1000));
+    getData();
+    // if failed,use refreshFailed()
+    _refreshController.refreshCompleted();
+  }
+
+  void _onLoading() async {
+    getData();
+    // monitor network fetch
+    // await Future.delayed(Duration(milliseconds: 1000));
+    // if failed,use loadFailed(),if no data return,use LoadNodata()
+    // items.add((items.length+1).toString());
+    // if(mounted)
+    // setState(() {
+
+    // });
+    _refreshController.loadComplete();
+  }
+
   void changePage(int index) {
     setState(() {
       currentIndex = index;
@@ -219,6 +247,16 @@ class _HomePageContentState extends State<HomePageContent> {
       "description": "Men's official wear on sale |Turkey suit",
     },
   ];
+
+  Future<List<DocumentSnapshot>> getDatafire() async {
+    var firestore = FirebaseFirestore.instance;
+    QuerySnapshot qn = await firestore
+        .collection("products")
+        // .where("Title", isEqualTo: "Solo")
+        .get();
+    return qn.docs;
+  }
+
   CollectionReference _collectionRef =
       FirebaseFirestore.instance.collection('products');
   Future<void> getData() async {
@@ -358,218 +396,301 @@ class _HomePageContentState extends State<HomePageContent> {
         ],
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
-          controller: controller,
-          child: Column(
-            children: [
-              Container(
-                margin: EdgeInsets.only(left: 10, right: 10, top: 5),
-                width: double.infinity,
-                height: 40,
-                decoration: BoxDecoration(
-                    // color: Colors.white.withOpacity(0.2),
-                    color: Colors.transparent,
-                    borderRadius: BorderRadius.circular(5)),
-                child: Center(
-                  child: TextField(
-                    decoration: InputDecoration(
-                        prefixIcon: const Icon(Icons.search),
-                        suffixIcon: IconButton(
-                          icon: const Icon(Icons.clear),
-                          onPressed: () {
-                            /* Clear the search field */
-                          },
-                        ),
-                        hintText: 'Search for products',
-                        border: InputBorder.none),
+        child: SmartRefresher(
+          scrollDirection: Axis.vertical,
+          physics: BouncingScrollPhysics(),
+          enablePullDown: true,
+          enablePullUp: true,
+          header: WaterDropHeader(),
+          footer: CustomFooter(
+            builder: (BuildContext context, mode) {
+              Widget body;
+              if (mode == LoadStatus.idle) {
+                body = Text("pull up load");
+              } else if (mode == LoadStatus.loading) {
+                body = CupertinoActivityIndicator();
+              } else if (mode == LoadStatus.failed) {
+                body = Text("Load Failed!Click retry!");
+              } else if (mode == LoadStatus.canLoading) {
+                body = Text("release to load more");
+              } else {
+                body = Text("No more Data");
+              }
+              return Container(
+                height: 55.0,
+                child: Center(child: body),
+              );
+            },
+          ),
+          controller: _refreshController,
+          onRefresh: _onRefresh,
+          onLoading: _onLoading,
+          child: SingleChildScrollView(
+            controller: controller,
+            child: Column(
+              children: [
+                Container(
+                  margin: EdgeInsets.only(left: 10, right: 10, top: 5),
+                  width: double.infinity,
+                  height: 40,
+                  decoration: BoxDecoration(
+                      // color: Colors.white.withOpacity(0.2),
+                      color: Colors.transparent,
+                      borderRadius: BorderRadius.circular(5)),
+                  child: Center(
+                    child: TextField(
+                      decoration: InputDecoration(
+                          prefixIcon: const Icon(Icons.search),
+                          suffixIcon: IconButton(
+                            icon: const Icon(Icons.clear),
+                            onPressed: () {
+                              /* Clear the search field */
+                            },
+                          ),
+                          hintText: 'Search for products',
+                          border: InputBorder.none),
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(
-                height: 30,
-              ),
-
-              CarouselSlider(
-                options: CarouselOptions(
-                  aspectRatio: 20 / 6,
-                  autoPlay: true,
-                  enlargeCenterPage: true,
-                  scrollPhysics: BouncingScrollPhysics(),
+                SizedBox(
+                  height: 30,
                 ),
-                items: bannerAdSlider.map((i) {
-                  return Builder(
-                    builder: (BuildContext context) {
-                      return GestureDetector(
-                        child: Container(
-                          width: MediaQuery.of(context).size.width,
-                          //height: 500,
-                          margin: EdgeInsets.symmetric(horizontal: 3.0),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(16),
-                            child: Image(
-                              image: AssetImage(i),
-                              fit: BoxFit.cover,
-                              alignment: Alignment.topCenter,
+
+                CarouselSlider(
+                  options: CarouselOptions(
+                    aspectRatio: 20 / 6,
+                    autoPlay: true,
+                    enlargeCenterPage: true,
+                    scrollPhysics: BouncingScrollPhysics(),
+                  ),
+                  items: bannerAdSlider.map((i) {
+                    return Builder(
+                      builder: (BuildContext context) {
+                        return GestureDetector(
+                          child: Container(
+                            width: MediaQuery.of(context).size.width,
+                            //height: 500,
+                            margin: EdgeInsets.symmetric(horizontal: 3.0),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(16),
+                              child: Image(
+                                image: AssetImage(i),
+                                fit: BoxFit.cover,
+                                alignment: Alignment.topCenter,
+                              ),
                             ),
                           ),
-                        ),
-                        onTap: () {
-                          print(i);
-                        },
-                      );
-                    },
-                  );
-                }).toList(),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-
-              BigCard(
-                color: themeChange.darkTheme ? Colors.white : Colors.white,
-                img: "assets/images/restaurant.jpg",
-                title: "Restaurant",
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Container(
-                padding: EdgeInsets.only(
-                  left: 10,
-                  right: 10,
-                ),
-                margin: EdgeInsets.only(
-                  left: 12,
-                  right: 12,
-                ),
-                decoration: BoxDecoration(
-                  color: themeChange.darkTheme ? Colors.black : Colors.white,
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 5,
-                      blurRadius: 7,
-                      offset: Offset(0, 3), // changes position of shadow
-                    ),
-                  ],
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "See more of the products below",
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: themeChange.darkTheme
-                            ? Colors.white
-                            : Colors.grey[800],
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    IconButton(
-                      onPressed: () {
-                        //TODO: move to a page where products are displayed more
+                          onTap: () {
+                            print(i);
+                          },
+                        );
                       },
-                      icon: Icon(Icons.arrow_forward,
+                    );
+                  }).toList(),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+
+                BigCard(
+                  color: themeChange.darkTheme ? Colors.white : Colors.white,
+                  img: "assets/images/restaurant.jpg",
+                  title: "Restaurant",
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  padding: EdgeInsets.only(
+                    left: 10,
+                    right: 10,
+                  ),
+                  margin: EdgeInsets.only(
+                    left: 12,
+                    right: 12,
+                  ),
+                  decoration: BoxDecoration(
+                    color: themeChange.darkTheme ? Colors.black : Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 5,
+                        blurRadius: 7,
+                        offset: Offset(0, 3), // changes position of shadow
+                      ),
+                    ],
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "See more of the products below",
+                        style: TextStyle(
+                          fontSize: 16,
                           color: themeChange.darkTheme
                               ? Colors.white
-                              : Colors.grey[800]),
-                    )
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    child: Text(
-                      "Explore",
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    child: Text(
-                      "All",
-                      style: TextStyle(
-                          color: Colors.grey,
+                              : Colors.grey[800],
                           fontWeight: FontWeight.bold,
-                          fontSize: 20),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                clipBehavior: Clip.none,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    for (int i = 0; i < category_list.length; i++)
-                      CategoryModel(
-                        price: category_list[i]["price"],
-                        img: category_list[i]["img"],
-                        tag: category_list[i]["tag"],
-                        title: category_list[i]["title"],
+                        ),
                       ),
+                      IconButton(
+                        onPressed: () {
+                          //TODO: move to a page where products are displayed more
+                        },
+                        icon: Icon(Icons.arrow_forward,
+                            color: themeChange.darkTheme
+                                ? Colors.white
+                                : Colors.grey[800]),
+                      )
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                      child: Text(
+                        "Explore",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 20),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                      child: Text(
+                        "All",
+                        style: TextStyle(
+                            color: Colors.grey,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20),
+                      ),
+                    ),
                   ],
                 ),
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              allDataProducts == null
-                  ? CircularProgressIndicator()
-                  : Column(children: [
-                      for (int i = 0; i < allDataProducts.length; i++)
-                        if (allDataProducts[i]["status"] == "approved")
-                          ProductCard(
-                            productId: allDataProducts[i]["productId"],
-                            brand: allDataProducts[i]["brand"],
-                            category: allDataProducts[i]["category"],
-                            sellerUid: allDataProducts[i]["uid"],
-                            description: allDataProducts[i]["description"],
-                            discount: allDataProducts[i]["discount"],
-                            img: allDataProducts[i]["productFile"],
-                            price: allDataProducts[i]["price"],
-                            title: allDataProducts[i]["title"],
-                          ),
-                    ]),
+                SizedBox(
+                  height: 10,
+                ),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  clipBehavior: Clip.none,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      for (int i = 0; i < category_list.length; i++)
+                        CategoryModel(
+                          price: category_list[i]["price"],
+                          img: category_list[i]["img"],
+                          tag: category_list[i]["tag"],
+                          title: category_list[i]["title"],
+                        ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+                // FutureBuilder(
+                //     future: getDatafire(),
+                //     builder: (_, AsyncSnapshot<List<DocumentSnapshot>> snapshot) {
+                //       if (snapshot.connectionState == ConnectionState.waiting) {
+                //         return Padding(
+                //           padding: const EdgeInsets.only(
+                //             top: 50,
+                //           ),
+                //           child: Column(
+                //             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                //             children: <Widget>[
+                //               Center(
+                //                 child: Text(""),
+                //                 // child: SpinKitCircle(
+                //                 //   color: Color.fromRGBO(91, 74, 127, 10),
+                //                 //   size: 50.0,
+                //                 // ),
+                //               ),
+                //             ],
+                //           ),
+                //         );
+                //       } else {
+                //         return ListView.builder(
+                //             itemCount: snapshot.data!.length,
+                //             itemBuilder: (_, index) {
+                //               return Container();
+                //             });
+                //       }
+                //     }),
+                allDataProducts.length <= 0
+                    ? GlobalLoading(light: themeChange.darkTheme)
+                    : Column(children: [
+                        for (int i = 0; i < allDataProducts.length; i++)
+                          if (allDataProducts[i]["status"] == "approved")
+                            ProductCard(
+                              productId: allDataProducts[i]["productId"],
+                              brand: allDataProducts[i]["brand"],
+                              category: allDataProducts[i]["category"],
+                              sellerUid: allDataProducts[i]["uid"],
+                              description: allDataProducts[i]["description"],
+                              discount: allDataProducts[i]["discount"],
+                              img: allDataProducts[i]["productFile"],
+                              price: allDataProducts[i]["price"],
+                              title: allDataProducts[i]["title"],
+                            ),
+                      ]),
 
-              SizedBox(
-                height: 10,
-              ),
+                SizedBox(
+                  height: 10,
+                ),
 
-              BigCard(
-                color: themeChange.darkTheme ? Colors.black : Colors.white,
-                img: "assets/images/supermarket.jpg",
-                title: "Supermarket",
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              BigCard(
-                color: themeChange.darkTheme ? Colors.black : Colors.white,
-                img: "assets/images/phone_accessories1.jpg",
-                title: "Phones & \nAccessories",
-              ),
-              // ProductCard(),
-              // ProductCard(),
-              // ProductCard(),
-              // ProductCard(),
-            ],
+                BigCard(
+                  color: themeChange.darkTheme ? Colors.black : Colors.white,
+                  img: "assets/images/supermarket.jpg",
+                  title: "Supermarket",
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                BigCard(
+                  color: themeChange.darkTheme ? Colors.black : Colors.white,
+                  img: "assets/images/phone_accessories1.jpg",
+                  title: "Phones & \nAccessories",
+                ),
+                // ProductCard(),
+                // ProductCard(),
+                // ProductCard(),
+                // ProductCard(),
+              ],
+            ),
           ),
         ),
       ),
     );
+  }
+
+  RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
+
+  void _onRefresh() async {
+    // monitor network fetch
+    // await Future.delayed(Duration(milliseconds: 1000));
+    getData();
+    // if failed,use refreshFailed()
+    _refreshController.refreshCompleted();
+  }
+
+  void _onLoading() async {
+    getData();
+    // monitor network fetch
+    // await Future.delayed(Duration(milliseconds: 1000));
+    // if failed,use loadFailed(),if no data return,use LoadNodata()
+    // items.add((items.length+1).toString());
+    // if(mounted)
+    // setState(() {
+
+    // });
+    _refreshController.loadComplete();
   }
 }

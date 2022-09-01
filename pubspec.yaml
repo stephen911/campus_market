@@ -40,6 +40,7 @@ dependencies:
   provider: ^6.0.3
   fluttertoast: ^8.0.9
   cloud_firestore: ^3.4.4
+  pull_to_refresh: ^2.0.0
   firebase_auth: ^3.6.3
   shared_preferences: ^2.0.15
   rename: ^2.0.1
@@ -48,6 +49,7 @@ dependencies:
   image_picker: ^0.8.5+3
   carousel_slider: ^4.1.1
   intl: ^0.17.0
+  shimmer: 
   recase: 
   url_launcher: ^6.1.5
   flutter_phone_direct_caller: ^2.1.1
