@@ -160,9 +160,31 @@ class _ProductCardState extends State<ProductCard> {
                           ? CircularProgressIndicator()
                           : Container(
                               decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                      image: Image.network(widget.img).image,
-                                      fit: BoxFit.cover)),
+                                image: DecorationImage(
+                                    image: Image.network(
+                                      widget.img,
+                                      fit: BoxFit.cover,
+                                      loadingBuilder: (BuildContext context,
+                                          Widget child,
+                                          ImageChunkEvent? loadingProgress) {
+                                        if (loadingProgress == null)
+                                          return child;
+                                        return Center(
+                                          child: CircularProgressIndicator(
+                                            value: loadingProgress
+                                                        .expectedTotalBytes !=
+                                                    null
+                                                ? loadingProgress
+                                                        .cumulativeBytesLoaded /
+                                                    loadingProgress
+                                                        .expectedTotalBytes!
+                                                : null,
+                                          ),
+                                        );
+                                      },
+                                    ).image,
+                                    fit: BoxFit.cover),
+                              ),
                               width: 125,
                               height: 190)),
                   SizedBox(

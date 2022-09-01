@@ -169,6 +169,7 @@ class HomePageContent extends StatefulWidget {
 
 class _HomePageContentState extends State<HomePageContent> {
   List allDataProducts = [];
+  bool isLoading = false;
   static List bannerAdSlider = [
     "assets/banner1.jpg",
     "assets/banner2.jpg",
@@ -265,6 +266,7 @@ class _HomePageContentState extends State<HomePageContent> {
     List emtdata = querySnapshot.docs.map((doc) => doc.data()).toList();
     setState(() {
       allDataProducts = emtdata;
+      isLoading = true;
     });
 
     // print(allDataProducts![0]["status"]);
@@ -623,7 +625,7 @@ class _HomePageContentState extends State<HomePageContent> {
                 //             });
                 //       }
                 //     }),
-                allDataProducts.length <= 0
+                !isLoading
                     ? GlobalLoading(light: themeChange.darkTheme)
                     : Column(children: [
                         for (int i = 0; i < allDataProducts.length; i++)
