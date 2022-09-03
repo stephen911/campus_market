@@ -219,7 +219,7 @@ class _ProductPageState extends State<ProductPage> {
                                         ? Colors.white
                                         : Colors.black,
                                     fontWeight: FontWeight.w800,
-                                    fontSize: 17)),
+                                    fontSize: 18)),
                             SizedBox(
                               height: 10.0,
                             ),
