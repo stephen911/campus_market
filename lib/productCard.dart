@@ -421,7 +421,7 @@ class _ProductCardState extends State<ProductCard> {
     // int lenght = 0;
     int lenght = prefs.getStringList('cartList')!.length;
 
-    List<String> productId = [];
+    List<String>? productId = prefs.getStringList('cartList');
 
     if (  lenght != 0) {
       print(lenght);
@@ -445,14 +445,14 @@ class _ProductCardState extends State<ProductCard> {
         }
       }
       if (flag) {
-        productId.add(widget.productId);
+        productId!.add(widget.productId);
         prefs.setStringList("cartList", productId);
         addtoCart();
 
         // print(allDataProductCard);
       }
     } else {
-      productId.add(widget.productId);
+      productId!.add(widget.productId);
       prefs.setStringList("cartList", productId);
       addtoCart();
     }
