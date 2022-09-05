@@ -403,18 +403,40 @@ class _ProductCardState extends State<ProductCard> {
     );
   }
 
-  void checkItemInCart() {
-    getData();
+  void checkItemInCart() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    if (allDataProductCard.length != 0) {
-      for (int i = 0; i < allDataProductCard.length; i++) {
-        print(allDataProductCard[i]['productId']);
-        print(allDataProductCard.length);
+    //   List<String> getProductId(){
+    //   String value = "";
+    //   for(int i = 0; i < allDataProducts.length; i++){
+    //     value = allDataProducts[i]["productId"];
+    //     productId.add(value);
+    //     print(value);
+    //     print(32);
+    //   }
+    //   //  getProduct = alldata;
+    //   return productId;
+    // }
+    getData();
+    // int lenght = 0;
+    int lenght = prefs.getStringList('cartList')!.length;
+
+    List<String> productId = [];
+
+    if (  lenght != 0) {
+      print(lenght);
+
+      for (int i = 0; i < lenght; i++) {
+        // print(allDataProductCard[i]['productId']);
+        // print(allDataProductCard.length);
 
         print(widget.productId);
 
-        if (allDataProductCard[i]['productId'] == widget.productId) {
-          // print(_cart);
+        // print(allDataProductCard[i]['productId'] + "==" +  widget.productId);
+          print(prefs.getStringList("cartList")![i]);
+
+
+        if (prefs.getStringList("cartList")![i] == widget.productId) {
           flag = false;
           // break;
           Fluttertoast.showToast(msg: "Product already in cart");
@@ -423,10 +445,15 @@ class _ProductCardState extends State<ProductCard> {
         }
       }
       if (flag) {
+        productId.add(widget.productId);
+        prefs.setStringList("cartList", productId);
         addtoCart();
+
         // print(allDataProductCard);
       }
     } else {
+      productId.add(widget.productId);
+      prefs.setStringList("cartList", productId);
       addtoCart();
     }
   }
@@ -436,8 +463,8 @@ class _ProductCardState extends State<ProductCard> {
 
     // prefs.setStringList('cartList', _cart);
   }
-  Box counterTheme = Hive.box("CartCounter");
 
+  Box counterTheme = Hive.box("CartCounter");
 
   void addtoCart() {
     // print(_cart);

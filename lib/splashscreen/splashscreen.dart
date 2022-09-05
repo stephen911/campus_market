@@ -38,7 +38,7 @@ class _SplashScreenState extends State<SplashScreen> {
           PageRouteBuilder(pageBuilder: (_, __, ___) => HomeAfterSignIn()));
     } else {
       Navigator.of(context).pushReplacement(
-          PageRouteBuilder(pageBuilder: (_, __, ___) => SignUpScreen()));
+          PageRouteBuilder(pageBuilder: (_, __, ___) => MyHomePage()));
     }
   }
 

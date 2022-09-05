@@ -251,12 +251,30 @@ class _HomePageContentState extends State<HomePageContent> {
     QuerySnapshot querySnapshot = await _collectionRef.get();
 
     List emtdata = querySnapshot.docs.map((doc) => doc.data()).toList();
+        var emtdata2 = querySnapshot.docs.map((doc) => doc.data());
+
     setState(() {
       allDataProducts = emtdata;
+      
       isLoading = true;
     });
-
+    // print(allDataProducts);
+    // print(emtdata2);
+// 
     // print(allDataProducts![0]["status"]);
+  }
+
+  List<String> getProductId(){
+    List<String> productId = [];
+    String value = "";
+    for(int i = 0; i < allDataProducts.length; i++){
+      value = allDataProducts[i]["productId"];
+      productId.add(value);
+      print(value);
+      print(32);
+    }
+    //  getProduct = alldata;
+    return productId;
   }
 
   // cart data
@@ -266,14 +284,15 @@ class _HomePageContentState extends State<HomePageContent> {
     QuerySnapshot querySnapshot = await _collectionRef1.get();
 
     List emtdatacart = querySnapshot.docs.map((doc) => doc.data()).toList();
+    
     setState(() {
       allDataCarts = emtdatacart;
       // counter = allDataCarts.length;
 
       // isLoading = true;
     });
-
-    // print(allDataProducts![0]["status"]);
+  getProductId();
+    // print(allDataCarts);
   }
 
   void initState() {
@@ -281,6 +300,8 @@ class _HomePageContentState extends State<HomePageContent> {
     setState(() {
       getData();
       getDataCart();
+      // getProductId( );
+      // print(getProductId(allDataProducts));
     });
   }
 
@@ -386,7 +407,9 @@ class _HomePageContentState extends State<HomePageContent> {
         backgroundColor: Color.fromARGB(255, 247, 247, 247),
         actions: [
           IconButton(
-              onPressed: () {},
+              onPressed: () {
+                // getProductId();
+              },
               icon: Icon(
                 Icons.feed,
                 size: 30,

@@ -3,6 +3,8 @@
 // save items to shared preference
 
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/material.dart';
+
 
 addStringToSF(String key, String value) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -52,6 +54,31 @@ getDoubleValuesSF(String key) async {
   return doubleValue;
 
 }
+
+// class CartProvider with ChangeNotifier {
+   int _counter = 0;
+    List<String> productIdList = [];
+void setPrefItems() async {
+    SharedPreferences _pref = await SharedPreferences.getInstance();
+    int _counter = 0;
+    List<String> productIdList = [];
+
+    _pref.setInt('cart_counter', _counter);
+    // _pref.setDouble('totalPrice', _totalPrice);
+    _pref.setStringList('cartList',productIdList);
+    // notifyListeners();
+  }
+
+  Future <int> getPrefItems() async {
+    SharedPreferences _pref = await SharedPreferences.getInstance();
+    _counter = _pref.getInt("cart_counter") ?? 0;
+    // _totalPrice = _pref.getDouble('totalPrice') ?? 0;
+    productIdList=_pref.getStringList('cartList')??[];
+    return productIdList.length;
+    // notifyListeners();
+  }
+// }
+
 
 
 
