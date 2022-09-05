@@ -1,5 +1,6 @@
 import 'dart:ffi';
 
+import 'package:campus_market/components/badge.dart';
 import 'package:campus_market/orders/order.dart';
 import 'package:campus_market/productCard.dart';
 import 'package:campus_market/screens/cart/cart.dart';
@@ -15,9 +16,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
+import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+import '../providers/cart_provider.dart';
 import '../providers/theme_provider.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -96,28 +99,6 @@ class _MyHomePageState extends State<MyHomePage> {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        iconTheme: IconThemeData(color: Colors.black),
-        backgroundColor: Color.fromARGB(255, 247, 247, 247),
-        actions: [
-          IconButton(
-              onPressed: () {},
-              icon: Icon(
-                Icons.feed,
-                color: Colors.black,
-              )),
-          IconButton(
-              onPressed: () {
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) => CartPage()));
-              },
-              icon: Icon(
-                Icons.shopping_cart,
-                color: Colors.black,
-              ))
-        ],
-      ),
       bottomNavigationBar: BottomNavyBar(
         animationDuration: Duration(milliseconds: 5),
         // backgroundColor: Colors.black,
@@ -169,6 +150,13 @@ class HomePageContent extends StatefulWidget {
 
 class _HomePageContentState extends State<HomePageContent> {
   List allDataProducts = [];
+  List allDataCarts = [];
+
+  bool isLoading = false;
+  int counter = 0;
+  Box counterTheme = Hive.box("CartCounter");
+  
+  // counterTheme.put("counter", light);
   static List bannerAdSlider = [
     "assets/banner1.jpg",
     "assets/banner2.jpg",
@@ -263,17 +251,57 @@ class _HomePageContentState extends State<HomePageContent> {
     QuerySnapshot querySnapshot = await _collectionRef.get();
 
     List emtdata = querySnapshot.docs.map((doc) => doc.data()).toList();
+        var emtdata2 = querySnapshot.docs.map((doc) => doc.data());
+
     setState(() {
       allDataProducts = emtdata;
+      
+      isLoading = true;
     });
-
+    // print(allDataProducts);
+    // print(emtdata2);
+// 
     // print(allDataProducts![0]["status"]);
+  }
+
+  List<String> getProductId(){
+    List<String> productId = [];
+    String value = "";
+    for(int i = 0; i < allDataProducts.length; i++){
+      value = allDataProducts[i]["productId"];
+      productId.add(value);
+      print(value);
+      print(32);
+    }
+    //  getProduct = alldata;
+    return productId;
+  }
+
+  // cart data
+  CollectionReference _collectionRef1 =
+      FirebaseFirestore.instance.collection('carts');
+  Future<void> getDataCart() async {
+    QuerySnapshot querySnapshot = await _collectionRef1.get();
+
+    List emtdatacart = querySnapshot.docs.map((doc) => doc.data()).toList();
+    
+    setState(() {
+      allDataCarts = emtdatacart;
+      // counter = allDataCarts.length;
+
+      // isLoading = true;
+    });
+  getProductId();
+    // print(allDataCarts);
   }
 
   void initState() {
     super.initState();
     setState(() {
       getData();
+      getDataCart();
+      // getProductId( );
+      // print(getProductId(allDataProducts));
     });
   }
 
@@ -369,6 +397,9 @@ class _HomePageContentState extends State<HomePageContent> {
       super.dispose();
     }
 
+  // counterTheme.put('counter', 0);
+  counter = counterTheme.get("counter");
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -377,22 +408,40 @@ class _HomePageContentState extends State<HomePageContent> {
         actions: [
           IconButton(
               onPressed: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => OrdersPage()));
+                // getProductId();
               },
               icon: Icon(
                 Icons.feed,
+                size: 30,
                 color: Colors.black,
               )),
-          IconButton(
-              onPressed: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => CartScreen()));
-              },
-              icon: Icon(
+          badge(
+              height: 20,
+              parentWidget: Icon(
                 Icons.shopping_cart,
                 color: Colors.black,
-              ))
+                size: 30,
+              ),
+              childWidget:   Consumer<CartProvider>(builder: ((context, value, child) {
+                    return Text(
+                      value.counter().toString(),
+                      style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 11,
+                          fontWeight: FontWeight.bold),
+                    );
+                  })),
+              // childWidget: Text(
+              //   "${counter}",
+              //   style: TextStyle(
+              //       fontWeight: FontWeight.bold,
+              //       fontSize: 14,
+              //       color: Colors.white),
+              // ),
+              onTap: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => CartScreen()));
+              })
         ],
       ),
       body: SafeArea(
@@ -429,44 +478,6 @@ class _HomePageContentState extends State<HomePageContent> {
             controller: controller,
             child: Column(
               children: [
-                
-ClipRRect(
-                                        borderRadius: BorderRadius.circular(15),
-                                        child: CachedNetworkImage(
-                                          fadeInCurve: Curves.bounceInOut,
-                                          imageUrl: icons[index],
-                                          imageBuilder:
-                                              (context, imageProvider) {
-                                            return new Container(
-                                              decoration: BoxDecoration(
-                                                  image: DecorationImage(
-                                                      image: imageProvider,
-                                                      fit: BoxFit.fill)),
-                                            );
-                                          },
-                                          placeholder: (_, url) {
-                                            return Center(
-                                                widthFactor: 3.5,
-                                                child:
-                                                    new CupertinoActivityIndicator());
-                                          },
-                                          errorWidget: (context, url, error) {
-                                            return Center(
-                                                widthFactor: 1.5,
-                                                child: new Icon(Icons.error,
-                                                    color: Colors.grey));
-                                          },
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.30,
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.30,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
                 Container(
                   margin: EdgeInsets.only(left: 10, right: 10, top: 5),
                   width: double.infinity,
@@ -661,7 +672,7 @@ ClipRRect(
                 //             });
                 //       }
                 //     }),
-                allDataProducts.length <= 0
+                !isLoading
                     ? GlobalLoading(light: themeChange.darkTheme)
                     : Column(children: [
                         for (int i = 0; i < allDataProducts.length; i++)

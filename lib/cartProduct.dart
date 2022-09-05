@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:campus_market/Counters/cartitemcounter.dart';
 import 'package:campus_market/components/constants.dart';
 import 'package:campus_market/model/user_model.dart';
@@ -6,6 +7,7 @@ import 'package:campus_market/productdetails.dart';
 import 'package:campus_market/providers/theme_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
@@ -97,16 +99,36 @@ class _CartProductState extends State<CartProduct> {
             width: double.infinity,
             child: Row(children: [
               ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: widget.img == null
-                      ? CircularProgressIndicator()
-                      : Container(
-                          decoration: BoxDecoration(
-                              image: DecorationImage(
-                                  image: Image.network(widget.img).image,
-                                  fit: BoxFit.cover)),
-                          width: 125,
-                          height: 190)),
+                borderRadius: BorderRadius.circular(15),
+                child: CachedNetworkImage(
+                  fadeInCurve: Curves.bounceInOut,
+                  imageUrl: widget.img,
+                  imageBuilder: (context, imageProvider) {
+                    return new Container(
+                      width: 125,
+                      height: 190,
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                        image: imageProvider,
+                        fit: BoxFit.cover,
+                      )),
+                    );
+                  },
+                  placeholder: (_, url) {
+                    return Center(
+                        widthFactor: 3.5,
+                        child: new CupertinoActivityIndicator());
+                  },
+                  errorWidget: (context, url, error) {
+                    return Center(
+                        widthFactor: 1.5,
+                        child: new Icon(Icons.error, color: Colors.grey));
+                  },
+                  height: MediaQuery.of(context).size.height * 0.30,
+                  width: MediaQuery.of(context).size.width * 0.30,
+                  fit: BoxFit.cover,
+                ),
+              ),
               SizedBox(
                 width: (productSize.width <= 320
                     ? productSize.width * 0.004
@@ -230,35 +252,41 @@ class _CartProductState extends State<CartProduct> {
               ),
               IconButton(
                   onPressed: () {
-                    for (int i = 0; i < allDataCard.length; i++) {
-                      if (allDataCard[i]['uid'] == user!.uid &&
-                          allDataCard[i]['productId'] == widget.productId) {
-                        flagDelete = true;
-                        parentId = allDataCard[i]['parentId'];
-                        setState(() {
-                          parent = parentId;
-                          index = i;
-                        });
-                      }
-                    }
-                    if (flagDelete) {
-                      final collection =
-                          FirebaseFirestore.instance.collection('carts');
-                      collection
-                          .doc(parent) // <-- Doc ID to be deleted.
-                          .delete() // <-- Delete
-                          .then((_) => print('Deleted'))
-                          .catchError(
-                              (error) => print('Delete failed: $error'));
-
-                      // allDataCard.removeAt(index);
-                      // SnackBar(
-                      //     content: Text(allDataCard[index]["title"].toString() +
-                      //         " has been deleted"));
-                    }
+                    // for (int i = 0; i < allDataCard.length; i++) {
+                    //   if (allDataCard[i]['uid'] == user!.uid &&
+                    //       allDataCard[i]['productId'] == widget.productId) {
+                    //     flagDelete = true;
+                    //     parentId = allDataCard[i]['parentId'];
+                    //     setState(() {
+                    //       parent = parentId;
+                    //       index = i;
+                    //     });
+                    //   }
+                    // }
+                    // if (flagDelete) {
+                    //   final collection =
+                    //       FirebaseFirestore.instance.collection('carts');
+                    //   collection
+                    //       .doc(parent) // <-- Doc ID to be deleted.
+                    //       .delete() // <-- Delete
+                    //       .then((_) => print('Deleted'))
+                    //       .catchError(
+                    //           (error) => print('Delete failed: $error'));
+                    //   setState(() {
+                    //     allDataCard.removeAt(index);
+                    //     getData();
+                    //   });
+                      Fluttertoast.showToast(msg:" slide to delete from cart" );
+                    //   // Fluttertoast.show("delete successfully");
+                    //   // allDataCard.removeAt(index);
+                    //   // SnackBar(
+                    //   //     content: Text(allDataCard[index]["title"].toString() +
+                    //   //         " has been deleted"));
+                    // }
                   },
                   icon: Icon(
-                    Icons.delete_forever,
+                    Icons.delete_sweep_rounded,
+                    size: 30,
                     color: Colors.red,
                   ))
             ])),

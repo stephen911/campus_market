@@ -71,8 +71,8 @@ class _ProfilePageState extends State<ProfilePage> {
                               decoration: BoxDecoration(),
                               child: ClipRRect(
                                   borderRadius: BorderRadius.circular(50),
-                                  child: snapshot.data!['profile'] != null
-                                      ? (loggedInUser.profile!.isEmpty)
+                                  child: snapshot.data!['profile'] != null 
+                                      ? (loggedInUser.profile!.isEmpty)|| (loggedInUser.profile == "")
                                           ? Image.asset(
                                               "assets/profile.png",
                                               height: 100,

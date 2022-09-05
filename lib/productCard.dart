@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:campus_market/Counters/cartitemcounter.dart';
 import 'package:campus_market/components/constants.dart';
 import 'package:campus_market/components/shared_preferences.dart';
@@ -6,8 +7,10 @@ import 'package:campus_market/productdetails.dart';
 import 'package:campus_market/providers/theme_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -23,6 +26,7 @@ class ProductCard extends StatefulWidget {
     required this.sellerUid,
     required this.brand,
     required this.category,
+    // this.counter,
   }) : super(key: key);
   String img;
   String productId;
@@ -44,6 +48,7 @@ UserModel loggedInUser = UserModel();
 final _auth = FirebaseAuth.instance;
 List allDataProductCard = [];
 bool flag = false;
+int counter = 0;
 
 class _ProductCardState extends State<ProductCard> {
   void initState() {
@@ -155,16 +160,34 @@ class _ProductCardState extends State<ProductCard> {
                     (productSize.width * 0.014),
                 child: Row(children: [
                   ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: widget.img == null
-                          ? CircularProgressIndicator()
-                          : Container(
-                              decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                      image: Image.network(widget.img).image,
-                                      fit: BoxFit.cover)),
-                              width: 125,
-                              height: 190)),
+                    borderRadius: BorderRadius.circular(15),
+                    child: CachedNetworkImage(
+                      fadeInCurve: Curves.bounceInOut,
+                      imageUrl: widget.img,
+                      imageBuilder: (context, imageProvider) {
+                        return new Container(
+                          decoration: BoxDecoration(
+                              image: DecorationImage(
+                            image: imageProvider,
+                            fit: BoxFit.cover,
+                          )),
+                        );
+                      },
+                      placeholder: (_, url) {
+                        return Center(
+                            widthFactor: 3.5,
+                            child: new CupertinoActivityIndicator());
+                      },
+                      errorWidget: (context, url, error) {
+                        return Center(
+                            widthFactor: 1.5,
+                            child: new Icon(Icons.error, color: Colors.grey));
+                      },
+                      height: MediaQuery.of(context).size.height * 0.30,
+                      width: MediaQuery.of(context).size.width * 0.30,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                   SizedBox(
                     width: (productSize.width <= 320
                         ? productSize.width * 0.004
@@ -380,18 +403,40 @@ class _ProductCardState extends State<ProductCard> {
     );
   }
 
-  void checkItemInCart() {
-    getData();
+  void checkItemInCart() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    if (allDataProductCard.length != 0) {
-      for (int i = 0; i < allDataProductCard.length; i++) {
-        print(allDataProductCard[i]['productId']);
-        print(allDataProductCard.length);
+    //   List<String> getProductId(){
+    //   String value = "";
+    //   for(int i = 0; i < allDataProducts.length; i++){
+    //     value = allDataProducts[i]["productId"];
+    //     productId.add(value);
+    //     print(value);
+    //     print(32);
+    //   }
+    //   //  getProduct = alldata;
+    //   return productId;
+    // }
+    getData();
+    // int lenght = 0;
+    int lenght = prefs.getStringList('cartList')!.length;
+
+    List<String> productId = [];
+
+    if (  lenght != 0) {
+      print(lenght);
+
+      for (int i = 0; i < lenght; i++) {
+        // print(allDataProductCard[i]['productId']);
+        // print(allDataProductCard.length);
 
         print(widget.productId);
 
-        if (allDataProductCard[i]['productId'] == widget.productId) {
-          // print(_cart);
+        // print(allDataProductCard[i]['productId'] + "==" +  widget.productId);
+          print(prefs.getStringList("cartList")![i]);
+
+
+        if (prefs.getStringList("cartList")![i] == widget.productId) {
           flag = false;
           // break;
           Fluttertoast.showToast(msg: "Product already in cart");
@@ -400,10 +445,15 @@ class _ProductCardState extends State<ProductCard> {
         }
       }
       if (flag) {
+        productId.add(widget.productId);
+        prefs.setStringList("cartList", productId);
         addtoCart();
+
         // print(allDataProductCard);
       }
     } else {
+      productId.add(widget.productId);
+      prefs.setStringList("cartList", productId);
       addtoCart();
     }
   }
@@ -414,10 +464,14 @@ class _ProductCardState extends State<ProductCard> {
     // prefs.setStringList('cartList', _cart);
   }
 
+  Box counterTheme = Hive.box("CartCounter");
+
   void addtoCart() {
     // print(_cart);
 
     // getListCart(EcommerceApp.userCartList, _cart);
     postDetailsToFirestore();
+    counter = counter + 1;
+    counterTheme.put("counter", counter);
   }
 }
